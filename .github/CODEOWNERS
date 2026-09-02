@@ -6,5 +6,5 @@
 /packages/domain/src/rbac/     @HenriqueBragaMoreira
 /packages/domain/src/reputation/ @HenriqueBragaMoreira
 /packages/db/migrations/       @HenriqueBragaMoreira
-/apps/web/src/auth/            @HenriqueBragaMoreira
+/apps/api/src/auth/            @HenriqueBragaMoreira
 /.github/                      @HenriqueBragaMoreira
