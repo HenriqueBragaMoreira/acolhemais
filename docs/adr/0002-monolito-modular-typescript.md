@@ -1,6 +1,6 @@
 # ADR 0002 — Monolito modular em TypeScript
 
-- **Status**: aceito
+- **Status**: aceito — parcialmente substituído pelo [ADR 0004](0004-api-hono-separada-e-oxfmt.md)
 - **Data**: 2026-11-01
 
 ## Contexto
