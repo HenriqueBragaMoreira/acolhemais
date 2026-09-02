@@ -48,7 +48,7 @@ pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build
 
 ## Convenções de código
 
-- **TypeScript estrito** em tudo. Lint com **oxlint**, formatação com **Prettier**.
+- **TypeScript estrito** em tudo. Lint com **oxlint**, formatação com **oxfmt** (`pnpm format`).
 - **Código em inglês** (nomes de variáveis, funções, permissões); **textos de interface, comentários
   e documentação em português**. Todo texto de interface vai para os arquivos de tradução, nunca
   direto no componente.

@@ -1,7 +1,0 @@
-pnpm-lock.yaml
-LICENSE
-CODE_OF_CONDUCT.md
-packages/db/migrations/
-.next/
-dist/
-coverage/

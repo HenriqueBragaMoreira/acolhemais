@@ -13,14 +13,14 @@
     "lint": "oxlint --deny-warnings",
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
+    "format": "oxfmt",
+    "format:check": "oxfmt --check",
     "db:up": "docker compose up -d",
     "db:down": "docker compose down"
   },
   "devDependencies": {
+    "oxfmt": "^0.75.0",
     "oxlint": "^1.90.0",
-    "prettier": "^3.9.10",
     "turbo": "^2.11.10",
     "typescript": "^7.0.2"
   }
