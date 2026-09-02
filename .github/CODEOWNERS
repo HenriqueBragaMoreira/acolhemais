@@ -1,0 +1,10 @@
+# Responsáveis por revisão. Áreas críticas listadas abaixo exigem revisão reforçada
+# (ver GOVERNANCE.md). Ao entrarem novos mantenedores, adicione-os aqui.
+
+*                              @HenriqueBragaMoreira
+
+/packages/domain/src/rbac/     @HenriqueBragaMoreira
+/packages/domain/src/reputation/ @HenriqueBragaMoreira
+/packages/db/migrations/       @HenriqueBragaMoreira
+/apps/web/src/auth/            @HenriqueBragaMoreira
+/.github/                      @HenriqueBragaMoreira
