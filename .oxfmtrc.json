@@ -12,6 +12,9 @@
     "packages/db/migrations/",
     ".next/",
     "dist/",
-    "coverage/"
+    "coverage/",
+    ".agents/skills/",
+    ".claude/skills/",
+    "skills-lock.json"
   ]
 }
