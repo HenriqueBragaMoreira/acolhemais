@@ -9,7 +9,7 @@
     "typescript/consistent-type-imports": "error",
     "typescript/no-explicit-any": "error",
     "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
-    "no-console": ["error", { "allow": ["warn", "error"] }],
+    "no-console": ["error", { "allow": ["info", "warn", "error"] }],
     "import/no-cycle": "error",
     "import/no-unassigned-import": ["warn", { "allow": ["**/*.css"] }],
     "react/react-in-jsx-scope": "off"
