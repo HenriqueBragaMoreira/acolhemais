@@ -127,33 +127,34 @@ Limite de candidaturas (3), prazos de expiração (7d), prazo de defesa (15d), e
 
 ## 5. Stack e arquitetura (orçamento ~R$0)
 
-**Monolito modular TypeScript em monorepo (pnpm + Turborepo):**
+**TypeScript em monorepo (pnpm + Turborepo), API e frontend separados (ver ADR 0004):**
 
 ```
-apps/web            Next.js (App Router, RSC, server actions/route handlers)
+apps/api            API Hono — única camada que acessa banco, auth, storage e e-mail
+apps/web            Next.js (App Router, RSC) — só interface; consome a API via cliente tipado `hc`
 packages/domain     Regras de negócio puras (sem framework): RBAC, reputação, máquinas de estado
 packages/db         Drizzle ORM: schema, migrations versionadas, seeds (faker pt-BR)
 packages/ui         Tailwind + shadcn/ui, tokens de tema por tenant (CSS variables)
 packages/emails     Templates React Email + interface EmailProvider
-packages/config     tsconfig compartilhado (lint: oxlint na raiz; formatação: Prettier)
+packages/config     tsconfig compartilhado (lint: oxlint; formatação: oxfmt — ambos na raiz)
 docs/adr            Architecture Decision Records
 ```
 
-| Necessidade           | Escolha (free tier)                                                                      | Observação                                                                     |
-| --------------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| Hosting               | Vercel Hobby                                                                             | Pedir programa de OSS/sponsorship da Vercel; plano B: Cloudflare (OpenNext)    |
-| Banco                 | PostgreSQL no Neon (free)                                                                | Branching para previews; Drizzle (SQL-first, combina com RLS)                  |
-| Auth                  | Better Auth                                                                              | E-mail/senha, Google, 2FA TOTP, dados no próprio Postgres (sem vendor lock-in) |
-| Storage               | Cloudflare R2                                                                            | 10 GB grátis, sem custo de egress                                              |
-| E-mail                | Resend (3k/mês)                                                                          | Atrás de `EmailProvider` para trocar por Brevo/SES ao crescer                  |
-| Jobs agendados        | GitHub Actions cron (a cada 15 min) chamando endpoint protegido + tabela de jobs         | Expirações, lembretes, retries de e-mail                                       |
-| Anti-bot / rate limit | Cloudflare Turnstile + Upstash Redis (free)                                              |                                                                                |
-| Erros                 | Sentry (free)                                                                            |                                                                                |
-| Validação             | Zod compartilhado front/back                                                             |                                                                                |
-| i18n                  | next-intl, PT-BR, textos em arquivos desde o dia 1                                       |                                                                                |
-| Testes                | Vitest (domínio), integração com Postgres real, Playwright (E2E), axe-core (WCAG 2.1 AA) |                                                                                |
+| Necessidade           | Escolha (free tier)                                                                      | Observação                                                                              |
+| --------------------- | ---------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| Hosting               | Web: Vercel Hobby · API: Cloudflare Workers (ADR 0004)                                   | Workers grátis tem 10 ms de CPU/req: hash de senha pode exigir Workers Paid (US$ 5/mês) |
+| Banco                 | PostgreSQL no Neon (free) via Cloudflare Hyperdrive                                      | Branching para previews; Drizzle (SQL-first, combina com RLS)                           |
+| Auth                  | Better Auth                                                                              | E-mail/senha, Google, 2FA TOTP, dados no próprio Postgres (sem vendor lock-in)          |
+| Storage               | Cloudflare R2                                                                            | 10 GB grátis, sem custo de egress                                                       |
+| E-mail                | Resend (3k/mês)                                                                          | Atrás de `EmailProvider` para trocar por Brevo/SES ao crescer                           |
+| Jobs agendados        | Cron Triggers do Cloudflare Workers + tabela de jobs                                     | Expirações, lembretes, retries de e-mail                                                |
+| Anti-bot / rate limit | Cloudflare Turnstile + Upstash Redis (free)                                              |                                                                                         |
+| Erros                 | Sentry (free)                                                                            |                                                                                         |
+| Validação             | Zod compartilhado front/back                                                             |                                                                                         |
+| i18n                  | next-intl, PT-BR, textos em arquivos desde o dia 1                                       |                                                                                         |
+| Testes                | Vitest (domínio), integração com Postgres real, Playwright (E2E), axe-core (WCAG 2.1 AA) |                                                                                         |
 
-**Dev local**: `docker compose` com Postgres+PostGIS, MinIO (S3) e Mailpit — **contribuidor roda tudo sem nenhuma chave real**.
+**Dev local**: `docker compose` com Postgres+PostGIS, S3Mock (S3) e Mailpit — **contribuidor roda tudo sem nenhuma chave real**.
 
 **Modelo de dados (entidades principais)**: User, Session, AdopterProfile (cpf_enc, cpf_hmac), Organization (tipo, status, slug, tema), OrganizationSlugHistory, Membership, Role, RolePermission, MemberPermissionGrant, Animal, AnimalPhoto, AnimalStatusHistory, ApplicationForm (versionado), Application, ApplicationStageHistory, Adoption, PostAdoptionCheckin, FosterHome, FosterAssignment, Incident (ocorrência), IncidentEvidence, ModerationDecision, ReputationEvent, ContentReport (denúncia), Notification/EmailOutbox, ScheduledJob, AuditLog, PlatformSetting, Municipality (IBGE).
 
