@@ -13,6 +13,7 @@
     "lint": "oxlint --deny-warnings",
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
+    "test:integration": "turbo run test:integration",
     "format": "oxfmt",
     "format:check": "oxfmt --check",
     "db:up": "docker compose up -d",
