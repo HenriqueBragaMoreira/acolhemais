@@ -1,0 +1,10 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "acolhemais-api",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-23",
+  "compatibility_flags": ["nodejs_compat"],
+  // Vars e segredos não ficam aqui: em dev vêm do .env (ver .env.example);
+  // em produção, de `wrangler secret`. O schema Zod em src/env.ts valida tudo.
+  "observability": { "enabled": true },
+}
