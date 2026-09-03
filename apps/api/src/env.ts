@@ -1,10 +1,40 @@
+import { createMiddleware } from 'hono/factory'
 import { z } from 'zod'
 
-// Toda variável de ambiente é validada na inicialização: configuração errada
-// derruba o processo na hora, em vez de falhar no meio de uma requisição.
-const envSchema = z.object({
-  PORT: z.coerce.number().int().positive().default(3001),
+// No Workers, a configuração (vars e segredos do wrangler) só chega junto com a
+// requisição, nas bindings. Ela é validada na primeira requisição e reaproveitada
+// enquanto o mesmo objeto de bindings estiver vivo: configuração errada responde
+// 500 com o motivo no log, em vez de falhar no meio de uma rota.
+const configSchema = z.object({
   WEB_ORIGIN: z.url().default('http://localhost:3000'),
 })
 
-export const env = envSchema.parse(process.env)
+export type Config = z.infer<typeof configSchema>
+
+/** Bindings que o Worker recebe, antes da validação. */
+export type Bindings = z.input<typeof configSchema>
+
+export type AppEnv = {
+  Bindings: Bindings
+  Variables: { config: Config }
+}
+
+const cache = new WeakMap<Bindings, Config>()
+
+function loadConfig(bindings: Bindings): Config {
+  const cached = cache.get(bindings)
+  if (cached) return cached
+
+  const result = configSchema.safeParse(bindings)
+  if (!result.success) {
+    throw new Error(`Configuração inválida da API:\n${z.prettifyError(result.error)}`)
+  }
+  cache.set(bindings, result.data)
+  return result.data
+}
+
+/** Valida as bindings e expõe a configuração tipada em `c.var.config`. */
+export const config = createMiddleware<AppEnv>(async (c, next) => {
+  c.set('config', loadConfig(c.env))
+  await next()
+})

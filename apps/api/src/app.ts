@@ -1,12 +1,21 @@
 import { Hono } from 'hono'
+import type { Context } from 'hono'
 import { cors } from 'hono/cors'
 import { secureHeaders } from 'hono/secure-headers'
-import { env } from './env'
+import { config } from './env'
+import type { AppEnv } from './env'
 import { health } from './routes/health'
 
-const app = new Hono()
+const app = new Hono<AppEnv>()
   .use(secureHeaders())
-  .use(cors({ origin: env.WEB_ORIGIN, credentials: true }))
+  .use(config)
+  .use(
+    cors({
+      // A origem permitida vem da configuração, que só existe durante a requisição.
+      origin: (origin, c: Context<AppEnv>) => (origin === c.var.config.WEB_ORIGIN ? origin : null),
+      credentials: true,
+    }),
+  )
   .route('/health', health)
 
 /** Tipo da API consumido pelo cliente tipado (`hc`) no frontend. */
