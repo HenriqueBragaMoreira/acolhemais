@@ -20,7 +20,7 @@ Pré-requisitos: Node.js 24+, pnpm e Docker.
 ```bash
 pnpm install
 pnpm db:up        # Postgres + S3 local + Mailpit
-pnpm dev
+pnpm dev          # web em :3000, API em :3001
 ```
 
 Nenhuma chave ou conta externa é necessária para desenvolver.

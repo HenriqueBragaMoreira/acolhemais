@@ -37,8 +37,12 @@ git commit -s -m "feat: ..."
 ```bash
 pnpm install
 pnpm db:up     # requer Docker
-pnpm dev
+pnpm dev       # web em http://localhost:3000 e API em http://localhost:3001
 ```
+
+A API roda localmente no `wrangler dev`, com o mesmo runtime do Cloudflare Workers usado em
+produção, sem precisar de conta na Cloudflare. Os valores padrão já funcionam; para mudar algum,
+copie `apps/api/.env.example` para `apps/api/.env`.
 
 Antes de abrir o PR, rode o mesmo que o CI:
 
