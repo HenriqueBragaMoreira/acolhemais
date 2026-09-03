@@ -7,4 +7,13 @@
   // Vars e segredos não ficam aqui: em dev vêm do .env (ver .env.example);
   // em produção, de `wrangler secret`. O schema Zod em src/env.ts valida tudo.
   "observability": { "enabled": true },
+  "hyperdrive": [
+    {
+      "binding": "HYPERDRIVE",
+      // O id real da configuração do Hyperdrive entra junto com o deploy. Em dev, o
+      // wrangler conecta direto no Postgres do docker compose.
+      "id": "local",
+      "localConnectionString": "postgres://acolhemais:acolhemais@localhost:5432/acolhemais",
+    },
+  ],
 }

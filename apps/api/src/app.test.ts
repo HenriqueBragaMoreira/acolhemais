@@ -1,7 +1,10 @@
 import { describe, expect, it } from 'vitest'
 import app from './app'
 
-const env = { WEB_ORIGIN: 'http://localhost:3000' }
+const env = {
+  WEB_ORIGIN: 'http://localhost:3000',
+  HYPERDRIVE: { connectionString: 'postgres://acolhemais:acolhemais@localhost:5432/acolhemais' },
+}
 
 describe('API', () => {
   it('responde ao health check', async () => {
@@ -32,7 +35,7 @@ describe('API', () => {
   })
 
   it('responde 500 quando a configuração é inválida', async () => {
-    const res = await app.request('/health', {}, { WEB_ORIGIN: 'não é uma url' })
+    const res = await app.request('/health', {}, { ...env, WEB_ORIGIN: 'não é uma url' })
     expect(res.status).toBe(500)
   })
 })

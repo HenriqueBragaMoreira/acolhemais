@@ -181,6 +181,9 @@ importers:
 
   apps/api:
     dependencies:
+      '@acolhemais/db':
+        specifier: workspace:*
+        version: link:../../packages/db
       '@acolhemais/domain':
         specifier: workspace:*
         version: link:../../packages/domain

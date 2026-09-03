@@ -1,3 +1,4 @@
+import type { Database } from '@acolhemais/db'
 import { createMiddleware } from 'hono/factory'
 import { z } from 'zod'
 
@@ -7,6 +8,8 @@ import { z } from 'zod'
 // 500 com o motivo no log, em vez de falhar no meio de uma rota.
 const configSchema = z.object({
   WEB_ORIGIN: z.url().default('http://localhost:3000'),
+  // Do Hyperdrive só usamos a connection string do pool gerenciado pela Cloudflare.
+  HYPERDRIVE: z.object({ connectionString: z.string().min(1) }),
 })
 
 export type Config = z.infer<typeof configSchema>
@@ -16,7 +19,11 @@ export type Bindings = z.input<typeof configSchema>
 
 export type AppEnv = {
   Bindings: Bindings
-  Variables: { config: Config }
+  Variables: {
+    config: Config
+    /** Cliente do banco da requisição, criado no primeiro uso (ver `database` em ./db). */
+    db: () => Database
+  }
 }
 
 const cache = new WeakMap<Bindings, Config>()
