@@ -36,8 +36,10 @@ git commit -s -m "feat: ..."
 
 ```bash
 pnpm install
-pnpm db:up     # requer Docker
-pnpm dev       # web em http://localhost:3000 e API em http://localhost:3001
+pnpm db:up       # requer Docker
+pnpm db:migrate  # aplica as migrations no Postgres local
+pnpm db:seed     # dados fictícios para desenvolvimento
+pnpm dev         # web em http://localhost:3000 e API em http://localhost:3001
 ```
 
 A API roda localmente no `wrangler dev`, com o mesmo runtime do Cloudflare Workers usado em
@@ -48,7 +50,16 @@ Antes de abrir o PR, rode o mesmo que o CI:
 
 ```bash
 pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build
+pnpm test:integration   # precisa do pnpm db:up
 ```
+
+### Banco de dados
+
+- O schema fica em `packages/db/src/schema/`. Depois de alterá-lo, rode `pnpm db:generate` e
+  commite a migration gerada em `packages/db/migrations/`: o CI falha se o schema e as migrations
+  não baterem, ou se uma migration já mergeada for alterada.
+- Testes que precisam do banco terminam em `.integration.test.ts` e usam `useTestDatabase()`, que
+  dá a cada arquivo de teste um banco próprio, já migrado e apagado no fim.
 
 ## Convenções de código
 
