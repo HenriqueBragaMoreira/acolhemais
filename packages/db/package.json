@@ -10,6 +10,7 @@
   "scripts": {
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
+    "db:seed": "tsx src/seed.ts",
     "typecheck": "tsc -p tsconfig.json"
   },
   "dependencies": {
@@ -18,8 +19,10 @@
   },
   "devDependencies": {
     "@acolhemais/config": "workspace:*",
+    "@faker-js/faker": "^10.6.0",
     "@types/node": "^24.19.2",
     "@types/pg": "^8.23.1",
-    "drizzle-kit": "1.0.0-beta.22"
+    "drizzle-kit": "1.0.0-beta.22",
+    "tsx": "^4.23.15"
   }
 }

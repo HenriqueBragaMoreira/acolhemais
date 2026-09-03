@@ -264,6 +264,9 @@ importers:
       '@acolhemais/config':
         specifier: workspace:*
         version: link:../config
+      '@faker-js/faker':
+        specifier: ^10.6.0
+        version: 10.6.0
       '@types/node':
         specifier: ^24.19.2
         version: 24.19.2
@@ -273,6 +276,9 @@ importers:
       drizzle-kit:
         specifier: 1.0.0-beta.22
         version: 1.0.0-beta.22
+      tsx:
+        specifier: ^4.23.15
+        version: 4.23.15
 
   packages/domain:
     devDependencies:
@@ -670,6 +676,10 @@ packages:
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
+
+  '@faker-js/faker@10.6.0':
+    resolution: {integrity: sha512-3RQHgEtvL1Frl/d1cSreo7qhJ3Gk1OdNUai/CtZ8G+wYeRQnJih3s9xJ9/kgYekPQRdwgh0HXRPqMlzWGwivIQ==}
+    engines: {node: ^20.19.0 || ^22.13.0 || ^23.5.0 || >=24.0.0, npm: '>=10'}
 
   '@formatjs/fast-memoize@3.1.7':
     resolution: {integrity: sha512-zXfhLpvA6T7+efdt9JLbBwZ00tT7NsBMDVnDu8rpHeNNv8KfRZAMo2gkG0k9lK/Nzc//3kJ9pImsfuJxk3KhUA==}
@@ -2780,6 +2790,8 @@ snapshots:
   '@esbuild/win32-x64@0.28.2':
     optional: true
 
+  '@faker-js/faker@10.6.0': {}
+
   '@formatjs/fast-memoize@3.1.7': {}
 
   '@formatjs/icu-messageformat-parser@3.5.18':
@@ -3983,7 +3995,6 @@ snapshots:
       esbuild: 0.28.2
     optionalDependencies:
       fsevents: 2.3.3
-    optional: true
 
   turbo@2.11.10:
     optionalDependencies:
