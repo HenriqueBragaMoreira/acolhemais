@@ -36,6 +36,58 @@ jobs:
       - run: pnpm build
       - run: pnpm audit --prod --audit-level high
 
+  integration:
+    name: Migrations e testes de integração
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    # Mesmo Postgres do docker compose, com as mesmas credenciais locais (sem segredos).
+    services:
+      postgres:
+        image: postgis/postgis:18-3.6-alpine
+        env:
+          POSTGRES_USER: acolhemais
+          POSTGRES_PASSWORD: acolhemais
+          POSTGRES_DB: acolhemais
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U acolhemais"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Migrations geradas são as commitadas
+        run: |
+          pnpm db:generate
+          if [ -n "$(git status --porcelain -- packages/db/migrations)" ]; then
+            git status --short -- packages/db/migrations
+            echo "::error::O schema mudou sem migration commitada. Rode pnpm db:generate e commite o resultado."
+            exit 1
+          fi
+      - name: Migrations já mergeadas não mudam
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          changed=$(git diff --name-only --diff-filter=MDR "origin/$BASE_REF...HEAD" -- packages/db/migrations)
+          if [ -n "$changed" ]; then
+            echo "$changed"
+            echo "::error::Migration já mergeada é imutável. Corrija com uma nova migration."
+            exit 1
+          fi
+      - run: pnpm db:migrate
+      - run: pnpm test:integration
+
   secrets:
     name: Varredura de segredos
     runs-on: ubuntu-latest
