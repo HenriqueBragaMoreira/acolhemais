@@ -10,4 +10,6 @@ export default defineConfig({
       miniflare: { bindings: { WEB_ORIGIN: 'https://web.test' } },
     }),
   ],
+  // Os de integração precisam do Postgres e rodam em `pnpm test:integration`.
+  test: { exclude: ['**/node_modules/**', 'src/**/*.integration.test.ts'] },
 })

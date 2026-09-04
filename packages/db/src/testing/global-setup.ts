@@ -3,7 +3,7 @@ import { migrate } from 'drizzle-orm/node-postgres/migrator'
 import { createDb } from '../client'
 import { templateDatabase, testDatabasePrefix, urlFor, withAdmin } from './databases'
 
-const migrationsFolder = fileURLToPath(new URL('../../migrations', import.meta.url))
+const migrationsFolder = fileURLToPath(new URL('../../migrations', import.meta.url).href)
 
 // Recria o template com as migrations atuais. Também apaga bancos de teste que
 // sobraram de execuções interrompidas.

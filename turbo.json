@@ -16,6 +16,7 @@
       "outputs": []
     },
     "test:integration": {
+      "dependsOn": ["^test:integration"],
       "cache": false,
       "passThroughEnv": ["DATABASE_URL"]
     }

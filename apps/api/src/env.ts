@@ -1,5 +1,6 @@
 import type { Database } from '@acolhemais/db'
 import { createMiddleware } from 'hono/factory'
+import type { Auth } from './auth'
 import { z } from 'zod'
 
 // No Workers, a configuração (vars e segredos do wrangler) só chega junto com a
@@ -59,6 +60,10 @@ export type AppEnv = {
     config: Config
     /** Cliente do banco da requisição, criado no primeiro uso (ver `database` em ./db). */
     db: () => Database
+    /** Registra uma tarefa que termina depois da resposta; o banco espera por ela para fechar. */
+    waitUntil: (promise: Promise<unknown>) => void
+    /** Better Auth da requisição, criado no primeiro uso (ver `authentication` em ./auth). */
+    auth: () => Auth
   }
 }
 
