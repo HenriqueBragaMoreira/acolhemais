@@ -7,6 +7,8 @@ import { pt } from '@better-auth/i18n/locales'
  */
 export const authMessages = {
   ...pt,
+  TOO_MANY_REQUESTS: 'Muitas requisições. Aguarde um pouco e tente novamente.',
+  LOGIN_TEMPORARILY_LOCKED: 'Muitas tentativas com senha errada. Tente novamente mais tarde.',
   PASSWORD_COMPROMISED:
     'Esta senha apareceu em vazamentos de dados de outros sites. Escolha uma senha diferente.',
 }

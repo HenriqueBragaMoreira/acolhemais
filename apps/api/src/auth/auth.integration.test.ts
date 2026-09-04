@@ -10,6 +10,12 @@ function uniqueEmail() {
   return `${crypto.randomUUID()}@acolhemais.test`
 }
 
+/** IP aleatório, para o rate limit (por IP) de um teste não afetar os outros. */
+function randomIp() {
+  const [a = 0, b = 0, c = 0] = crypto.getRandomValues(new Uint8Array(3))
+  return `10.${a}.${b}.${c}`
+}
+
 function post(
   path: string,
   body: unknown,
@@ -20,7 +26,12 @@ function post(
     `/api/auth${path}`,
     {
       method: 'POST',
-      headers: { 'content-type': 'application/json', origin: WEB_ORIGIN, ...headers },
+      headers: {
+        'content-type': 'application/json',
+        'cf-connecting-ip': randomIp(),
+        origin: WEB_ORIGIN,
+        ...headers,
+      },
       body: JSON.stringify(body),
     },
     bindings,
@@ -69,7 +80,13 @@ describe('Better Auth: e-mail e senha', () => {
 
     const res = await app.request(
       '/api/auth/get-session',
-      { headers: { cookie: cookiesFrom(signIn), origin: WEB_ORIGIN } },
+      {
+        headers: {
+          cookie: cookiesFrom(signIn),
+          origin: WEB_ORIGIN,
+          'cf-connecting-ip': randomIp(),
+        },
+      },
       env,
     )
     const session = await res.json<{ user: { email: string } }>()
@@ -160,5 +177,54 @@ describe('Better Auth: senhas vazadas', () => {
       published,
     )
     expect(res.status).toBe(200)
+  })
+})
+
+describe('Better Auth: força bruta', () => {
+  const wrong = 'senha-errada-qualquer'
+
+  it('limita as tentativas de login vindas do mesmo IP', async () => {
+    const { email } = await signUp()
+    const ip = { 'cf-connecting-ip': randomIp() }
+    for (let attempt = 0; attempt < 3; attempt++) {
+      expect((await post('/sign-in/email', { email, password: wrong }, ip)).status).toBe(401)
+    }
+    const blocked = await post('/sign-in/email', { email, password: wrong }, ip)
+    expect(blocked.status).toBe(429)
+    expect(blocked.headers.get('x-retry-after')).toBeTruthy()
+  })
+
+  it('bloqueia o e-mail após 5 senhas erradas, mesmo com a senha certa e de outro IP', async () => {
+    const { email } = await signUp()
+    for (let attempt = 0; attempt < 5; attempt++) {
+      expect((await post('/sign-in/email', { email, password: wrong })).status).toBe(401)
+    }
+    const res = await post('/sign-in/email', { email, password })
+    expect(res.status).toBe(429)
+    expect(await res.json()).toMatchObject({ code: 'LOGIN_TEMPORARILY_LOCKED' })
+    expect(Number(res.headers.get('retry-after'))).toBeGreaterThan(0)
+    expect(Number(res.headers.get('retry-after'))).toBeLessThanOrEqual(60)
+  })
+
+  it('zera a contagem quando a senha confere', async () => {
+    const { email } = await signUp()
+    for (let attempt = 0; attempt < 4; attempt++) {
+      await post('/sign-in/email', { email, password: wrong })
+    }
+    expect((await post('/sign-in/email', { email, password })).status).toBe(200)
+    for (let attempt = 0; attempt < 4; attempt++) {
+      await post('/sign-in/email', { email, password: wrong })
+    }
+    expect((await post('/sign-in/email', { email, password })).status).toBe(200)
+  })
+
+  it('bloqueia também e-mails sem conta, sem revelar quais existem', async () => {
+    const email = uniqueEmail()
+    for (let attempt = 0; attempt < 5; attempt++) {
+      expect((await post('/sign-in/email', { email, password: wrong })).status).toBe(401)
+    }
+    const res = await post('/sign-in/email', { email, password: wrong })
+    expect(res.status).toBe(429)
+    expect(await res.json()).toMatchObject({ code: 'LOGIN_TEMPORARILY_LOCKED' })
   })
 })
