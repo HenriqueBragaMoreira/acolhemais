@@ -1,8 +1,11 @@
 import { schema } from '@acolhemais/db'
 import type { Database } from '@acolhemais/db'
 import { drizzleAdapter } from '@better-auth/drizzle-adapter/relations-v2'
+import { i18n } from '@better-auth/i18n'
 import { betterAuth } from 'better-auth'
+import { haveIBeenPwned } from 'better-auth/plugins/haveibeenpwned'
 import type { Config } from '../env'
+import { authMessages } from './messages'
 
 type AuthDeps = {
   config: Config
@@ -24,7 +27,12 @@ export function createAuth({ config, db, waitUntil }: AuthDeps) {
     secret: config.BETTER_AUTH_SECRET,
     trustedOrigins: [config.WEB_ORIGIN],
     database: drizzleAdapter(db, { provider: 'pg', schema, transaction: true }),
-    emailAndPassword: { enabled: true, minPasswordLength: 12 },
+    emailAndPassword: {
+      enabled: true,
+      minPasswordLength: 12,
+      // Quem redefine a senha pode estar recuperando uma conta invadida: derruba as outras sessões.
+      revokeSessionsOnPasswordReset: true,
+    },
     telemetry: { enabled: false },
     advanced: {
       // O Postgres gera os IDs (uuidv7(), ver `pnpm auth:generate`); o Better Auth não envia nenhum.
@@ -35,6 +43,12 @@ export function createAuth({ config, db, waitUntil }: AuthDeps) {
       ipAddress: { ipAddressHeaders: ['cf-connecting-ip'] },
       ...(waitUntil && { backgroundTasks: { handler: waitUntil } }),
     },
+    plugins: [
+      // Recusa senhas que já vazaram (cadastro, troca e redefinição). Só o prefixo do hash SHA-1
+      // sai do servidor (k-anonimato). Desligado em localhost para ninguém depender de rede.
+      haveIBeenPwned({ enabled: !config.isLocal }),
+      i18n({ translations: { pt: authMessages }, defaultLocale: 'pt' }),
+    ],
   })
 }
 

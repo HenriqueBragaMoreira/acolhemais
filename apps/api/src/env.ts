@@ -12,6 +12,11 @@ const DEV_AUTH_SECRET = 'acolhemais-dev-only-secret-never-use-in-production'
 
 const LOCAL_HOSTS = new Set(['localhost', '127.0.0.1'])
 
+/** A API roda na máquina de quem desenvolve (ou nos testes), e não num ambiente publicado. */
+function isLocalUrl(url: string): boolean {
+  return URL.canParse(url) && LOCAL_HOSTS.has(new URL(url).hostname)
+}
+
 const configSchema = z
   .object({
     WEB_ORIGIN: z.url().default('http://localhost:3000'),
@@ -26,10 +31,7 @@ const configSchema = z
     GOOGLE_CLIENT_SECRET: z.string().min(1).optional(),
   })
   .superRefine((config, ctx) => {
-    const isLocal =
-      URL.canParse(config.BETTER_AUTH_URL) &&
-      LOCAL_HOSTS.has(new URL(config.BETTER_AUTH_URL).hostname)
-    if (!config.BETTER_AUTH_SECRET && !isLocal) {
+    if (!config.BETTER_AUTH_SECRET && !isLocalUrl(config.BETTER_AUTH_URL)) {
       ctx.addIssue({
         code: 'custom',
         path: ['BETTER_AUTH_SECRET'],
@@ -47,6 +49,8 @@ const configSchema = z
   .transform((config) => ({
     ...config,
     BETTER_AUTH_SECRET: config.BETTER_AUTH_SECRET ?? DEV_AUTH_SECRET,
+    /** Ambiente local: desliga o que depende de serviços externos (ex.: checagem de senha vazada). */
+    isLocal: isLocalUrl(config.BETTER_AUTH_URL),
   }))
 
 export type Config = z.infer<typeof configSchema>
