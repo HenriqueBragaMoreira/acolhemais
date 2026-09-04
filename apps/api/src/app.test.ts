@@ -38,4 +38,17 @@ describe('API', () => {
     const res = await app.request('/health', {}, { ...env, WEB_ORIGIN: 'não é uma url' })
     expect(res.status).toBe(500)
   })
+
+  it('exige BETTER_AUTH_SECRET fora do ambiente local', async () => {
+    const remote = { ...env, BETTER_AUTH_URL: 'https://api.acolhemais.example' }
+    expect((await app.request('/health', {}, remote)).status).toBe(500)
+
+    const withSecret = { ...remote, BETTER_AUTH_SECRET: 'x'.repeat(32) }
+    expect((await app.request('/health', {}, withSecret)).status).toBe(200)
+  })
+
+  it('exige as duas credenciais do Google juntas', async () => {
+    const res = await app.request('/health', {}, { ...env, GOOGLE_CLIENT_ID: 'id' })
+    expect(res.status).toBe(500)
+  })
 })
