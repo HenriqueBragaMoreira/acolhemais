@@ -12,7 +12,8 @@
     "db:migrate": "drizzle-kit migrate",
     "db:seed": "tsx src/seed.ts",
     "typecheck": "tsc -p tsconfig.json",
-    "test:integration": "vitest run --config vitest.integration.config.ts"
+    "test:integration": "vitest run --config vitest.integration.config.ts",
+    "auth:generate": "tsx scripts/generate-auth-schema.ts"
   },
   "dependencies": {
     "drizzle-orm": "1.0.0-rc.5",

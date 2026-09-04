@@ -20,7 +20,8 @@
     "db:down": "docker compose down",
     "db:generate": "pnpm --filter @acolhemais/db db:generate",
     "db:migrate": "pnpm --filter @acolhemais/db db:migrate",
-    "db:seed": "pnpm --filter @acolhemais/db db:seed"
+    "db:seed": "pnpm --filter @acolhemais/db db:seed",
+    "auth:generate": "pnpm --filter @acolhemais/db auth:generate"
   },
   "devDependencies": {
     "oxfmt": "^0.75.0",

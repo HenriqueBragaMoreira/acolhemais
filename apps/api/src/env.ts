@@ -64,7 +64,7 @@ export type AppEnv = {
 
 const cache = new WeakMap<Bindings, Config>()
 
-function loadConfig(bindings: Bindings): Config {
+export function loadConfig(bindings: Bindings): Config {
   const cached = cache.get(bindings)
   if (cached) return cached
 
