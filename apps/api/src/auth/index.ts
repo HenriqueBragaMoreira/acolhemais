@@ -28,6 +28,27 @@ export function createAuth({ config, db, waitUntil }: AuthDeps) {
     secret: config.BETTER_AUTH_SECRET,
     trustedOrigins: [config.WEB_ORIGIN],
     database: drizzleAdapter(db, { provider: 'pg', schema, transaction: true }),
+    socialProviders: {
+      // Opcional: só liga com as duas credenciais (ver env.ts).
+      ...(config.GOOGLE_CLIENT_ID &&
+        config.GOOGLE_CLIENT_SECRET && {
+          google: {
+            clientId: config.GOOGLE_CLIENT_ID,
+            clientSecret: config.GOOGLE_CLIENT_SECRET,
+            prompt: 'select_account' as const,
+          },
+        }),
+    },
+    account: {
+      // Tokens do Google guardados cifrados (AES-256-GCM com o segredo da API).
+      encryptOAuthTokens: true,
+      accountLinking: {
+        // Só vincula o Google a uma conta local com e-mail verificado. Sem isso, alguém poderia
+        // cadastrar o e-mail de outra pessoa com uma senha e manter acesso depois que a dona
+        // do e-mail entrasse pelo Google (pré-sequestro de conta). Já é o padrão; fica explícito.
+        requireLocalEmailVerified: true,
+      },
+    },
     emailAndPassword: {
       enabled: true,
       minPasswordLength: 12,
