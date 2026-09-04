@@ -1,56 +1,7 @@
-import { afterEach, describe, expect, inject, it, vi } from 'vitest'
-import app from '../app'
+import { afterEach, describe, expect, it, vi } from 'vitest'
+import { cookiesFrom, env, get, password, post, randomIp, signUp, uniqueEmail } from '../test/auth'
 
-const WEB_ORIGIN = 'http://localhost:3000'
-const env = { WEB_ORIGIN, HYPERDRIVE: { connectionString: inject('databaseUrl') } }
-const password = 'senha-de-teste-bem-longa'
 const uuidv7 = /^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/
-
-function uniqueEmail() {
-  return `${crypto.randomUUID()}@acolhemais.test`
-}
-
-/** IP aleatório, para o rate limit (por IP) de um teste não afetar os outros. */
-function randomIp() {
-  const [a = 0, b = 0, c = 0] = crypto.getRandomValues(new Uint8Array(3))
-  return `10.${a}.${b}.${c}`
-}
-
-function post(
-  path: string,
-  body: unknown,
-  headers: Record<string, string> = {},
-  bindings: Record<string, unknown> = env,
-) {
-  return app.request(
-    `/api/auth${path}`,
-    {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-        'cf-connecting-ip': randomIp(),
-        origin: WEB_ORIGIN,
-        ...headers,
-      },
-      body: JSON.stringify(body),
-    },
-    bindings,
-  )
-}
-
-/** Cookies da resposta no formato do header `Cookie` de uma próxima requisição. */
-function cookiesFrom(res: Response) {
-  return res.headers
-    .getSetCookie()
-    .map((cookie) => cookie.split(';')[0])
-    .join('; ')
-}
-
-async function signUp(email = uniqueEmail()) {
-  const res = await post('/sign-up/email', { name: 'Ana Souza', email, password })
-  expect(res.status).toBe(200)
-  return { email, res }
-}
 
 describe('Better Auth: e-mail e senha', () => {
   it('cadastra o usuário com ID UUIDv7 e cookie de sessão protegido', async () => {
@@ -78,17 +29,7 @@ describe('Better Auth: e-mail e senha', () => {
     const signIn = await post('/sign-in/email', { email, password })
     expect(signIn.status).toBe(200)
 
-    const res = await app.request(
-      '/api/auth/get-session',
-      {
-        headers: {
-          cookie: cookiesFrom(signIn),
-          origin: WEB_ORIGIN,
-          'cf-connecting-ip': randomIp(),
-        },
-      },
-      env,
-    )
+    const res = await get('/get-session', { cookie: cookiesFrom(signIn) })
     const session = await res.json<{ user: { email: string } }>()
     expect(session.user.email).toBe(email)
   })
