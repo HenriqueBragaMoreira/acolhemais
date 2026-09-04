@@ -10,5 +10,11 @@ export type Database = ReturnType<typeof createDb>
  */
 export function createDb(connectionString: string) {
   const pool = new Pool({ connectionString, max: 5 })
+  // Sem este handler, um erro em conexão ociosa (ex.: queda do banco) vira exceção não
+  // tratada. No Workers, fechar o pool ao fim da requisição também dispara um "socket
+  // closed" no socket já encerrado: esse é esperado e ignorado.
+  pool.on('error', (error) => {
+    if (!pool.ending) console.error('Erro em conexão ociosa com o Postgres:', error)
+  })
   return drizzle({ client: pool, relations })
 }
