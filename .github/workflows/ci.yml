@@ -66,6 +66,14 @@ jobs:
           node-version-file: .nvmrc
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - name: Schema do Better Auth em dia com a configuração
+        run: |
+          pnpm auth:generate
+          if [ -n "$(git status --porcelain -- packages/db/src/schema/auth.ts)" ]; then
+            git diff -- packages/db/src/schema/auth.ts
+            echo "::error::A configuração do Better Auth mudou sem regenerar o schema. Rode pnpm auth:generate e commite o resultado."
+            exit 1
+          fi
       - name: Migrations geradas são as commitadas
         run: |
           pnpm db:generate
