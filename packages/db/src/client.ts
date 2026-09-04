@@ -1,6 +1,6 @@
 import { drizzle } from 'drizzle-orm/node-postgres'
 import { Pool } from 'pg'
-import * as schema from './schema'
+import { relations } from './relations'
 
 export type Database = ReturnType<typeof createDb>
 
@@ -10,5 +10,5 @@ export type Database = ReturnType<typeof createDb>
  */
 export function createDb(connectionString: string) {
   const pool = new Pool({ connectionString, max: 5 })
-  return drizzle({ client: pool, schema, casing: 'snake_case' })
+  return drizzle({ client: pool, relations })
 }
