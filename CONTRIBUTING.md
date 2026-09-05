@@ -58,8 +58,21 @@ pnpm test:integration   # precisa do pnpm db:up
 - O schema fica em `packages/db/src/schema/`. Depois de alterá-lo, rode `pnpm db:generate` e
   commite a migration gerada em `packages/db/migrations/`: o CI falha se o schema e as migrations
   não baterem, ou se uma migration já mergeada for alterada.
-- Testes que precisam do banco terminam em `.integration.test.ts` e usam `useTestDatabase()`, que
-  dá a cada arquivo de teste um banco próprio, já migrado e apagado no fim.
+- As tabelas do Better Auth (`packages/db/src/schema/auth.ts`) são geradas a partir da configuração
+  em `apps/api/src/auth`. Depois de mudar plugins ou opções que afetem tabelas, rode
+  `pnpm auth:generate` e então `pnpm db:generate`. Nunca rode a CLI do Better Auth direto: o script
+  ajusta o schema ao padrão do projeto (IDs UUIDv7, datas com fuso), e o CI confere.
+- Testes que precisam do banco terminam em `.integration.test.ts`. Em `packages/db` eles usam
+  `useTestDatabase()`, que dá a cada arquivo de teste um banco próprio, já migrado e apagado no fim.
+  Na API eles rodam no `workerd` contra um banco clonado a cada execução.
+
+### Autenticação
+
+- Em localhost a API usa um segredo de desenvolvimento e não consulta o serviço de senhas vazadas.
+  O login com Google só liga com `GOOGLE_CLIENT_ID` e `GOOGLE_CLIENT_SECRET` em `apps/api/.env`.
+- Para ter um superadmin local:
+  `pnpm auth:create-admin --email voce@exemplo.org --name "Seu nome" --role superadmin`. A equipe da
+  plataforma precisa ativar o 2FA antes de usar as rotas de administração.
 
 ## Convenções de código
 
