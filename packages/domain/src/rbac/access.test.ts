@@ -7,7 +7,7 @@ import {
   effectivePermissions,
   requiresTwoFactor,
 } from './access'
-import { isPermission, PERMISSIONS } from './permissions'
+import { isPermission, PERMISSIONS, toStatements } from './permissions'
 import { SYSTEM_ROLES } from './roles'
 
 function errorCode(fn: () => void): string | undefined {
@@ -28,7 +28,7 @@ describe('effectivePermissions', () => {
     })
     expect(can(perms, 'animal.create')).toBe(true)
     expect(can(perms, 'application.approve')).toBe(true)
-    expect(can(perms, 'team.manage')).toBe(false)
+    expect(can(perms, 'member.update')).toBe(false)
   })
 })
 
@@ -39,11 +39,15 @@ describe('assertCanAssign', () => {
     grants: [],
   })
 
-  it('permite ao Responsável conceder qualquer permissão', () => {
-    expect(errorCode(() => assertCanAssign(owner, [...PERMISSIONS]))).toBeUndefined()
+  it('permite ao Responsável conceder qualquer permissão, menos apagar a organização', () => {
+    const assignable = PERMISSIONS.filter((p) => p !== 'organization.delete')
+    expect(errorCode(() => assertCanAssign(owner, assignable))).toBeUndefined()
+    expect(errorCode(() => assertCanAssign(owner, ['organization.delete']))).toBe(
+      'rbac.cannot_assign_unowned_permission',
+    )
   })
 
-  it('exige team.manage para conceder', () => {
+  it('exige gerenciar a equipe para conceder', () => {
     expect(errorCode(() => assertCanAssign(coordinator, ['animal.create']))).toBe(
       'rbac.team_manage_required',
     )
@@ -52,7 +56,7 @@ describe('assertCanAssign', () => {
   it('impede conceder permissão que o próprio ator não possui', () => {
     const manager = effectivePermissions({
       rolePermissions: SYSTEM_ROLES.volunteer,
-      grants: ['team.manage'],
+      grants: ['member.update'],
     })
     expect(errorCode(() => assertCanAssign(manager, ['animal.create']))).toBeUndefined()
     expect(errorCode(() => assertCanAssign(manager, ['application.view_sensitive']))).toBe(
@@ -81,5 +85,14 @@ describe('isPermission', () => {
   it('reconhece apenas permissões do catálogo', () => {
     expect(isPermission('animal.create')).toBe(true)
     expect(isPermission('admin.everything')).toBe(false)
+  })
+})
+
+describe('toStatements', () => {
+  it('converte para o formato recurso → ações do Better Auth', () => {
+    expect(toStatements(['animal.create', 'animal.update', 'member.update'])).toEqual({
+      animal: ['create', 'update'],
+      member: ['update'],
+    })
   })
 })

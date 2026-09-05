@@ -5,9 +5,10 @@ export type SystemRoleKey = 'owner' | 'coordinator' | 'volunteer'
 /** Papel "Responsável": sempre deve existir ao menos um membro com ele. */
 export const OWNER_ROLE: SystemRoleKey = 'owner'
 
-/** Papéis padrão criados para toda organização aprovada. */
+/** Papéis padrão de toda organização aprovada. A ONG pode criar outros a partir do catálogo. */
 export const SYSTEM_ROLES: Readonly<Record<SystemRoleKey, readonly Permission[]>> = {
-  owner: PERMISSIONS,
+  // Tudo, menos apagar a organização (desativado na plataforma).
+  owner: PERMISSIONS.filter((permission) => permission !== 'organization.delete'),
   coordinator: [
     'animal.create',
     'animal.update',

@@ -23,14 +23,15 @@ export function requiresTwoFactor(permissions: ReadonlySet<Permission>): boolean
 /**
  * Valida se `actor` pode atribuir `permissions` a alguém — seja como concessão
  * individual, ao montar um papel customizado ou ao atribuir um papel existente.
- * Ninguém concede o que não possui (impede escalonamento de privilégio).
+ * Só quem gerencia a equipe (`member.update`) concede, e ninguém concede o que não
+ * possui (impede escalonamento de privilégio).
  */
 export function assertCanAssign(
   actor: ReadonlySet<Permission>,
   permissions: readonly Permission[],
 ): void {
-  if (!actor.has('team.manage')) {
-    throw new DomainError('rbac.team_manage_required', 'Actor lacks team.manage')
+  if (!actor.has('member.update')) {
+    throw new DomainError('rbac.team_manage_required', 'Actor cannot manage the team')
   }
   const missing = permissions.filter((p) => !actor.has(p))
   if (missing.length > 0) {
