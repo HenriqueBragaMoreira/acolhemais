@@ -27,6 +27,7 @@ export const user = pgTable('user', {
     .defaultNow()
     .$onUpdate(() => /* @__PURE__ */ new Date())
     .notNull(),
+  twoFactorEnabled: boolean('two_factor_enabled').default(false),
 })
 
 export const session = pgTable(
@@ -94,6 +95,27 @@ export const verification = pgTable(
   (table) => [index('verification_identifier_idx').on(table.identifier)],
 )
 
+export const twoFactor = pgTable(
+  'two_factor',
+  {
+    id: uuid('id')
+      .default(sql`uuidv7()`)
+      .primaryKey(),
+    secret: text('secret').notNull(),
+    backupCodes: text('backup_codes').notNull(),
+    userId: uuid('user_id')
+      .notNull()
+      .references(() => user.id, { onDelete: 'cascade' }),
+    verified: boolean('verified').default(true),
+    failedVerificationCount: integer('failed_verification_count').default(0),
+    lockedUntil: timestamp('locked_until', { withTimezone: true }),
+  },
+  (table) => [
+    index('twoFactor_secret_idx').on(table.secret),
+    index('twoFactor_userId_idx').on(table.userId),
+  ],
+)
+
 export const rateLimit = pgTable('rate_limit', {
   id: uuid('id')
     .default(sql`uuidv7()`)
@@ -104,7 +126,7 @@ export const rateLimit = pgTable('rate_limit', {
 })
 
 export const authRelations = defineRelationsPart(
-  { user, session, account, verification, rateLimit },
+  { user, session, account, verification, twoFactor, rateLimit },
   (r) => ({
     user: {
       sessions: r.many.session({
@@ -114,6 +136,10 @@ export const authRelations = defineRelationsPart(
       accounts: r.many.account({
         from: r.user.id,
         to: r.account.userId,
+      }),
+      twoFactors: r.many.twoFactor({
+        from: r.user.id,
+        to: r.twoFactor.userId,
       }),
     },
     session: {
@@ -125,6 +151,12 @@ export const authRelations = defineRelationsPart(
     account: {
       user: r.one.user({
         from: r.account.userId,
+        to: r.user.id,
+      }),
+    },
+    twoFactor: {
+      user: r.one.user({
+        from: r.twoFactor.userId,
         to: r.user.id,
       }),
     },

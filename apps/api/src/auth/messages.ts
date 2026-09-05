@@ -11,4 +11,16 @@ export const authMessages = {
   LOGIN_TEMPORARILY_LOCKED: 'Muitas tentativas com senha errada. Tente novamente mais tarde.',
   PASSWORD_COMPROMISED:
     'Esta senha apareceu em vazamentos de dados de outros sites. Escolha uma senha diferente.',
+
+  // Plugin twoFactor (só TOTP e códigos de recuperação; o código por e-mail não é usado)
+  TOTP_NOT_ENABLED: 'A verificação em duas etapas por aplicativo não está ativada.',
+  TOTP_ALREADY_ENABLED: 'A verificação em duas etapas por aplicativo já está ativada.',
+  TOTP_NOT_CONFIGURED: 'A verificação em duas etapas por aplicativo não está disponível.',
+  TWO_FACTOR_NOT_ENABLED: 'A verificação em duas etapas não está ativada.',
+  BACKUP_CODES_NOT_ENABLED: 'Os códigos de recuperação não estão ativados.',
+  INVALID_BACKUP_CODE: 'Código de recuperação inválido.',
+  INVALID_CODE: 'Código inválido.',
+  ACCOUNT_TEMPORARILY_LOCKED:
+    'Muitas tentativas com código errado. A conta foi bloqueada temporariamente. Tente novamente mais tarde.',
+  INVALID_TWO_FACTOR_COOKIE: 'A verificação expirou. Entre novamente.',
 }

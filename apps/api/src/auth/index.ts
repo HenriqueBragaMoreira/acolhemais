@@ -4,6 +4,7 @@ import { drizzleAdapter } from '@better-auth/drizzle-adapter/relations-v2'
 import { i18n } from '@better-auth/i18n'
 import { betterAuth } from 'better-auth'
 import { haveIBeenPwned } from 'better-auth/plugins/haveibeenpwned'
+import { twoFactor } from 'better-auth/plugins/two-factor'
 import type { Config } from '../env'
 import { loginLockout } from './login-lockout'
 import { authMessages } from './messages'
@@ -74,6 +75,10 @@ export function createAuth({ config, db, waitUntil }: AuthDeps) {
       // sai do servidor (k-anonimato). Desligado em localhost para ninguém depender de rede.
       haveIBeenPwned({ enabled: !config.isLocal }),
       loginLockout({ db, secret: config.BETTER_AUTH_SECRET }),
+      // 2FA por app autenticador (TOTP), com códigos de recuperação. O segredo TOTP e os códigos
+      // ficam cifrados com o segredo da API. `allowPasswordless` deixa quem só usa o Google
+      // ativar o 2FA (para quem tem senha, ela continua sendo pedida).
+      twoFactor({ issuer: 'Acolhe+', allowPasswordless: true }),
       i18n({ translations: { pt: authMessages }, defaultLocale: 'pt' }),
     ],
   })
