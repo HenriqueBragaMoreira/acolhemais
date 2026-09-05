@@ -39,10 +39,11 @@ Proposta: plataforma **multi-tenant, gratuita, hospedada centralmente e open sou
 
 ### 3.2 Permissões dentro da organização (RBAC)
 
-- **Catálogo fixo no código** (ex.: `animal.criar|editar|arquivar`, `candidatura.ver`, `candidatura.ver_dados_sensiveis`, `candidatura.mover_etapa`, `candidatura.aprovar`, `adocao.concluir`, `posadocao.avaliar`, `ocorrencia.reportar`, `lar_temporario.gerenciar`, `pagina.personalizar`, `equipe.gerenciar`, `organizacao.configurar`).
+- **Implementado com o plugin `organization` do Better Auth** (ADR 0005): papéis dos membros, convites e papéis criados pela ONG vêm do plugin; o catálogo e as regras próprias ficam em `packages/domain`.
+- **Catálogo fixo no código** (ex.: `animal.criar|editar|arquivar`, `candidatura.ver`, `candidatura.ver_dados_sensiveis`, `candidatura.mover_etapa`, `candidatura.aprovar`, `adocao.concluir`, `posadocao.avaliar`, `ocorrencia.reportar`, `lar_temporario.gerenciar`, `pagina.personalizar`). Gerenciar a equipe usa os recursos nativos do plugin (membros, convites e papéis), e configurar a organização é `organization.update`.
 - **Papéis padrão**: Responsável (tudo), Coordenador (candidaturas + animais), Voluntário (animais, sem dados sensíveis). ONG pode criar papéis próprios a partir do catálogo.
 - **Permissão efetiva = permissões do papel ∪ concessões individuais** (somente aditivas).
-- Travas: só concede quem tem `equipe.gerenciar`; ninguém concede permissão que não possui; sempre ≥1 Responsável; toda alteração vai para log de auditoria; sessões revalidam permissões a cada requisição.
+- Travas: só concede quem gerencia a equipe; ninguém concede permissão que não possui; sempre ≥1 Responsável; toda alteração vai para log de auditoria; sessões revalidam permissões a cada requisição. Ninguém apaga uma organização (encerramento é um status).
 - Entrada na equipe só por convite por e-mail (expira em 7 dias).
 
 ### 3.3 Animais
@@ -109,7 +110,7 @@ Limite de candidaturas (3), prazos de expiração (7d), prazo de defesa (15d), e
 - **Isolamento multi-tenant**: banco compartilhado com `organization_id`; todo acesso a dados de tenant passa por uma camada `scopedRepo(orgId, actor)` que aplica escopo + permissão. **Postgres RLS** como defesa em profundidade nas tabelas sensíveis (candidaturas, adotantes, ocorrências). Testes automatizados de acesso cruzado entre tenants.
 - **IDs** não sequenciais (UUIDv7). Checagem de IDOR em todas as rotas.
 - **CPF**: criptografado (AES-256-GCM, chave fora do banco) + **HMAC-SHA256 com chave secreta** para busca/unicidade (hash puro de CPF é quebrável por força bruta). Exibido mascarado; "revelar" exige `candidatura.ver_dados_sensiveis` e gera auditoria.
-- **Auth**: e-mail+senha (hash scrypt/argon2, verificação de senha vazada), Google OAuth, **2FA TOTP obrigatório** para admins da plataforma e membros com acesso a dados sensíveis. Rate limit + lockout progressivo. Cookies httpOnly/secure/SameSite.
+- **Auth** (Better Auth, ADR 0005): e-mail+senha (hash scrypt, senha com 12+ caracteres, verificação de senha vazada por k-anonimato), Google OAuth (só vincula a conta local com e-mail verificado), **2FA TOTP obrigatório** para a equipe da plataforma e membros com acesso a dados sensíveis, inclusive no login pelo Google. Rate limit por IP + bloqueio progressivo por e-mail. Cookies httpOnly/secure/SameSite. Ninguém da plataforma entra como outro usuário nem define senha ou e-mail alheio.
 - **Uploads**: URLs pré-assinadas, limite de tamanho/tipo, **reencode das imagens (remove EXIF/GPS e payloads)**; bucket público (fotos de animais) separado do privado (evidências, documentos) com URLs assinadas de curta duração e acesso auditado.
 - **Headers**: CSP estrita, HSTS, frame-ancestors; Turnstile em formulários públicos.
 - **Auditoria append-only**: permissões, revelação de dados sensíveis, decisões de moderação, exportações, mudanças de status de ONG.
@@ -144,7 +145,7 @@ docs/adr            Architecture Decision Records
 | --------------------- | ---------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
 | Hosting               | Web: Vercel Hobby · API: Cloudflare Workers (ADR 0004)                                   | Workers grátis tem 10 ms de CPU/req: hash de senha pode exigir Workers Paid (US$ 5/mês) |
 | Banco                 | PostgreSQL no Neon (free) via Cloudflare Hyperdrive                                      | Branching para previews; Drizzle (SQL-first, combina com RLS)                           |
-| Auth                  | Better Auth                                                                              | E-mail/senha, Google, 2FA TOTP, dados no próprio Postgres (sem vendor lock-in)          |
+| Auth                  | Better Auth (plugins `twoFactor`, `admin`, `organization`)                               | E-mail/senha, Google, 2FA TOTP, dados no próprio Postgres (sem vendor lock-in)          |
 | Storage               | Cloudflare R2                                                                            | 10 GB grátis, sem custo de egress                                                       |
 | E-mail                | Resend (3k/mês)                                                                          | Atrás de `EmailProvider` para trocar por Brevo/SES ao crescer                           |
 | Jobs agendados        | Cron Triggers do Cloudflare Workers + tabela de jobs                                     | Expirações, lembretes, retries de e-mail                                                |
