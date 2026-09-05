@@ -12,6 +12,7 @@ import {
   integer,
   uuid,
   index,
+  uniqueIndex,
 } from 'drizzle-orm/pg-core'
 
 export const user = pgTable('user', {
@@ -52,6 +53,7 @@ export const session = pgTable(
       .notNull()
       .references(() => user.id, { onDelete: 'cascade' }),
     impersonatedBy: text('impersonated_by'),
+    activeOrganizationId: text('active_organization_id'),
   },
   (table) => [index('session_userId_idx').on(table.userId)],
 )
@@ -121,6 +123,88 @@ export const twoFactor = pgTable(
   ],
 )
 
+export const organization = pgTable(
+  'organization',
+  {
+    id: uuid('id')
+      .default(sql`uuidv7()`)
+      .primaryKey(),
+    name: text('name').notNull(),
+    slug: text('slug').notNull().unique(),
+    logo: text('logo'),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull(),
+    metadata: text('metadata'),
+  },
+  (table) => [uniqueIndex('organization_slug_uidx').on(table.slug)],
+)
+
+export const organizationRole = pgTable(
+  'organization_role',
+  {
+    id: uuid('id')
+      .default(sql`uuidv7()`)
+      .primaryKey(),
+    organizationId: uuid('organization_id')
+      .notNull()
+      .references(() => organization.id, { onDelete: 'cascade' }),
+    role: text('role').notNull(),
+    permission: text('permission').notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).$onUpdate(
+      () => /* @__PURE__ */ new Date(),
+    ),
+  },
+  (table) => [
+    index('organizationRole_organizationId_idx').on(table.organizationId),
+    index('organizationRole_role_idx').on(table.role),
+  ],
+)
+
+export const member = pgTable(
+  'member',
+  {
+    id: uuid('id')
+      .default(sql`uuidv7()`)
+      .primaryKey(),
+    organizationId: uuid('organization_id')
+      .notNull()
+      .references(() => organization.id, { onDelete: 'cascade' }),
+    userId: uuid('user_id')
+      .notNull()
+      .references(() => user.id, { onDelete: 'cascade' }),
+    role: text('role').default('member').notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull(),
+  },
+  (table) => [
+    index('member_organizationId_idx').on(table.organizationId),
+    index('member_userId_idx').on(table.userId),
+  ],
+)
+
+export const invitation = pgTable(
+  'invitation',
+  {
+    id: uuid('id')
+      .default(sql`uuidv7()`)
+      .primaryKey(),
+    organizationId: uuid('organization_id')
+      .notNull()
+      .references(() => organization.id, { onDelete: 'cascade' }),
+    email: text('email').notNull(),
+    role: text('role'),
+    status: text('status').default('pending').notNull(),
+    expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+    inviterId: uuid('inviter_id')
+      .notNull()
+      .references(() => user.id, { onDelete: 'cascade' }),
+  },
+  (table) => [
+    index('invitation_organizationId_idx').on(table.organizationId),
+    index('invitation_email_idx').on(table.email),
+  ],
+)
+
 export const rateLimit = pgTable('rate_limit', {
   id: uuid('id')
     .default(sql`uuidv7()`)
@@ -131,7 +215,18 @@ export const rateLimit = pgTable('rate_limit', {
 })
 
 export const authRelations = defineRelationsPart(
-  { user, session, account, verification, twoFactor, rateLimit },
+  {
+    user,
+    session,
+    account,
+    verification,
+    twoFactor,
+    organization,
+    organizationRole,
+    member,
+    invitation,
+    rateLimit,
+  },
   (r) => ({
     user: {
       sessions: r.many.session({
@@ -145,6 +240,14 @@ export const authRelations = defineRelationsPart(
       twoFactors: r.many.twoFactor({
         from: r.user.id,
         to: r.twoFactor.userId,
+      }),
+      members: r.many.member({
+        from: r.user.id,
+        to: r.member.userId,
+      }),
+      invitations: r.many.invitation({
+        from: r.user.id,
+        to: r.invitation.inviterId,
       }),
     },
     session: {
@@ -162,6 +265,46 @@ export const authRelations = defineRelationsPart(
     twoFactor: {
       user: r.one.user({
         from: r.twoFactor.userId,
+        to: r.user.id,
+      }),
+    },
+    organization: {
+      organizationRoles: r.many.organizationRole({
+        from: r.organization.id,
+        to: r.organizationRole.organizationId,
+      }),
+      members: r.many.member({
+        from: r.organization.id,
+        to: r.member.organizationId,
+      }),
+      invitations: r.many.invitation({
+        from: r.organization.id,
+        to: r.invitation.organizationId,
+      }),
+    },
+    organizationRole: {
+      organization: r.one.organization({
+        from: r.organizationRole.organizationId,
+        to: r.organization.id,
+      }),
+    },
+    member: {
+      organization: r.one.organization({
+        from: r.member.organizationId,
+        to: r.organization.id,
+      }),
+      user: r.one.user({
+        from: r.member.userId,
+        to: r.user.id,
+      }),
+    },
+    invitation: {
+      organization: r.one.organization({
+        from: r.invitation.organizationId,
+        to: r.organization.id,
+      }),
+      user: r.one.user({
+        from: r.invitation.inviterId,
         to: r.user.id,
       }),
     },

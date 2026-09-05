@@ -5,10 +5,12 @@ import { i18n } from '@better-auth/i18n'
 import { betterAuth } from 'better-auth'
 import { admin } from 'better-auth/plugins/admin'
 import { haveIBeenPwned } from 'better-auth/plugins/haveibeenpwned'
+import { organization } from 'better-auth/plugins/organization'
 import { twoFactor } from 'better-auth/plugins/two-factor'
 import type { Config } from '../env'
 import { loginLockout } from './login-lockout'
 import { authMessages } from './messages'
+import { organizationAc, organizationRoles } from './organization-access'
 import { platformAc, platformRoles, platformTwoFactor } from './platform-access'
 import { socialTwoFactor } from './social-two-factor'
 
@@ -86,6 +88,22 @@ export function createAuth({ config, db, waitUntil }: AuthDeps) {
       // Equipe da plataforma (Superadmin, Moderador, Suporte), com papéis em `user.role`.
       admin({ ac: platformAc, roles: platformRoles, defaultRole: 'user' }),
       platformTwoFactor(),
+      // ONGs e protetores, com equipe, convites e papéis. As regras próprias da plataforma
+      // (aprovação, concessões individuais, travas contra escalada, slugs) chegam na Fase 1.
+      organization({
+        ac: organizationAc,
+        roles: organizationRoles,
+        creatorRole: 'owner',
+        // Organizações nascem da aprovação da plataforma (Fase 1), criadas no servidor.
+        allowUserToCreateOrganization: false,
+        disableOrganizationDeletion: true,
+        // Papéis criados pela ONG a partir do catálogo. O plugin já impede criar um papel com
+        // permissões que o próprio autor não tem.
+        dynamicAccessControl: { enabled: true },
+        invitationExpiresIn: 7 * 24 * 60 * 60,
+        requireEmailVerificationOnInvitation: true,
+        cancelPendingInvitationsOnReInvite: true,
+      }),
       i18n({ translations: { pt: authMessages }, defaultLocale: 'pt' }),
     ],
   })
