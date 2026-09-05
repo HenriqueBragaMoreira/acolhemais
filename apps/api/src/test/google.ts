@@ -30,7 +30,8 @@ export function mockGoogleToken({
     base64url({
       iss: 'https://accounts.google.com',
       aud: googleEnv.GOOGLE_CLIENT_ID,
-      sub: crypto.randomUUID(),
+      // Mesmo e-mail, mesma conta Google: o login seguinte encontra a conta já vinculada.
+      sub: `google-${email}`,
       email,
       email_verified: emailVerified,
       name,

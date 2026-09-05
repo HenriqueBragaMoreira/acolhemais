@@ -8,6 +8,7 @@ import { twoFactor } from 'better-auth/plugins/two-factor'
 import type { Config } from '../env'
 import { loginLockout } from './login-lockout'
 import { authMessages } from './messages'
+import { socialTwoFactor } from './social-two-factor'
 
 type AuthDeps = {
   config: Config
@@ -79,6 +80,7 @@ export function createAuth({ config, db, waitUntil }: AuthDeps) {
       // ficam cifrados com o segredo da API. `allowPasswordless` deixa quem só usa o Google
       // ativar o 2FA (para quem tem senha, ela continua sendo pedida).
       twoFactor({ issuer: 'Acolhe+', allowPasswordless: true }),
+      socialTwoFactor({ webOrigin: config.WEB_ORIGIN }),
       i18n({ translations: { pt: authMessages }, defaultLocale: 'pt' }),
     ],
   })

@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { cookiesFrom, get, password, post, signUp } from '../test/auth'
+import { cookiesFrom, get, password, post, signUp, uniqueEmail, WEB_ORIGIN } from '../test/auth'
+import { signInWithGoogle } from '../test/google'
 import { totpCode } from '../test/totp'
 
 type Enabled = { totpURI: string; backupCodes: string[] }
@@ -71,5 +72,27 @@ describe('Better Auth: 2FA', () => {
     )
     expect(verified.status).toBe(200)
     expect(sessionCookie(verified)).toBeDefined()
+  })
+
+  it('pede o código também no login pelo Google', async () => {
+    const email = uniqueEmail()
+    const first = await signInWithGoogle({ email })
+    // Quem só usa o Google ativa o 2FA sem senha (allowPasswordless).
+    const { totpURI } = await enableTwoFactor(cookiesFrom(first), {})
+    vi.restoreAllMocks()
+
+    const callback = await signInWithGoogle({ email })
+    expect(callback.status).toBe(302)
+    expect(callback.headers.get('location')).toBe(`${WEB_ORIGIN}/entrar/2fa`)
+    expect(sessionCookie(callback)).toBeUndefined()
+
+    const verified = await post(
+      '/two-factor/verify-totp',
+      { code: await totpCode(totpURI, 1) },
+      { cookie: cookiesFrom(callback) },
+    )
+    expect(verified.status).toBe(200)
+    const session = await get('/get-session', { cookie: cookiesFrom(verified) })
+    expect(await session.json()).toMatchObject({ user: { email } })
   })
 })
