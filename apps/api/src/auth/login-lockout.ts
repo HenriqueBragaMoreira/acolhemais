@@ -1,6 +1,7 @@
 import { schema } from '@acolhemais/db'
 import type { Database } from '@acolhemais/db'
 import { LOGIN_FAILURE_WINDOW_MS, loginLockoutMs } from '@acolhemais/domain'
+import type { BetterAuthPlugin } from 'better-auth'
 import { APIError, createAuthMiddleware, isAPIError } from 'better-auth/api'
 import { eq, sql } from 'drizzle-orm'
 import { authMessages } from './messages'
@@ -9,6 +10,10 @@ const { loginThrottle } = schema
 const SIGN_IN_PATH = '/sign-in/email'
 
 type LockoutDeps = { db: Database; secret: string }
+
+function isPasswordSignIn(ctx: { path?: string }) {
+  return ctx.path === SIGN_IN_PATH
+}
 
 /** Chave da tabela: HMAC-SHA256 do e-mail normalizado, para não guardar o e-mail em si. */
 async function emailKey(secret: string, email: string): Promise<string> {
@@ -56,42 +61,57 @@ async function registerFailure(db: Database, emailHash: string) {
 }
 
 /**
- * Hooks do Better Auth para o bloqueio progressivo de login por senha (regra em
+ * Plugin do Better Auth com o bloqueio progressivo de login por senha (regra em
  * `loginLockoutMs`): antes do login, recusa e-mails bloqueados, mesmo com a senha certa;
  * depois, conta as senhas erradas e zera a contagem quando a senha confere.
  */
-export function loginLockoutHooks({ db, secret }: LockoutDeps) {
+export function loginLockout({ db, secret }: LockoutDeps) {
   return {
-    before: createAuthMiddleware(async (ctx) => {
-      const email = ctx.path === SIGN_IN_PATH ? emailFrom(ctx.body) : undefined
-      if (!email) return
+    id: 'acolhemais-login-lockout',
+    hooks: {
+      before: [
+        {
+          matcher: isPasswordSignIn,
+          handler: createAuthMiddleware(async (ctx) => {
+            const email = emailFrom(ctx.body)
+            if (!email) return
 
-      const [row] = await db
-        .select({ lockedUntil: loginThrottle.lockedUntil })
-        .from(loginThrottle)
-        .where(eq(loginThrottle.emailHash, await emailKey(secret, email)))
-      const remainingMs = (row?.lockedUntil?.getTime() ?? 0) - Date.now()
-      if (remainingMs > 0) {
-        throw new APIError(
-          'TOO_MANY_REQUESTS',
-          { code: 'LOGIN_TEMPORARILY_LOCKED', message: authMessages.LOGIN_TEMPORARILY_LOCKED },
-          { 'Retry-After': String(Math.ceil(remainingMs / 1000)) },
-        )
-      }
-    }),
+            const [row] = await db
+              .select({ lockedUntil: loginThrottle.lockedUntil })
+              .from(loginThrottle)
+              .where(eq(loginThrottle.emailHash, await emailKey(secret, email)))
+            const remainingMs = (row?.lockedUntil?.getTime() ?? 0) - Date.now()
+            if (remainingMs > 0) {
+              throw new APIError(
+                'TOO_MANY_REQUESTS',
+                {
+                  code: 'LOGIN_TEMPORARILY_LOCKED',
+                  message: authMessages.LOGIN_TEMPORARILY_LOCKED,
+                },
+                { 'Retry-After': String(Math.ceil(remainingMs / 1000)) },
+              )
+            }
+          }),
+        },
+      ],
+      after: [
+        {
+          matcher: isPasswordSignIn,
+          handler: createAuthMiddleware(async (ctx) => {
+            const email = emailFrom(ctx.body)
+            if (!email) return
 
-    after: createAuthMiddleware(async (ctx) => {
-      const email = ctx.path === SIGN_IN_PATH ? emailFrom(ctx.body) : undefined
-      if (!email) return
-
-      const emailHash = await emailKey(secret, email)
-      const returned = ctx.context.returned
-      if (!isAPIError(returned)) {
-        // Senha conferiu (mesmo que o login ainda peça o código de 2FA).
-        await db.delete(loginThrottle).where(eq(loginThrottle.emailHash, emailHash))
-      } else if (returned.body?.code === 'INVALID_EMAIL_OR_PASSWORD') {
-        await registerFailure(db, emailHash)
-      }
-    }),
-  }
+            const emailHash = await emailKey(secret, email)
+            const returned = ctx.context.returned
+            if (!isAPIError(returned)) {
+              // Senha conferiu (mesmo que o login ainda peça o código de 2FA).
+              await db.delete(loginThrottle).where(eq(loginThrottle.emailHash, emailHash))
+            } else if (returned.body?.code === 'INVALID_EMAIL_OR_PASSWORD') {
+              await registerFailure(db, emailHash)
+            }
+          }),
+        },
+      ],
+    },
+  } satisfies BetterAuthPlugin
 }

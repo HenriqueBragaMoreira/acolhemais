@@ -5,7 +5,7 @@ import { i18n } from '@better-auth/i18n'
 import { betterAuth } from 'better-auth'
 import { haveIBeenPwned } from 'better-auth/plugins/haveibeenpwned'
 import type { Config } from '../env'
-import { loginLockoutHooks } from './login-lockout'
+import { loginLockout } from './login-lockout'
 import { authMessages } from './messages'
 
 type AuthDeps = {
@@ -59,7 +59,6 @@ export function createAuth({ config, db, waitUntil }: AuthDeps) {
     // banco: no Workers, a memória não é compartilhada entre instâncias. As rotas sensíveis
     // (login, cadastro, troca de senha) já têm limites mais baixos por padrão.
     rateLimit: { enabled: true, storage: 'database' },
-    hooks: loginLockoutHooks({ db, secret: config.BETTER_AUTH_SECRET }),
     telemetry: { enabled: false },
     advanced: {
       // O Postgres gera os IDs (uuidv7(), ver `pnpm auth:generate`); o Better Auth não envia nenhum.
@@ -74,6 +73,7 @@ export function createAuth({ config, db, waitUntil }: AuthDeps) {
       // Recusa senhas que já vazaram (cadastro, troca e redefinição). Só o prefixo do hash SHA-1
       // sai do servidor (k-anonimato). Desligado em localhost para ninguém depender de rede.
       haveIBeenPwned({ enabled: !config.isLocal }),
+      loginLockout({ db, secret: config.BETTER_AUTH_SECRET }),
       i18n({ translations: { pt: authMessages }, defaultLocale: 'pt' }),
     ],
   })
