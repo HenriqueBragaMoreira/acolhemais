@@ -12,7 +12,8 @@
     "build": "wrangler deploy --dry-run --outdir dist",
     "typecheck": "tsc -p tsconfig.json",
     "test": "vitest run",
-    "test:integration": "vitest run --config vitest.integration.config.ts"
+    "test:integration": "vitest run --config vitest.integration.config.ts",
+    "auth:create-admin": "auth create-admin --config src/auth/cli.ts"
   },
   "dependencies": {
     "@acolhemais/db": "workspace:*",

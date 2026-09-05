@@ -23,4 +23,26 @@ export const authMessages = {
   ACCOUNT_TEMPORARILY_LOCKED:
     'Muitas tentativas com código errado. A conta foi bloqueada temporariamente. Tente novamente mais tarde.',
   INVALID_TWO_FACTOR_COOKIE: 'A verificação expirou. Entre novamente.',
+
+  // Plugin admin (equipe da plataforma)
+  TWO_FACTOR_REQUIRED: 'Ative a verificação em duas etapas para acessar esta área.',
+  YOU_CANNOT_BAN_YOURSELF: 'Você não pode suspender a própria conta.',
+  YOU_ARE_NOT_ALLOWED_TO_CHANGE_USERS_ROLE: 'Você não tem permissão para mudar papéis.',
+  YOU_ARE_NOT_ALLOWED_TO_CREATE_USERS: 'Você não tem permissão para criar usuários.',
+  YOU_ARE_NOT_ALLOWED_TO_LIST_USERS: 'Você não tem permissão para listar usuários.',
+  YOU_ARE_NOT_ALLOWED_TO_LIST_USERS_SESSIONS:
+    'Você não tem permissão para ver sessões de usuários.',
+  YOU_ARE_NOT_ALLOWED_TO_BAN_USERS: 'Você não tem permissão para suspender usuários.',
+  YOU_ARE_NOT_ALLOWED_TO_IMPERSONATE_USERS: 'Ninguém pode entrar como outro usuário.',
+  YOU_ARE_NOT_ALLOWED_TO_REVOKE_USERS_SESSIONS:
+    'Você não tem permissão para encerrar sessões de usuários.',
+  YOU_ARE_NOT_ALLOWED_TO_DELETE_USERS: 'Você não tem permissão para excluir usuários.',
+  YOU_ARE_NOT_ALLOWED_TO_SET_USERS_PASSWORD: 'Ninguém pode definir a senha de outro usuário.',
+  YOU_ARE_NOT_ALLOWED_TO_SET_USERS_EMAIL: 'Ninguém pode mudar o e-mail de outro usuário.',
+  BANNED_USER: 'Esta conta está suspensa.',
+  YOU_ARE_NOT_ALLOWED_TO_GET_USER: 'Você não tem permissão para ver este usuário.',
+  YOU_ARE_NOT_ALLOWED_TO_UPDATE_USERS: 'Você não tem permissão para alterar usuários.',
+  YOU_CANNOT_REMOVE_YOURSELF: 'Você não pode excluir a própria conta por aqui.',
+  YOU_ARE_NOT_ALLOWED_TO_SET_NON_EXISTENT_VALUE: 'Papel inexistente.',
+  INVALID_ROLE_TYPE: 'Papel inválido.',
 }

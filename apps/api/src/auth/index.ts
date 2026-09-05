@@ -3,11 +3,13 @@ import type { Database } from '@acolhemais/db'
 import { drizzleAdapter } from '@better-auth/drizzle-adapter/relations-v2'
 import { i18n } from '@better-auth/i18n'
 import { betterAuth } from 'better-auth'
+import { admin } from 'better-auth/plugins/admin'
 import { haveIBeenPwned } from 'better-auth/plugins/haveibeenpwned'
 import { twoFactor } from 'better-auth/plugins/two-factor'
 import type { Config } from '../env'
 import { loginLockout } from './login-lockout'
 import { authMessages } from './messages'
+import { platformAc, platformRoles, platformTwoFactor } from './platform-access'
 import { socialTwoFactor } from './social-two-factor'
 
 type AuthDeps = {
@@ -81,6 +83,9 @@ export function createAuth({ config, db, waitUntil }: AuthDeps) {
       // ativar o 2FA (para quem tem senha, ela continua sendo pedida).
       twoFactor({ issuer: 'Acolhe+', allowPasswordless: true }),
       socialTwoFactor({ webOrigin: config.WEB_ORIGIN }),
+      // Equipe da plataforma (Superadmin, Moderador, Suporte), com papéis em `user.role`.
+      admin({ ac: platformAc, roles: platformRoles, defaultRole: 'user' }),
+      platformTwoFactor(),
       i18n({ translations: { pt: authMessages }, defaultLocale: 'pt' }),
     ],
   })
