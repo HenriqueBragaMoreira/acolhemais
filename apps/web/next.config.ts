@@ -6,7 +6,7 @@ const withNextIntl = createNextIntlPlugin()
 const nextConfig: NextConfig = {
   cacheComponents: true,
   partialPrefetching: true,
-  transpilePackages: ['@acolhemais/domain'],
+  transpilePackages: ['@acolhemais/api', '@acolhemais/domain'],
   turbopack: {
     rules: {
       '*.css': {
