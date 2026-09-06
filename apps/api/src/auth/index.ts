@@ -11,7 +11,8 @@ import type { Config } from '../env'
 import { loginLockout } from './login-lockout'
 import { authMessages } from './messages'
 import { organizationAc, organizationRoles } from './organization-access'
-import { platformAc, platformRoles, platformTwoFactor } from './platform-access'
+import { platformAc, platformRoles } from './platform-access'
+import { platformTwoFactor } from './platform-two-factor'
 import { socialTwoFactor } from './social-two-factor'
 
 type AuthDeps = {
