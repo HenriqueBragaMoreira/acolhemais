@@ -2,7 +2,8 @@ import { createDb } from '@acolhemais/db'
 import type { SystemRoleKey } from '@acolhemais/domain'
 import { afterAll, describe, expect, inject, it } from 'vitest'
 import { loadConfig } from '../env'
-import { cookiesFrom, env, post, signUp, uniqueEmail } from '../test/auth'
+import { regularUser as account } from '../test/accounts'
+import { env, post, uniqueEmail } from '../test/auth'
 import { createAuth } from '.'
 
 const db = createDb(inject('databaseUrl'))
@@ -12,12 +13,6 @@ const auth = createAuth({ config: loadConfig(env), db })
 afterAll(async () => {
   await db.$client.end()
 })
-
-async function account() {
-  const { res } = await signUp()
-  const { user } = await res.json<{ user: { id: string } }>()
-  return { id: user.id, cookie: cookiesFrom(res) }
-}
 
 /** Organização aprovada pela plataforma, com `owner` como Responsável. */
 async function approvedOrganization() {

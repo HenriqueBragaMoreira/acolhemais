@@ -1,9 +1,8 @@
-import { createDb, schema } from '@acolhemais/db'
+import { createDb } from '@acolhemais/db'
 import type { PlatformRole } from '@acolhemais/domain'
-import { eq } from 'drizzle-orm'
 import { afterAll, describe, expect, inject, it } from 'vitest'
-import { cookiesFrom, get, post, signUp } from '../test/auth'
-import { enableTwoFactor } from '../test/two-factor'
+import { platformMember as createPlatformMember, regularUser } from '../test/accounts'
+import { get, post } from '../test/auth'
 
 const db = createDb(inject('databaseUrl'))
 
@@ -11,22 +10,8 @@ afterAll(async () => {
   await db.$client.end()
 })
 
-/**
- * Cria alguém da equipe da plataforma. O papel é gravado direto no banco, como faria o
- * `auth create-admin` para o primeiro superadmin.
- */
-async function platformMember(role: PlatformRole, { twoFactor = true } = {}) {
-  const { email, res } = await signUp()
-  const { user } = await res.json<{ user: { id: string } }>()
-  await db.update(schema.user).set({ role }).where(eq(schema.user.email, email))
-  const cookie = cookiesFrom(res)
-  return { id: user.id, cookie: twoFactor ? (await enableTwoFactor(cookie)).cookie : cookie }
-}
-
-async function regularUser() {
-  const { res } = await signUp()
-  const { user } = await res.json<{ user: { id: string } }>()
-  return { id: user.id, cookie: cookiesFrom(res) }
+function platformMember(role: PlatformRole, options?: { twoFactor?: boolean }) {
+  return createPlatformMember(db, role, options)
 }
 
 /** Pergunta à API se a sessão pode decidir sobre a inscrição de organizações. */
