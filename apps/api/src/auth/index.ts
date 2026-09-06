@@ -8,6 +8,7 @@ import { haveIBeenPwned } from 'better-auth/plugins/haveibeenpwned'
 import { organization } from 'better-auth/plugins/organization'
 import { twoFactor } from 'better-auth/plugins/two-factor'
 import type { Config } from '../env'
+import { auditTrail } from './audit-trail'
 import { loginLockout } from './login-lockout'
 import { authMessages } from './messages'
 import { organizationAc, organizationRoles } from './organization-access'
@@ -105,6 +106,8 @@ export function createAuth({ config, db, waitUntil }: AuthDeps) {
         requireEmailVerificationOnInvitation: true,
         cancelPendingInvitationsOnReInvite: true,
       }),
+      // Auditoria das ações sobre permissões e a segurança das contas.
+      auditTrail({ db }),
       i18n({ translations: { pt: authMessages }, defaultLocale: 'pt' }),
     ],
   })
