@@ -81,3 +81,16 @@ export function platformRolesOf(role: string | null | undefined): PlatformRole[]
 export function platformRequiresTwoFactor(role: string | null | undefined): boolean {
   return platformRolesOf(role).length > 0
 }
+
+/** Se algum dos papéis da plataforma do usuário concede todas as permissões pedidas. */
+export function platformCan(role: string | null | undefined, permissions: PlatformGrants): boolean {
+  const requested = Object.entries(permissions) as [keyof Statements, readonly string[]][]
+  return platformRolesOf(role).some((platformRole) => {
+    const grants: PlatformGrants = PLATFORM_ROLES[platformRole]
+    return requested.every(([resource, actions]) =>
+      actions.every((action) =>
+        (grants[resource] as readonly string[] | undefined)?.includes(action),
+      ),
+    )
+  })
+}

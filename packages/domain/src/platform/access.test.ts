@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { PLATFORM_ROLES, platformRequiresTwoFactor, platformRolesOf } from './access'
+import { PLATFORM_ROLES, platformCan, platformRequiresTwoFactor, platformRolesOf } from './access'
 
 describe('papéis da plataforma', () => {
   it('não deixam ninguém personificar usuários nem trocar senha ou e-mail de outra pessoa', () => {
@@ -30,5 +30,14 @@ describe('papéis da plataforma', () => {
     expect(platformRequiresTwoFactor('support')).toBe(true)
     expect(platformRequiresTwoFactor('user')).toBe(false)
     expect(platformRequiresTwoFactor(undefined)).toBe(false)
+  })
+
+  it('concedem a permissão quando algum dos papéis tem todas as ações pedidas', () => {
+    expect(platformCan('superadmin', { platform_setting: ['view', 'update'] })).toBe(true)
+    expect(platformCan('moderator', { platform_setting: ['update'] })).toBe(false)
+    expect(platformCan('support,moderator', { incident: ['decide'] })).toBe(true)
+    expect(platformCan('support', { audit_log: ['view'] })).toBe(false)
+    expect(platformCan('user', { platform_setting: ['view'] })).toBe(false)
+    expect(platformCan(null, { platform_setting: ['view'] })).toBe(false)
   })
 })
