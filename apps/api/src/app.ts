@@ -6,6 +6,7 @@ import { authentication } from './auth/middleware'
 import { database } from './db'
 import { config } from './env'
 import type { AppEnv } from './env'
+import { platformSettings } from './platform/settings'
 import { health } from './routes/health'
 
 const app = new Hono<AppEnv>()
@@ -23,6 +24,9 @@ const app = new Hono<AppEnv>()
   // Rotas do Better Auth (login, sessão, 2FA...): ele mesmo valida método, origem e corpo.
   .on(['GET', 'POST'], '/api/auth/*', (c) => c.var.auth().handler(c.req.raw))
   .route('/health', health)
+  // Rotas próprias da equipe da plataforma (permissão do catálogo + 2FA). Com o CORS restrito
+  // ao frontend e cookies SameSite=Lax, outro site não as chama com a sessão de alguém.
+  .route('/platform/settings', platformSettings)
 
 /** Tipo da API consumido pelo cliente tipado (`hc`) no frontend. */
 export type AppType = typeof app
