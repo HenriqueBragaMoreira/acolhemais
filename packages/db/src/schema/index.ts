@@ -5,3 +5,4 @@
 export * from './audit-log'
 export * from './auth'
 export * from './login-throttle'
+export * from './platform-setting'
