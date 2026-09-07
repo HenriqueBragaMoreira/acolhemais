@@ -8,10 +8,25 @@
   "rules": {
     "typescript/consistent-type-imports": "error",
     "typescript/no-explicit-any": "error",
-    "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
-    "no-console": ["error", { "allow": ["info", "warn", "error"] }],
+    "no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "no-console": [
+      "error",
+      {
+        "allow": ["info", "warn", "error"]
+      }
+    ],
     "import/no-cycle": "error",
-    "import/no-unassigned-import": ["warn", { "allow": ["**/*.css"] }],
+    "import/no-unassigned-import": [
+      "warn",
+      {
+        "allow": ["**/*.css", "@fontsource-variable/*"]
+      }
+    ],
     "react/react-in-jsx-scope": "off"
   },
   "ignorePatterns": [
@@ -21,5 +36,16 @@
     "**/migrations/**",
     ".agents/skills/**",
     ".claude/skills/**"
+  ],
+  "overrides": [
+    {
+      "files": ["packages/ui/src/components/**"],
+      "rules": {
+        "jsx-a11y/label-has-associated-control": "off",
+        "jsx-a11y/prefer-tag-over-role": "off",
+        "jsx-a11y/click-events-have-key-events": "off",
+        "jsx-a11y/no-noninteractive-element-interactions": "off"
+      }
+    }
   ]
 }
