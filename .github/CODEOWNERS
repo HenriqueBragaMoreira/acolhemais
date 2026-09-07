@@ -4,6 +4,7 @@
 *                              @HenriqueBragaMoreira
 
 /packages/domain/src/rbac/     @HenriqueBragaMoreira
+/packages/domain/src/audit/    @HenriqueBragaMoreira
 /packages/domain/src/platform/ @HenriqueBragaMoreira
 /packages/domain/src/security/ @HenriqueBragaMoreira
 /packages/domain/src/reputation/ @HenriqueBragaMoreira
