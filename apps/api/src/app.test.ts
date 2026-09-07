@@ -47,6 +47,15 @@ describe('API', () => {
     expect((await app.request('/health', {}, withSecret)).status).toBe(200)
   })
 
+  it('informa se o login com Google está ligado', async () => {
+    const off = await app.request('/auth/providers', {}, env)
+    expect(await off.json()).toEqual({ google: false })
+
+    const google = { GOOGLE_CLIENT_ID: 'id', GOOGLE_CLIENT_SECRET: 'segredo' }
+    const on = await app.request('/auth/providers', {}, { ...env, ...google })
+    expect(await on.json()).toEqual({ google: true })
+  })
+
   it('exige as duas credenciais do Google juntas', async () => {
     const res = await app.request('/health', {}, { ...env, GOOGLE_CLIENT_ID: 'id' })
     expect(res.status).toBe(500)
