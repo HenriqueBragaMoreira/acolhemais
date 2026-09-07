@@ -63,10 +63,11 @@ export function createAuth({ config, db, waitUntil }: AuthDeps) {
       // Quem redefine a senha pode estar recuperando uma conta invadida: derruba as outras sessões.
       revokeSessionsOnPasswordReset: true,
     },
-    // Ligado também em localhost, para o comportamento local ser o de produção. Guardado no
+    // Ligado também em localhost, para o comportamento local ser o de produção (só o E2E
+    // desliga, ver AUTH_RATE_LIMIT em env.ts). Guardado no
     // banco: no Workers, a memória não é compartilhada entre instâncias. As rotas sensíveis
     // (login, cadastro, troca de senha) já têm limites mais baixos por padrão.
-    rateLimit: { enabled: true, storage: 'database' },
+    rateLimit: { enabled: config.AUTH_RATE_LIMIT === 'on', storage: 'database' },
     telemetry: { enabled: false },
     advanced: {
       // O Postgres gera os IDs (uuidv7(), ver `pnpm auth:generate`); o Better Auth não envia nenhum.

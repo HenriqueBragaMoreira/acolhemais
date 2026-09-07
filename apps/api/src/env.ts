@@ -29,6 +29,9 @@ const configSchema = z
     // Login com Google é opcional: sem as duas credenciais, o provedor fica desligado.
     GOOGLE_CLIENT_ID: z.string().min(1).optional(),
     GOOGLE_CLIENT_SECRET: z.string().min(1).optional(),
+    // Rate limit por IP das rotas do Better Auth. Só pode ser desligado com a API em localhost:
+    // o E2E desliga, porque todo login dele sai do mesmo IP. O bloqueio por e-mail continua.
+    AUTH_RATE_LIMIT: z.enum(['on', 'off']).default('on'),
   })
   .superRefine((config, ctx) => {
     if (!config.BETTER_AUTH_SECRET && !isLocalUrl(config.BETTER_AUTH_URL)) {
@@ -36,6 +39,13 @@ const configSchema = z
         code: 'custom',
         path: ['BETTER_AUTH_SECRET'],
         message: 'obrigatório fora do ambiente local',
+      })
+    }
+    if (config.AUTH_RATE_LIMIT === 'off' && !isLocalUrl(config.BETTER_AUTH_URL)) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['AUTH_RATE_LIMIT'],
+        message: 'só pode ser desligado no ambiente local',
       })
     }
     if (!config.GOOGLE_CLIENT_ID !== !config.GOOGLE_CLIENT_SECRET) {

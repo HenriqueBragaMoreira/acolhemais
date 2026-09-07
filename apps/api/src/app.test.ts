@@ -57,6 +57,19 @@ describe('API', () => {
     expect(await on.json()).toEqual({ google: true })
   })
 
+  it('só aceita desligar o rate limit em localhost', async () => {
+    const local = await app.request('/health', {}, { ...env, AUTH_RATE_LIMIT: 'off' })
+    expect(local.status).toBe(200)
+
+    const remote = {
+      ...env,
+      AUTH_RATE_LIMIT: 'off',
+      BETTER_AUTH_URL: 'https://api.acolhemais.example',
+      BETTER_AUTH_SECRET: 'x'.repeat(32),
+    }
+    expect((await app.request('/health', {}, remote)).status).toBe(500)
+  })
+
   it('exige as duas credenciais do Google juntas', async () => {
     const res = await app.request('/health', {}, { ...env, GOOGLE_CLIENT_ID: 'id' })
     expect(res.status).toBe(500)
