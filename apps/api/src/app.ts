@@ -21,6 +21,8 @@ const app = new Hono<AppEnv>()
       // A origem permitida vem da configuração, que só existe durante a requisição.
       origin: (origin, c: Context<AppEnv>) => (origin === c.var.config.WEB_ORIGIN ? origin : null),
       credentials: true,
+      // Quanto falta para o login bloqueado liberar (a tela mostra o tempo de espera).
+      exposeHeaders: ['Retry-After'],
     }),
   )
   // Rotas do Better Auth (login, sessão, 2FA...): ele mesmo valida método, origem e corpo.

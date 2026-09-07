@@ -20,6 +20,7 @@ describe('API', () => {
       env,
     )
     expect(allowed.headers.get('access-control-allow-origin')).toBe('http://localhost:3000')
+    expect(allowed.headers.get('access-control-expose-headers')).toBe('Retry-After')
 
     const other = await app.request(
       '/health',
