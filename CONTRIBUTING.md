@@ -85,6 +85,11 @@ pnpm test:integration   # precisa do pnpm db:up
 - Todo acesso a dados de uma organização passa pela camada com escopo de tenant — nunca consulte
   tabelas de tenant diretamente.
 - Migrations já mergeadas são **imutáveis**: corrija com uma nova migration.
+- Ações sobre permissões, dados sensíveis ou a segurança das contas vão para a **auditoria**: a ação
+  entra no catálogo de `packages/domain/src/audit` e é gravada com `recordAudit`, na mesma transação
+  da mudança. A tabela `audit_log` não aceita alteração nem exclusão.
+- Limites e prazos de regra de negócio não ficam fixos no código: viram um **parâmetro da
+  plataforma** em `packages/domain/src/platform/settings.ts`, lido com `readPlatformSettings`.
 - Decisões de arquitetura relevantes ganham um ADR em `docs/adr/`.
 
 ## Primeira contribuição?

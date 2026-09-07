@@ -9,7 +9,7 @@ function isAdminRoute(ctx: { path?: string }) {
 
 /**
  * Exige 2FA ativo da equipe da plataforma nas rotas do plugin `admin`. As rotas próprias da
- * plataforma (Fase 1 em diante) aplicam a mesma regra no middleware delas.
+ * plataforma aplicam a mesma regra em `requirePlatformPermission` (platform/middleware.ts).
  */
 export function platformTwoFactor() {
   return {
