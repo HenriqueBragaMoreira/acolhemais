@@ -48,7 +48,8 @@ não expõem uma transação onde o nosso registro possa entrar.
 - `GET /platform/settings` (`platform_setting.view`) e `PATCH /platform/settings`
   (`platform_setting.update`, só o superadmin). O PATCH valida tudo antes de gravar e registra
   cada valor alterado na auditoria, na mesma transação.
-- O teto da taxa de adoção nasce "não definido" (PLANO §9).
+- O teto da taxa de adoção nasce "não definido" (PLANO §9) e só aceita até R$ 500: a taxa cobre
+  custos (transporte, vacinas, remédios), não é preço.
 
 ### Rotas próprias da plataforma
 

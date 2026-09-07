@@ -32,7 +32,7 @@ export const PLATFORM_SETTINGS = {
     kind: 'integer',
     unit: 'count',
     min: 1,
-    max: 10,
+    max: 5,
     default: 3,
     description: 'Candidaturas ativas ao mesmo tempo por adotante (CPF)',
   },
@@ -90,9 +90,10 @@ export const PLATFORM_SETTINGS = {
     kind: 'integer',
     unit: 'cents',
     min: 0,
-    max: 10_000_00,
+    max: 500_00,
     nullable: true,
-    // Valor a decidir antes da Fase 1 (PLANO §9).
+    // A taxa só cobre custos (transporte, vacinas, remédios), daí o limite de R$ 500.
+    // O valor do teto ainda é decidido antes da Fase 1 (PLANO §9).
     default: null,
     description: 'Teto da taxa de adoção, em centavos',
   },

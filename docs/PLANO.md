@@ -209,7 +209,7 @@ docs/adr            Architecture Decision Records
 ## 9. Pendências não bloqueantes (decidir antes da Fase 0)
 
 - Nome do projeto e domínio (.org.br exige entidade; .org/.com.br ok em PF).
-- Valor do teto da taxa de adoção — **adiado: decidir antes da Fase 1** (CRUD de animais). Até lá existe apenas como `PlatformSetting` sem valor definido.
+- Valor do teto da taxa de adoção — **adiado: decidir antes da Fase 1** (CRUD de animais). Até lá existe apenas como `PlatformSetting` sem valor definido; o valor escolhido fica entre R$ 0 e R$ 500, porque a taxa só cobre custos (transporte, vacinas, remédios).
 
 ## 10. Verificação
 

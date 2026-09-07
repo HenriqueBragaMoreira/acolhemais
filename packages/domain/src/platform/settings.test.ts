@@ -42,9 +42,9 @@ describe('parâmetros da plataforma', () => {
   })
 
   it('recusa números fora dos limites ou não inteiros', () => {
-    expect(parsePlatformSetting('maxActiveApplications', 10)).toBe(10)
+    expect(parsePlatformSetting('maxActiveApplications', 5)).toBe(5)
     expect(() => parsePlatformSetting('maxActiveApplications', 0)).toThrow(DomainError)
-    expect(() => parsePlatformSetting('maxActiveApplications', 11)).toThrow(DomainError)
+    expect(() => parsePlatformSetting('maxActiveApplications', 6)).toThrow(DomainError)
     expect(() => parsePlatformSetting('maxActiveApplications', 2.5)).toThrow(DomainError)
     expect(() => parsePlatformSetting('maxActiveApplications', '3')).toThrow(DomainError)
     expect(errorOf(() => parsePlatformSetting('maxActiveApplications', 0))).toMatchObject({
@@ -54,6 +54,8 @@ describe('parâmetros da plataforma', () => {
 
   it('só aceita "não definido" onde o parâmetro permite', () => {
     expect(parsePlatformSetting('adoptionFeeCapCents', null)).toBeNull()
+    expect(parsePlatformSetting('adoptionFeeCapCents', 500_00)).toBe(500_00)
+    expect(() => parsePlatformSetting('adoptionFeeCapCents', 500_01)).toThrow(DomainError)
     expect(() => parsePlatformSetting('incidentDefenseDays', null)).toThrow(DomainError)
   })
 
