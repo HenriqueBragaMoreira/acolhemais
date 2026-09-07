@@ -102,6 +102,8 @@ Proposta: plataforma **multi-tenant, gratuita, hospedada centralmente e open sou
 
 Limite de candidaturas (3), prazos de expiração (7d), prazo de defesa (15d), expiração de ocorrência leve (2a), revisão de inelegível (5a), teto de taxa de adoção, intervalos de pós-adoção (30/90/180), reenvio após recusa (30d).
 
+Implementados no ADR 0006: os padrões, limites e unidades ficam no catálogo de `packages/domain`, o banco guarda só os valores alterados, e só o superadmin altera (com 2FA), cada alteração registrada na auditoria.
+
 ---
 
 ## 4. Segurança e LGPD
@@ -113,7 +115,7 @@ Limite de candidaturas (3), prazos de expiração (7d), prazo de defesa (15d), e
 - **Auth** (Better Auth, ADR 0005): e-mail+senha (hash scrypt, senha com 12+ caracteres, verificação de senha vazada por k-anonimato), Google OAuth (só vincula a conta local com e-mail verificado), **2FA TOTP obrigatório** para a equipe da plataforma e membros com acesso a dados sensíveis, inclusive no login pelo Google. Rate limit por IP + bloqueio progressivo por e-mail. Cookies httpOnly/secure/SameSite. Ninguém da plataforma entra como outro usuário nem define senha ou e-mail alheio.
 - **Uploads**: URLs pré-assinadas, limite de tamanho/tipo, **reencode das imagens (remove EXIF/GPS e payloads)**; bucket público (fotos de animais) separado do privado (evidências, documentos) com URLs assinadas de curta duração e acesso auditado.
 - **Headers**: CSP estrita, HSTS, frame-ancestors; Turnstile em formulários públicos.
-- **Auditoria append-only**: permissões, revelação de dados sensíveis, decisões de moderação, exportações, mudanças de status de ONG.
+- **Auditoria append-only** (ADR 0006): permissões, segurança das contas (2FA, senha, logins externos), parâmetros da plataforma, revelação de dados sensíveis, decisões de moderação, exportações, mudanças de status de ONG. Um trigger no banco recusa alterar ou apagar registros; a auditoria não guarda dados pessoais além de ids e IP, e sobrevive à exclusão da conta.
 - **Segredos**: só em variáveis de ambiente validadas com Zod no boot; gitleaks no CI.
 - **Backups**: `pg_dump` diário via GitHub Action → R2 criptografado, retenção 30 dias, teste de restauração mensal.
 - **LGPD**:
