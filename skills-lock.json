@@ -31,6 +31,12 @@
       "skillPath": "better-auth/emailAndPassword/SKILL.md",
       "computedHash": "ac9f9b0a549390f157ec62f5421a0bc90ac622c7e425af13155953847e0b68ea"
     },
+    "impeccable": {
+      "source": "pbakaus/impeccable",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/impeccable/SKILL.md",
+      "computedHash": "eef936aef13445db0b0580af1aca1bea7c3ac562ce88d456d41b9ed03550d5ad"
+    },
     "organization-best-practices": {
       "source": "better-auth/skills",
       "sourceType": "github",

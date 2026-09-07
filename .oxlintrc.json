@@ -14,5 +14,12 @@
     "import/no-unassigned-import": ["warn", { "allow": ["**/*.css"] }],
     "react/react-in-jsx-scope": "off"
   },
-  "ignorePatterns": ["**/dist/**", "**/.next/**", "**/coverage/**", "**/migrations/**"]
+  "ignorePatterns": [
+    "**/dist/**",
+    "**/.next/**",
+    "**/coverage/**",
+    "**/migrations/**",
+    ".agents/skills/**",
+    ".claude/skills/**"
+  ]
 }
