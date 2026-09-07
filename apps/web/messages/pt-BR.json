@@ -1,6 +1,7 @@
 {
   "Metadata": {
     "title": "Acolhe+ — adoção responsável",
+    "titleTemplate": "%s · Acolhe+",
     "description": "Plataforma gratuita e open source de adoção responsável para ONGs e protetores de animais."
   },
   "Home": {

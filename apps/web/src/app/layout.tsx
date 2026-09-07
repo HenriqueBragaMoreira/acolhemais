@@ -1,3 +1,4 @@
+import '@fontsource-variable/figtree'
 import type { Metadata } from 'next'
 import { NextIntlClientProvider } from 'next-intl'
 import { getTranslations } from 'next-intl/server'
@@ -7,13 +8,16 @@ import './globals.css'
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('Metadata')
-  return { title: t('title'), description: t('description') }
+  return {
+    title: { default: t('title'), template: t('titleTemplate') },
+    description: t('description'),
+  }
 }
 
 export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html lang={defaultLocale}>
-      <body style={brandThemeStyle(PLATFORM_COLORS)} className="bg-white text-neutral-900">
+      <body style={brandThemeStyle(PLATFORM_COLORS)}>
         <NextIntlClientProvider>{children}</NextIntlClientProvider>
       </body>
     </html>
