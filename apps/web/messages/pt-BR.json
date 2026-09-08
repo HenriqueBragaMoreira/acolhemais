@@ -14,5 +14,30 @@
     "tagline": "Adoção responsável, do resgate ao lar.",
     "openSource": "Plataforma gratuita e de código aberto para ONGs e protetores de animais.",
     "sourceCode": "Ver o código"
+  },
+  "AuthErrors": {
+    "network": "Não foi possível falar com o servidor. Confira sua conexão e tente de novo.",
+    "tooManyRequests": "Muitas tentativas em pouco tempo. Aguarde um minuto e tente de novo.",
+    "unexpected": "Algo deu errado do nosso lado. Tente de novo em instantes."
+  },
+  "SignIn": {
+    "metaTitle": "Entrar",
+    "title": "Entrar",
+    "description": "Acesse a área da sua organização.",
+    "google": "Entrar com Google",
+    "googleFailed": "Não foi possível entrar com o Google. Tente de novo ou use seu e-mail e senha.",
+    "or": "ou",
+    "email": "E-mail",
+    "emailRequired": "Informe seu e-mail.",
+    "emailInvalid": "Confira o e-mail digitado.",
+    "password": "Senha",
+    "passwordRequired": "Informe sua senha.",
+    "showPassword": "Mostrar",
+    "hidePassword": "Ocultar",
+    "submit": "Entrar",
+    "submitting": "Entrando…",
+    "invalidCredentials": "E-mail ou senha incorretos.",
+    "locked": "Muitas tentativas com senha errada. Tente de novo em {minutes, plural, one {# minuto} other {# minutos}}.",
+    "banned": "Esta conta está suspensa. Se acha que é um engano, fale com a equipe do Acolhe+."
   }
 }
