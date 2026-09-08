@@ -15,6 +15,7 @@
     "coverage/",
     ".agents/skills/",
     ".claude/skills/",
-    "skills-lock.json"
+    "skills-lock.json",
+    "apps/web/.impeccable/"
   ]
 }
