@@ -8,5 +8,11 @@
     "title": "Acolhe+",
     "tagline": "Encontre um amigo. Dê um lar.",
     "underConstruction": "Estamos construindo a plataforma. Em breve, ONGs e protetores de todo o Brasil poderão divulgar seus animais aqui."
+  },
+  "AuthFrame": {
+    "home": "Acolhe+, página inicial",
+    "tagline": "Adoção responsável, do resgate ao lar.",
+    "openSource": "Plataforma gratuita e de código aberto para ONGs e protetores de animais.",
+    "sourceCode": "Ver o código"
   }
 }

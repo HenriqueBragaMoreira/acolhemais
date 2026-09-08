@@ -1,1 +1,15 @@
 @import '@acolhemais/ui/globals.css';
+
+@theme {
+  /* A ilustração das telas de acesso assenta no quadro ao abrir: o único movimento da página. */
+  --animate-settle: settle 1.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+
+  @keyframes settle {
+    from {
+      transform: scale(1.045);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+}
