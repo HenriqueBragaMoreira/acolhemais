@@ -9,10 +9,7 @@ import {
   InputGroupInput,
 } from '@acolhemais/ui/components/input-group'
 
-/**
- * Campo de senha com o botão de mostrar e ocultar. Os textos do botão vêm de quem usa (i18n).
- * O valor some de novo quando o formulário é enviado, para não ficar exposto na tela.
- */
+/** Campo de senha com o botão de mostrar e ocultar. Os textos do botão vêm de quem usa (i18n). */
 function PasswordInput({
   className,
   showLabel,
@@ -20,19 +17,10 @@ function PasswordInput({
   ...props
 }: Omit<React.ComponentProps<'input'>, 'type'> & { showLabel: string; hideLabel: string }) {
   const [visible, setVisible] = React.useState(false)
-  const inputRef = React.useRef<HTMLInputElement>(null)
-
-  React.useEffect(() => {
-    const form = inputRef.current?.form
-    if (!form) return
-    const hide = () => setVisible(false)
-    form.addEventListener('submit', hide)
-    return () => form.removeEventListener('submit', hide)
-  }, [])
 
   return (
     <InputGroup data-slot="password-input" className={className}>
-      <InputGroupInput ref={inputRef} type={visible ? 'text' : 'password'} {...props} />
+      <InputGroupInput type={visible ? 'text' : 'password'} {...props} />
       <InputGroupAddon align="inline-end">
         <InputGroupButton
           size="sm"
