@@ -5,7 +5,7 @@ import type { CSSProperties } from 'react'
  * Cores padrão da plataforma, usadas no portal e em ONGs sem personalização. O âmbar é a cor
  * de ação; a variante escurecida dele (foco e links) sai de `deriveBrandTheme`.
  */
-export const PLATFORM_COLORS: BrandColors = { primary: '#ffb547', secondary: '#3d2a1e' }
+export const PLATFORM_COLORS: BrandColors = { primary: '#ffb547', secondary: '#3b2618' }
 
 /**
  * Converte as cores de uma ONG nas variáveis CSS do design system (`@acolhemais/ui`):
