@@ -39,5 +39,24 @@
     "invalidCredentials": "E-mail ou senha incorretos.",
     "locked": "Muitas tentativas com senha errada. Tente de novo em {minutes, plural, one {# minuto} other {# minutos}}.",
     "banned": "Esta conta está suspensa. Se acha que é um engano, fale com a equipe do Acolhe+."
+  },
+  "TwoFactor": {
+    "metaTitle": "Verificação em duas etapas",
+    "title": "Verificação em duas etapas",
+    "totpDescription": "Digite o código de 6 dígitos que aparece no seu aplicativo autenticador.",
+    "backupDescription": "Digite um dos códigos de recuperação que você guardou ao ativar a verificação.",
+    "code": "Código do aplicativo",
+    "backupCode": "Código de recuperação",
+    "codeRequired": "Digite os 6 dígitos do código.",
+    "backupCodeRequired": "Digite o código de recuperação.",
+    "submit": "Confirmar",
+    "submitting": "Confirmando…",
+    "useBackupCode": "Perdi acesso ao aplicativo",
+    "useTotp": "Usar o aplicativo autenticador",
+    "invalidCode": "Código incorreto. Confira o aplicativo e digite o código atual.",
+    "invalidBackupCode": "Código de recuperação incorreto ou já usado.",
+    "locked": "Muitas tentativas com código errado. A conta foi bloqueada por alguns minutos.",
+    "expired": "A verificação expirou. Entre de novo para receber outro pedido de código.",
+    "backToSignIn": "Voltar para Entrar"
   }
 }
