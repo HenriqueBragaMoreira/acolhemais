@@ -58,5 +58,21 @@
     "locked": "Muitas tentativas com código errado. A conta foi bloqueada por alguns minutos.",
     "expired": "A verificação expirou. Entre de novo para receber outro pedido de código.",
     "backToSignIn": "Voltar para Entrar"
+  },
+  "Panel": {
+    "metaTitle": "Painel",
+    "loading": "Carregando sua conta…",
+    "greeting": "Olá, {name}!",
+    "intro": "Você entrou no Acolhe+. O painel da sua organização chega nas próximas versões.",
+    "account": "Sua conta",
+    "email": "E-mail",
+    "twoFactor": "Verificação em duas etapas",
+    "twoFactorOn": "Ativa",
+    "twoFactorOff": "Desativada"
+  },
+  "AppHeader": {
+    "home": "Acolhe+, página inicial",
+    "signOut": "Sair",
+    "signingOut": "Saindo…"
   }
 }
