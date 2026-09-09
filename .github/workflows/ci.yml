@@ -96,6 +96,53 @@ jobs:
       - run: pnpm db:migrate
       - run: pnpm test:integration
 
+  e2e:
+    name: E2E (Playwright + axe)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    # Mesmo Postgres do docker compose. A API sobe com `wrangler dev` (modo local, sem conta
+    # da Cloudflare) e a web com o build de produção: nenhum segredo, funciona em PR de fork.
+    services:
+      postgres:
+        image: postgis/postgis:18-3.6-alpine
+        env:
+          POSTGRES_USER: acolhemais
+          POSTGRES_PASSWORD: acolhemais
+          POSTGRES_DB: acolhemais
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U acolhemais"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      WRANGLER_SEND_METRICS: 'false'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm db:migrate
+      - run: pnpm --filter @acolhemais/e2e exec playwright install --with-deps chromium
+      - name: Build da web com a vitrine do design system
+        run: pnpm --filter @acolhemais/web build
+        env:
+          ACOLHEMAIS_DEV_PAGES: '1'
+      - run: pnpm test:e2e
+      - name: Relatório do Playwright
+        if: failure()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: playwright-report
+          path: apps/e2e/playwright-report
+          retention-days: 7
+
   secrets:
     name: Varredura de segredos
     runs-on: ubuntu-latest
