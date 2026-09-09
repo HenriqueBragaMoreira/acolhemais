@@ -1,7 +1,8 @@
 import { platformRequiresTwoFactor } from '@acolhemais/domain'
 import type { BetterAuthPlugin } from 'better-auth'
-import { APIError, createAuthMiddleware, getSessionFromCtx } from 'better-auth/api'
+import { APIError, createAuthMiddleware } from 'better-auth/api'
 import { authMessages } from '../messages'
+import { pluginSession } from '../session'
 
 function isAdminRoute(ctx: { path?: string }) {
   return ctx.path?.startsWith('/admin/') ?? false
@@ -19,8 +20,7 @@ export function platformTwoFactor() {
         {
           matcher: isAdminRoute,
           handler: createAuthMiddleware(async (ctx) => {
-            const session = await getSessionFromCtx(ctx)
-            const user = session?.user as { role?: string; twoFactorEnabled?: boolean } | undefined
+            const user = (await pluginSession(ctx))?.user
             if (user && platformRequiresTwoFactor(user.role) && !user.twoFactorEnabled) {
               throw new APIError('FORBIDDEN', {
                 code: 'TWO_FACTOR_REQUIRED',

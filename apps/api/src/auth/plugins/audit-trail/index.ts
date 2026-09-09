@@ -2,9 +2,10 @@ import { schema } from '@acolhemais/db'
 import type { Database } from '@acolhemais/db'
 import type { AuditEntry } from '@acolhemais/domain'
 import type { BetterAuthPlugin } from 'better-auth'
-import { createAuthMiddleware, getSessionFromCtx, isAPIError } from 'better-auth/api'
+import { createAuthMiddleware, isAPIError } from 'better-auth/api'
 import { and, eq } from 'drizzle-orm'
 import { auditOrigin, recordAudit } from '../../../audit/record'
+import { pluginSession } from '../../session'
 
 type Body = Record<string, unknown>
 
@@ -482,16 +483,12 @@ export function auditTrail({ db }: { db: Database }) {
           matcher: isAudited,
           handler: createAuthMiddleware(async (ctx) => {
             const route = AUDITED_ROUTES[ctx.path] as AuditedRoute
-            const session = await getSessionFromCtx(ctx)
+            const session = await pluginSession(ctx)
             const actor: Actor | null = session
               ? {
                   userId: session.user.id,
-                  activeOrganizationId:
-                    (session.session as { activeOrganizationId?: string | null })
-                      .activeOrganizationId ?? null,
-                  twoFactorEnabled:
-                    (session.user as { twoFactorEnabled?: boolean | null }).twoFactorEnabled ===
-                    true,
+                  activeOrganizationId: session.session.activeOrganizationId ?? null,
+                  twoFactorEnabled: session.user.twoFactorEnabled === true,
                 }
               : null
             const body = (ctx.body ?? {}) as Body

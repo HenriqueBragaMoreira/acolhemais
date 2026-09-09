@@ -20,7 +20,7 @@ export function requirePlatformPermission(permissions: PlatformGrants) {
     const session = await c.var.auth().api.getSession({ headers: c.req.raw.headers })
     if (!session) return apiError(c, 401, 'UNAUTHORIZED')
 
-    const user = session.user as { id: string; role?: string | null; twoFactorEnabled?: boolean }
+    const { user } = session
     if (platformRolesOf(user.role).length === 0) return apiError(c, 403, 'FORBIDDEN')
     if (!user.twoFactorEnabled) return apiError(c, 403, 'TWO_FACTOR_REQUIRED')
     if (!platformCan(user.role, permissions)) return apiError(c, 403, 'FORBIDDEN')

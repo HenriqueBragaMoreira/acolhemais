@@ -1,5 +1,6 @@
 import type { BetterAuthPlugin } from 'better-auth'
 import { APIError, createAuthMiddleware } from 'better-auth/api'
+import type { SessionUser } from '../session'
 
 /** Página do frontend que pede o código de 2FA para concluir o login. */
 export const TWO_FACTOR_PAGE = '/entrar/2fa'
@@ -24,7 +25,7 @@ export function socialTwoFactor({ webOrigin }: { webOrigin: string }) {
         {
           matcher: isOAuthCallback,
           handler: createAuthMiddleware(async (ctx) => {
-            const user = ctx.context.newSession?.user as { twoFactorEnabled?: boolean } | undefined
+            const user = ctx.context.newSession?.user as SessionUser | undefined
             if (!user?.twoFactorEnabled) return
 
             const challenge = ctx.context.options.plugins?.find(
