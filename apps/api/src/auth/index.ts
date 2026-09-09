@@ -38,14 +38,9 @@ export function createAuth({ config, db, waitUntil }: AuthDeps) {
     database: drizzleAdapter(db, { provider: 'pg', schema, transaction: true }),
     socialProviders: {
       // Opcional: só liga com as duas credenciais (ver config.ts).
-      ...(config.GOOGLE_CLIENT_ID &&
-        config.GOOGLE_CLIENT_SECRET && {
-          google: {
-            clientId: config.GOOGLE_CLIENT_ID,
-            clientSecret: config.GOOGLE_CLIENT_SECRET,
-            prompt: 'select_account' as const,
-          },
-        }),
+      ...(config.google && {
+        google: { ...config.google, prompt: 'select_account' as const },
+      }),
     },
     account: {
       // Tokens do Google guardados cifrados (AES-256-GCM com o segredo da API).

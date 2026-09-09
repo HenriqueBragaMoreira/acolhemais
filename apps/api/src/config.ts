@@ -59,6 +59,11 @@ const configSchema = z
   .transform((config) => ({
     ...config,
     BETTER_AUTH_SECRET: config.BETTER_AUTH_SECRET ?? DEV_AUTH_SECRET,
+    /** Credenciais do login com Google, ou `null` quando ele está desligado. */
+    google:
+      config.GOOGLE_CLIENT_ID && config.GOOGLE_CLIENT_SECRET
+        ? { clientId: config.GOOGLE_CLIENT_ID, clientSecret: config.GOOGLE_CLIENT_SECRET }
+        : null,
     /** Ambiente local: desliga o que depende de serviços externos (ex.: checagem de senha vazada). */
     isLocal: isLocalUrl(config.BETTER_AUTH_URL),
   }))

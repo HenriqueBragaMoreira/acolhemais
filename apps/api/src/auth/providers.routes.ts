@@ -6,6 +6,5 @@ import type { AppEnv } from '../config'
  * desligado), e a tela de login só mostra o botão quando ele funciona.
  */
 export const authProviderRoutes = new Hono<AppEnv>().get('/', (c) => {
-  const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } = c.var.config
-  return c.json({ google: Boolean(GOOGLE_CLIENT_ID && GOOGLE_CLIENT_SECRET) })
+  return c.json({ google: c.var.config.google !== null })
 })
