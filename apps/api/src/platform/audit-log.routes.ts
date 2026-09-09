@@ -4,7 +4,7 @@ import { and, desc, eq, lt } from 'drizzle-orm'
 import type { SQL } from 'drizzle-orm'
 import { Hono } from 'hono'
 import { z } from 'zod'
-import { apiError } from '../http/errors'
+import { zodValidator } from '../http/validate'
 import { requirePlatformPermission } from './require-permission'
 import type { PlatformEnv } from './require-permission'
 
@@ -33,10 +33,10 @@ const querySchema = z.object({
 export const auditLogRoutes = new Hono<PlatformEnv>().get(
   '/',
   requirePlatformPermission({ audit_log: ['view'] }),
+  zodValidator('query', querySchema),
   async (c) => {
-    const query = querySchema.safeParse(c.req.query())
-    if (!query.success) return apiError(c, 400, 'INVALID_REQUEST')
-    const { action, actorUserId, organizationId, targetType, targetId, before, limit } = query.data
+    const { action, actorUserId, organizationId, targetType, targetId, before, limit } =
+      c.req.valid('query')
 
     const filters: SQL[] = []
     if (action) filters.push(eq(auditLog.action, action))

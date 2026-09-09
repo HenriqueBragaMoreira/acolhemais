@@ -100,6 +100,12 @@ describe('parâmetros da plataforma', () => {
     expect(unknown.status).toBe(400)
     expect(await unknown.json()).toMatchObject({ code: 'UNKNOWN_PLATFORM_SETTING' })
 
+    for (const body of [{ ineligibilityReviewMonths: 36 }, '{"values": {']) {
+      const malformed = await request('PATCH', '/platform/settings', { cookie: admin.cookie, body })
+      expect(malformed.status).toBe(400)
+      expect(await malformed.json()).toMatchObject({ code: 'INVALID_REQUEST' })
+    }
+
     expect((await settings(admin.cookie)).get('ineligibilityReviewMonths')).toMatchObject({
       value: 60,
     })

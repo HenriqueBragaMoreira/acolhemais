@@ -14,6 +14,7 @@ import { Hono } from 'hono'
 import { z } from 'zod'
 import { auditOrigin, recordAudit } from '../audit/record'
 import { apiError } from '../http/errors'
+import { zodValidator } from '../http/validate'
 import { requirePlatformPermission } from './require-permission'
 import type { PlatformEnv } from './require-permission'
 
@@ -73,44 +74,46 @@ export const platformSettingsRoutes = new Hono<PlatformEnv>()
   .get('/', requirePlatformPermission({ platform_setting: ['view'] }), async (c) =>
     c.json({ settings: await settingsView(c.var.db()) }),
   )
-  .patch('/', requirePlatformPermission({ platform_setting: ['update'] }), async (c) => {
-    const body = updateSchema.safeParse(await c.req.json().catch(() => null))
-    if (!body.success) return apiError(c, 400, 'INVALID_REQUEST')
-
-    let update: ReturnType<typeof parseUpdate>
-    try {
-      update = parseUpdate(body.data.values)
-    } catch (error) {
-      if (!(error instanceof DomainError)) throw error
-      return apiError(c, 400, 'INVALID_PLATFORM_SETTING', error.message)
-    }
-    if ('error' in update) return apiError(c, 400, update.error, update.key)
-
-    const db = c.var.db()
-    const actorUserId = c.var.platformUser.id
-    await db.transaction(async (tx) => {
-      // Uma alteração de parâmetros por vez: o "antes" da auditoria é sempre o valor real.
-      await tx.execute(sql`SELECT pg_advisory_xact_lock(hashtext('platform_setting'))`)
-      const current = await readPlatformSettings(tx)
-      const entries: AuditEntry[] = []
-      for (const [key, value] of update.parsed) {
-        if (JSON.stringify(value) === JSON.stringify(current[key])) continue
-        await tx
-          .insert(platformSetting)
-          .values({ key, value, updatedBy: actorUserId })
-          .onConflictDoUpdate({
-            target: platformSetting.key,
-            set: { value, updatedBy: actorUserId, updatedAt: new Date() },
-          })
-        entries.push({
-          action: 'platform_setting.updated',
-          actorUserId,
-          targetId: key,
-          metadata: { from: current[key], to: value },
-        })
+  .patch(
+    '/',
+    requirePlatformPermission({ platform_setting: ['update'] }),
+    zodValidator('json', updateSchema),
+    async (c) => {
+      let update: ReturnType<typeof parseUpdate>
+      try {
+        update = parseUpdate(c.req.valid('json').values)
+      } catch (error) {
+        if (!(error instanceof DomainError)) throw error
+        return apiError(c, 400, 'INVALID_PLATFORM_SETTING', error.message)
       }
-      await recordAudit(tx, entries, auditOrigin(c.req.raw.headers))
-    })
+      if ('error' in update) return apiError(c, 400, update.error, update.key)
 
-    return c.json({ settings: await settingsView(db) })
-  })
+      const db = c.var.db()
+      const actorUserId = c.var.platformUser.id
+      await db.transaction(async (tx) => {
+        // Uma alteração de parâmetros por vez: o "antes" da auditoria é sempre o valor real.
+        await tx.execute(sql`SELECT pg_advisory_xact_lock(hashtext('platform_setting'))`)
+        const current = await readPlatformSettings(tx)
+        const entries: AuditEntry[] = []
+        for (const [key, value] of update.parsed) {
+          if (JSON.stringify(value) === JSON.stringify(current[key])) continue
+          await tx
+            .insert(platformSetting)
+            .values({ key, value, updatedBy: actorUserId })
+            .onConflictDoUpdate({
+              target: platformSetting.key,
+              set: { value, updatedBy: actorUserId, updatedAt: new Date() },
+            })
+          entries.push({
+            action: 'platform_setting.updated',
+            actorUserId,
+            targetId: key,
+            metadata: { from: current[key], to: value },
+          })
+        }
+        await recordAudit(tx, entries, auditOrigin(c.req.raw.headers))
+      })
+
+      return c.json({ settings: await settingsView(db) })
+    },
+  )

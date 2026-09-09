@@ -1,7 +1,10 @@
 import app from '../app'
 import { env, randomIp, WEB_ORIGIN } from './auth'
 
-/** Requisição às rotas próprias da API (fora de `/api/auth`), como o frontend faria. */
+/**
+ * Requisição às rotas próprias da API (fora de `/api/auth`), como o frontend faria. Um `body`
+ * em texto vai como está (ex.: JSON malformado); o resto vai serializado em JSON.
+ */
 export function request(
   method: string,
   path: string,
@@ -17,7 +20,7 @@ export function request(
         ...(cookie && { cookie }),
         ...(body !== undefined && { 'content-type': 'application/json' }),
       },
-      ...(body !== undefined && { body: JSON.stringify(body) }),
+      ...(body !== undefined && { body: typeof body === 'string' ? body : JSON.stringify(body) }),
     },
     env,
   )
