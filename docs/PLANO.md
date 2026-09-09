@@ -135,9 +135,10 @@ Implementados no ADR 0006: os padrões, limites e unidades ficam no catálogo de
 ```
 apps/api            API Hono — única camada que acessa banco, auth, storage e e-mail
 apps/web            Next.js (App Router, RSC) — só interface; consome a API via cliente tipado `hc`
+apps/e2e            Playwright + axe-core contra web, API e banco reais (ADR 0007)
 packages/domain     Regras de negócio puras (sem framework): RBAC, reputação, máquinas de estado
 packages/db         Drizzle ORM: schema, migrations versionadas, seeds (faker pt-BR)
-packages/ui         Tailwind + shadcn/ui, tokens de tema por tenant (CSS variables)
+packages/ui         Tailwind + shadcn/ui sobre Base UI, tokens de tema por tenant (CSS variables) — ADR 0007
 packages/emails     Templates React Email + interface EmailProvider
 packages/config     tsconfig compartilhado (lint: oxlint; formatação: oxfmt — ambos na raiz)
 docs/adr            Architecture Decision Records
