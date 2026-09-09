@@ -1,6 +1,7 @@
 import { platformCan, platformRolesOf } from '@acolhemais/domain'
 import type { PlatformGrants } from '@acolhemais/domain'
 import { createMiddleware } from 'hono/factory'
+import { lacksPlatformTwoFactor } from '../auth/session'
 import type { AppEnv } from '../config'
 import { apiError } from '../http/errors'
 
@@ -22,7 +23,7 @@ export function requirePlatformPermission(permissions: PlatformGrants) {
 
     const { user } = session
     if (platformRolesOf(user.role).length === 0) return apiError(c, 403, 'FORBIDDEN')
-    if (!user.twoFactorEnabled) return apiError(c, 403, 'TWO_FACTOR_REQUIRED')
+    if (lacksPlatformTwoFactor(user)) return apiError(c, 403, 'TWO_FACTOR_REQUIRED')
     if (!platformCan(user.role, permissions)) return apiError(c, 403, 'FORBIDDEN')
 
     c.set('platformUser', { id: user.id, role: user.role ?? '' })
