@@ -7,6 +7,7 @@ import { authProviderRoutes } from './auth/providers.routes'
 import { config } from './config'
 import type { AppEnv } from './config'
 import { database } from './db'
+import { handleError, handleNotFound } from './http/errors'
 import { auditLogRoutes } from './platform/audit-log.routes'
 import { platformSettingsRoutes } from './platform/settings.routes'
 
@@ -32,6 +33,8 @@ const app = new Hono<AppEnv>()
   // ao frontend e cookies SameSite=Lax, outro site não as chama com a sessão de alguém.
   .route('/platform/settings', platformSettingsRoutes)
   .route('/platform/audit-log', auditLogRoutes)
+  .onError(handleError)
+  .notFound(handleNotFound)
 
 /** Tipo da API consumido pelo cliente tipado (`hc`) no frontend. */
 export type AppType = typeof app

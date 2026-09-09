@@ -38,6 +38,13 @@ describe('API', () => {
   it('responde 500 quando a configuração é inválida', async () => {
     const res = await app.request('/health', {}, { ...env, WEB_ORIGIN: 'não é uma url' })
     expect(res.status).toBe(500)
+    expect(await res.json()).toMatchObject({ code: 'INTERNAL_ERROR' })
+  })
+
+  it('responde rota inexistente no formato de erro da API', async () => {
+    const res = await app.request('/nao-existe', {}, env)
+    expect(res.status).toBe(404)
+    expect(await res.json()).toMatchObject({ code: 'NOT_FOUND' })
   })
 
   it('exige BETTER_AUTH_SECRET fora do ambiente local', async () => {
