@@ -1,0 +1,500 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-03T05:28:20.393Z",
+  "title": "Design System: Acolhe+",
+  "extensions": {
+    "colorMeta": {
+      "background": {
+        "role": "neutral",
+        "displayName": "Branco",
+        "canonical": "oklch(100% 0 90)",
+        "tonalRamp": [
+          "oklch(15% 0.000 90)",
+          "oklch(25% 0.000 90)",
+          "oklch(35% 0.000 90)",
+          "oklch(45% 0.000 90)",
+          "oklch(55% 0.000 90)",
+          "oklch(65% 0.000 90)",
+          "oklch(80% 0.000 90)",
+          "oklch(95% 0.000 90)"
+        ]
+      },
+      "foreground": {
+        "role": "neutral",
+        "displayName": "Tinta Quente",
+        "canonical": "oklch(22.3% 0.01 53)",
+        "tonalRamp": [
+          "oklch(15% 0.006 53)",
+          "oklch(25% 0.009 53)",
+          "oklch(35% 0.012 53)",
+          "oklch(45% 0.015 53)",
+          "oklch(55% 0.018 53)",
+          "oklch(65% 0.018 53)",
+          "oklch(80% 0.014 53)",
+          "oklch(95% 0.009 53)"
+        ]
+      },
+      "primary": {
+        "role": "primary",
+        "displayName": "Âmbar de Ação",
+        "canonical": "oklch(82.4% 0.149 73.3)",
+        "tonalRamp": [
+          "oklch(15% 0.045 73.3)",
+          "oklch(25% 0.068 73.3)",
+          "oklch(35% 0.091 73.3)",
+          "oklch(45% 0.114 73.3)",
+          "oklch(55% 0.137 73.3)",
+          "oklch(65% 0.137 73.3)",
+          "oklch(80% 0.103 73.3)",
+          "oklch(95% 0.068 73.3)"
+        ]
+      },
+      "primary-foreground": {
+        "role": "primary",
+        "displayName": "Texto sobre a Ação",
+        "canonical": "oklch(0% 0 0)",
+        "tonalRamp": [
+          "oklch(15% 0.000 0)",
+          "oklch(25% 0.000 0)",
+          "oklch(35% 0.000 0)",
+          "oklch(45% 0.000 0)",
+          "oklch(55% 0.000 0)",
+          "oklch(65% 0.000 0)",
+          "oklch(80% 0.000 0)",
+          "oklch(95% 0.000 0)"
+        ]
+      },
+      "ring": {
+        "role": "primary",
+        "displayName": "Âmbar Tostado",
+        "canonical": "oklch(56.7% 0.099 74.1)",
+        "tonalRamp": [
+          "oklch(15% 0.030 74.1)",
+          "oklch(25% 0.045 74.1)",
+          "oklch(35% 0.061 74.1)",
+          "oklch(45% 0.076 74.1)",
+          "oklch(55% 0.091 74.1)",
+          "oklch(65% 0.091 74.1)",
+          "oklch(80% 0.068 74.1)",
+          "oklch(95% 0.045 74.1)"
+        ]
+      },
+      "secondary": {
+        "role": "neutral",
+        "displayName": "Névoa Caramelo",
+        "canonical": "oklch(95.8% 0.01 67.7)",
+        "tonalRamp": [
+          "oklch(15% 0.006 67.7)",
+          "oklch(25% 0.009 67.7)",
+          "oklch(35% 0.012 67.7)",
+          "oklch(45% 0.015 67.7)",
+          "oklch(55% 0.018 67.7)",
+          "oklch(65% 0.018 67.7)",
+          "oklch(80% 0.014 67.7)",
+          "oklch(95% 0.009 67.7)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Névoa Caramelo",
+        "canonical": "oklch(95.8% 0.01 67.7)",
+        "tonalRamp": [
+          "oklch(15% 0.006 67.7)",
+          "oklch(25% 0.009 67.7)",
+          "oklch(35% 0.012 67.7)",
+          "oklch(45% 0.015 67.7)",
+          "oklch(55% 0.018 67.7)",
+          "oklch(65% 0.018 67.7)",
+          "oklch(80% 0.014 67.7)",
+          "oklch(95% 0.009 67.7)"
+        ]
+      },
+      "muted-foreground": {
+        "role": "neutral",
+        "displayName": "Terra Suave",
+        "canonical": "oklch(47.4% 0.023 59.8)",
+        "tonalRamp": [
+          "oklch(15% 0.007 59.8)",
+          "oklch(25% 0.010 59.8)",
+          "oklch(35% 0.014 59.8)",
+          "oklch(45% 0.018 59.8)",
+          "oklch(55% 0.021 59.8)",
+          "oklch(65% 0.021 59.8)",
+          "oklch(80% 0.016 59.8)",
+          "oklch(95% 0.010 59.8)"
+        ]
+      },
+      "border": {
+        "role": "neutral",
+        "displayName": "Linha de Areia",
+        "canonical": "oklch(91.4% 0.014 67.7)",
+        "tonalRamp": [
+          "oklch(15% 0.006 67.7)",
+          "oklch(25% 0.009 67.7)",
+          "oklch(35% 0.012 67.7)",
+          "oklch(45% 0.015 67.7)",
+          "oklch(55% 0.018 67.7)",
+          "oklch(65% 0.018 67.7)",
+          "oklch(80% 0.014 67.7)",
+          "oklch(95% 0.009 67.7)"
+        ]
+      },
+      "input": {
+        "role": "neutral",
+        "displayName": "Contorno de Campo",
+        "canonical": "oklch(60.3% 0.023 57.8)",
+        "tonalRamp": [
+          "oklch(15% 0.007 57.8)",
+          "oklch(25% 0.010 57.8)",
+          "oklch(35% 0.014 57.8)",
+          "oklch(45% 0.018 57.8)",
+          "oklch(55% 0.021 57.8)",
+          "oklch(65% 0.021 57.8)",
+          "oklch(80% 0.016 57.8)",
+          "oklch(95% 0.010 57.8)"
+        ]
+      },
+      "destructive": {
+        "role": "error",
+        "displayName": "Vermelho Telha",
+        "canonical": "oklch(50% 0.182 29.5)",
+        "tonalRamp": [
+          "oklch(15% 0.055 29.5)",
+          "oklch(25% 0.083 29.5)",
+          "oklch(35% 0.111 29.5)",
+          "oklch(45% 0.140 29.5)",
+          "oklch(55% 0.168 29.5)",
+          "oklch(65% 0.168 29.5)",
+          "oklch(80% 0.125 29.5)",
+          "oklch(95% 0.083 29.5)"
+        ]
+      },
+      "destructive-muted": {
+        "role": "error",
+        "displayName": "Rosado de Alerta",
+        "canonical": "oklch(96.7% 0.013 28.9)",
+        "tonalRamp": [
+          "oklch(15% 0.006 28.9)",
+          "oklch(25% 0.009 28.9)",
+          "oklch(35% 0.012 28.9)",
+          "oklch(45% 0.015 28.9)",
+          "oklch(55% 0.018 28.9)",
+          "oklch(65% 0.018 28.9)",
+          "oklch(80% 0.014 28.9)",
+          "oklch(95% 0.009 28.9)"
+        ]
+      },
+      "frame-brown": {
+        "role": "neutral",
+        "displayName": "Marrom Moldura",
+        "canonical": "oklch(29.1% 0.04 54.2)",
+        "tonalRamp": [
+          "oklch(15% 0.012 54.2)",
+          "oklch(25% 0.018 54.2)",
+          "oklch(35% 0.024 54.2)",
+          "oklch(45% 0.031 54.2)",
+          "oklch(55% 0.037 54.2)",
+          "oklch(65% 0.037 54.2)",
+          "oklch(80% 0.028 54.2)",
+          "oklch(95% 0.018 54.2)"
+        ]
+      },
+      "veil": {
+        "role": "neutral",
+        "displayName": "Véu de Fim de Tarde",
+        "canonical": "oklch(18.5% 0.021 52)",
+        "tonalRamp": [
+          "oklch(15% 0.006 52)",
+          "oklch(25% 0.010 52)",
+          "oklch(35% 0.013 52)",
+          "oklch(45% 0.016 52)",
+          "oklch(55% 0.019 52)",
+          "oklch(65% 0.019 52)",
+          "oklch(80% 0.014 52)",
+          "oklch(95% 0.010 52)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Slogan sobre a ilustração das telas de acesso; 1.5rem no celular, 1.875rem a partir de 40rem, 2.25rem em telas de computador baixas."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "O h1 de cada tela."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Títulos de seção dentro de uma tela."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Texto corrido, descrições e valor dos campos; parágrafos até 65ch."
+      },
+      "body-sm": {
+        "displayName": "Body small",
+        "purpose": "Ajuda, rodapé, rótulos de lista, cartão e alerta; o erro usa peso 500."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Rótulo de campo, sempre visível acima dele."
+      },
+      "button": {
+        "displayName": "Button",
+        "purpose": "Texto de botão; 1rem no grande, 0.875rem no pequeno."
+      },
+      "code": {
+        "displayName": "Code",
+        "purpose": "Dígitos do código de 6 dígitos, algarismos tabulares."
+      },
+      "wordmark": {
+        "displayName": "Wordmark",
+        "purpose": "\"Acolhe+\", de 1.25rem a 1.875rem; o + na cor de marca."
+      }
+    },
+    "shadows": [
+      {
+        "name": "panel-over-image",
+        "value": "0 24px 64px -16px rgb(26 16 10 / 0.55)",
+        "purpose": "Painel de acesso sobre a ilustração, só no computador."
+      },
+      {
+        "name": "surface-rest",
+        "value": "0 1px 2px rgb(31 26 23 / 0.06), 0 8px 24px -12px rgb(31 26 23 / 0.18)",
+        "purpose": "Superfície branca sobre a névoa caramelo (lista da conta)."
+      },
+      {
+        "name": "card-ring",
+        "value": "0 0 0 1px rgb(31 26 23 / 0.1)",
+        "purpose": "Contorno do componente Card, sem sombra projetada."
+      },
+      {
+        "name": "invalid-inset",
+        "value": "inset 0 0 0 1px var(--destructive)",
+        "purpose": "Segundo pixel interno do campo inválido."
+      },
+      {
+        "name": "otp-active",
+        "value": "0 0 0 2px var(--ring)",
+        "purpose": "Casa ativa do código de 6 dígitos."
+      }
+    ],
+    "gradients": [
+      {
+        "name": "veil-mobile",
+        "value": "linear-gradient(to bottom in oklab, rgb(26 16 10 / 0.75), rgb(26 16 10 / 0.25) 45%, transparent)",
+        "purpose": "Véu atrás da marca sobre o retrato, abaixo de 64rem."
+      },
+      {
+        "name": "veil-desktop",
+        "value": "linear-gradient(160deg in oklab, rgb(26 16 10 / 0.8), rgb(26 16 10 / 0.35) 30%, transparent 60%)",
+        "purpose": "Véu atrás da marca sobre a cena em tela cheia, a partir de 64rem."
+      }
+    ],
+    "focus": {
+      "value": "outline: 2px solid var(--ring); outline-offset: 2px",
+      "onDark": "outline-color: white (faixa marrom e marca sobre a ilustração)"
+    },
+    "motion": [
+      {
+        "name": "settle",
+        "value": "settle 1.6s cubic-bezier(0.16, 1, 0.3, 1) both; scale(1.045) → scale(1)",
+        "purpose": "A ilustração assenta no quadro ao abrir; único movimento de entrada, só com prefers-reduced-motion: no-preference."
+      },
+      {
+        "name": "state-transition",
+        "value": "150ms ease-out em background-color, border-color, color, translate",
+        "purpose": "Mudanças de estado de botões e campos."
+      },
+      {
+        "name": "press",
+        "value": "translate 0 1px",
+        "purpose": "Botão pressionado."
+      },
+      {
+        "name": "spinner",
+        "value": "spin 1s linear infinite; desligado com prefers-reduced-motion: reduce",
+        "purpose": "Carregamento em botões e listas."
+      },
+      {
+        "name": "caret-blink",
+        "value": "caret-blink 1s",
+        "purpose": "Cursor falso na casa ativa do código."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "40rem"
+      },
+      {
+        "name": "md",
+        "value": "48rem"
+      },
+      {
+        "name": "lg",
+        "value": "64rem"
+      },
+      {
+        "name": "short-screen",
+        "value": "max-height: 820px (combinado com lg)"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Botão principal",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "A única cor de ação: o botão principal de cada tela (aqui no tamanho grande, como nas telas de acesso).",
+      "html": "<button class=\"ds-btn-primary\">Entrar</button>",
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border:1px solid transparent;border-radius:0.625rem;font-family:'Figtree Variable', ui-sans-serif, system-ui, sans-serif;font-size:0.9375rem;font-weight:600;white-space:nowrap;cursor:pointer;transition:background-color 150ms ease-out,border-color 150ms ease-out,color 150ms ease-out,translate 150ms ease-out;height:48px;padding:0 20px;font-size:1rem;background:var(--primary, #ffb547);color:var(--primary-foreground, #000000);} .ds-btn-primary:hover{background:color-mix(in srgb, var(--primary, #ffb547), black 8%);} .ds-btn-primary:focus-visible{outline:2px solid var(--ring, #996d2b);outline-offset:2px;} .ds-btn-primary:active{translate:0 1px;}"
+    },
+    {
+      "name": "Botão de contorno",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Ação alternativa ao lado da principal; é o botão \"Entrar com Google\".",
+      "html": "<button class=\"ds-btn-outline\">Cancelar</button>",
+      "css": ".ds-btn-outline{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border:1px solid transparent;border-radius:0.625rem;font-family:'Figtree Variable', ui-sans-serif, system-ui, sans-serif;font-size:0.9375rem;font-weight:600;white-space:nowrap;cursor:pointer;transition:background-color 150ms ease-out,border-color 150ms ease-out,color 150ms ease-out,translate 150ms ease-out;background:var(--background, #ffffff);color:var(--foreground, #1f1a17);border-color:var(--input, #8c7e74);} .ds-btn-outline:hover{background:var(--muted, #f6f0ea);} .ds-btn-outline:focus-visible{outline:2px solid var(--ring, #996d2b);outline-offset:2px;} .ds-btn-outline:active{translate:0 1px;}"
+    },
+    {
+      "name": "Botão secundário",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Ação de baixo peso em névoa caramelo; o \"Sair\" da faixa do painel.",
+      "html": "<button class=\"ds-btn-secondary\">Ver candidaturas</button>",
+      "css": ".ds-btn-secondary{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border:1px solid transparent;border-radius:0.625rem;font-family:'Figtree Variable', ui-sans-serif, system-ui, sans-serif;font-size:0.9375rem;font-weight:600;white-space:nowrap;cursor:pointer;transition:background-color 150ms ease-out,border-color 150ms ease-out,color 150ms ease-out,translate 150ms ease-out;background:var(--secondary, #f6f0ea);color:var(--foreground, #1f1a17);} .ds-btn-secondary:hover{background:color-mix(in oklch, var(--secondary, #f6f0ea), var(--foreground, #1f1a17) 5%);} .ds-btn-secondary:focus-visible{outline:2px solid var(--ring, #996d2b);outline-offset:2px;} .ds-btn-secondary:active{translate:0 1px;}"
+    },
+    {
+      "name": "Link",
+      "kind": "button",
+      "refersTo": "button-link",
+      "description": "Navegação e troca de método, no âmbar tostado; só sobre superfície branca.",
+      "html": "<a class=\"ds-link\" href=\"#\">Perdi acesso ao aplicativo</a>",
+      "css": ".ds-link{font-family:'Figtree Variable', ui-sans-serif, system-ui, sans-serif;font-size:0.9375rem;font-weight:600;color:var(--ring, #996d2b);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px;border-radius:0.375rem;} .ds-link:hover{text-decoration-thickness:2px;} .ds-link:focus-visible{outline:2px solid var(--ring, #996d2b);outline-offset:2px;}"
+    },
+    {
+      "name": "Campo com rótulo e erro",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Rótulo sempre visível, campo de 44px e mensagem em espaço reservado; aqui no estado inválido.",
+      "html": "<div class=\"ds-field\"><label class=\"ds-label\" for=\"ds-email\">E-mail</label><input class=\"ds-input\" id=\"ds-email\" type=\"email\" aria-invalid=\"true\" aria-describedby=\"ds-email-err\"><div class=\"ds-msg\"><div class=\"ds-error\" id=\"ds-email-err\" role=\"alert\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><line x1=\"12\" x2=\"12\" y1=\"8\" y2=\"12\"/><line x1=\"12\" x2=\"12.01\" y1=\"16\" y2=\"16\"/></svg>Informe um e-mail válido.</div></div></div>",
+      "css": ".ds-field{display:flex;flex-direction:column;gap:8px;width:320px;font-family:'Figtree Variable', ui-sans-serif, system-ui, sans-serif;color:var(--foreground, #1f1a17);} .ds-label{font-size:0.875rem;font-weight:600;line-height:1;} .ds-input{height:44px;padding:0 12px;border:1px solid var(--input, #8c7e74);border-radius:0.625rem;background:var(--background, #ffffff);color:var(--foreground, #1f1a17);font:inherit;font-size:1rem;caret-color:var(--ring, #996d2b);transition:border-color 150ms;} .ds-input:focus-visible{border-color:var(--ring, #996d2b);outline:2px solid var(--ring, #996d2b);outline-offset:2px;} .ds-input[aria-invalid=\"true\"]{border-color:var(--destructive, #b42318);box-shadow:inset 0 0 0 1px var(--destructive, #b42318);} .ds-msg{min-height:20px;} .ds-error{display:flex;align-items:flex-start;gap:6px;font-size:0.875rem;font-weight:500;color:var(--destructive, #b42318);} .ds-error svg{margin-top:2px;flex-shrink:0;}"
+    },
+    {
+      "name": "Senha com mostrar",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Grupo com o botão fantasma \"Mostrar\" dentro da borda; o foco contorna o grupo todo.",
+      "html": "<div class=\"ds-pw\"><input class=\"ds-pw-input\" type=\"password\" value=\"uma-senha-longa\" aria-label=\"Senha\"><button class=\"ds-pw-toggle\" type=\"button\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/></svg>Mostrar</button></div>",
+      "css": ".ds-pw{display:flex;align-items:center;width:320px;height:44px;border:1px solid var(--input, #8c7e74);border-radius:0.625rem;background:var(--background, #ffffff);font-family:'Figtree Variable', ui-sans-serif, system-ui, sans-serif;} .ds-pw:focus-within{border-color:var(--ring, #996d2b);outline:2px solid var(--ring, #996d2b);outline-offset:2px;} .ds-pw-input{flex:1;min-width:0;height:100%;padding:0 6px 0 12px;border:0;background:transparent;font:inherit;font-size:1rem;color:var(--foreground, #1f1a17);outline:none;} .ds-pw-toggle{display:inline-flex;align-items:center;gap:6px;height:32px;margin-right:4px;padding:0 10px;border:0;border-radius:0.5rem;background:transparent;color:var(--foreground, #1f1a17);font:inherit;font-size:0.875rem;font-weight:600;cursor:pointer;transition:background-color 150ms ease-out;} .ds-pw-toggle:hover{background:var(--muted, #f6f0ea);} .ds-pw-toggle:focus-visible{outline:2px solid var(--ring, #996d2b);outline-offset:2px;}"
+    },
+    {
+      "name": "Código de 6 dígitos",
+      "kind": "input",
+      "refersTo": "input-otp-slot",
+      "description": "Seis casas em barra única, dígitos tabulares; a casa ativa ganha anel de 2px no âmbar tostado.",
+      "html": "<div class=\"ds-otp\" role=\"group\" aria-label=\"Código do aplicativo\"><div class=\"ds-otp-slot\">4</div><div class=\"ds-otp-slot\">8</div><div class=\"ds-otp-slot\">2</div><div class=\"ds-otp-slot\">1</div><div class=\"ds-otp-slot is-active\"></div><div class=\"ds-otp-slot\"></div></div>",
+      "css": ".ds-otp{display:flex;font-family:'Figtree Variable', ui-sans-serif, system-ui, sans-serif;} .ds-otp-slot{position:relative;display:flex;align-items:center;justify-content:center;width:48px;height:56px;border:1px solid var(--input, #8c7e74);border-left-width:0;background:var(--background, #ffffff);color:var(--foreground, #1f1a17);font-size:1.5rem;font-weight:600;font-variant-numeric:tabular-nums;transition:border-color 150ms,box-shadow 150ms;} .ds-otp-slot:first-child{border-left-width:1px;border-radius:0.625rem 0 0 0.625rem;} .ds-otp-slot:last-child{border-radius:0 0.625rem 0.625rem 0;} .ds-otp-slot.is-active{z-index:1;border-color:var(--ring, #996d2b);box-shadow:0 0 0 2px var(--ring, #996d2b);}"
+    },
+    {
+      "name": "Alerta de erro",
+      "kind": "custom",
+      "refersTo": "alert-destructive",
+      "description": "Explica o problema e o que fazer; fundo rosado, texto em vermelho telha.",
+      "html": "<div class=\"ds-alert\" role=\"alert\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><line x1=\"12\" x2=\"12\" y1=\"8\" y2=\"12\"/><line x1=\"12\" x2=\"12.01\" y1=\"16\" y2=\"16\"/></svg><div><div class=\"ds-alert-title\">Não foi possível entrar</div><div class=\"ds-alert-desc\">E-mail ou senha incorretos.</div></div></div>",
+      "css": ".ds-alert{display:grid;grid-template-columns:auto 1fr;column-gap:8px;width:340px;padding:12px 14px;border:1px solid color-mix(in srgb, var(--destructive, #b42318) 30%, transparent);border-radius:0.625rem;background:var(--destructive-muted, #fdf1ef);color:var(--destructive, #b42318);font-family:'Figtree Variable', ui-sans-serif, system-ui, sans-serif;font-size:0.875rem;} .ds-alert svg{translate:0 2px;} .ds-alert-title{font-weight:600;} .ds-alert-desc{color:var(--destructive, #b42318);}"
+    },
+    {
+      "name": "Lista de dados da conta",
+      "kind": "card",
+      "refersTo": "account-list-row",
+      "description": "Superfície branca sobre a névoa do painel, com a sombra quente de repouso.",
+      "html": "<div class=\"ds-stage\"><dl class=\"ds-list\"><div class=\"ds-row\"><dt>E-mail</dt><dd>coordenacao@exemplo.org</dd></div><div class=\"ds-row\"><dt>Verificação em duas etapas</dt><dd>Ativada</dd></div></dl></div>",
+      "css": ".ds-stage{padding:24px;background:var(--secondary, #f6f0ea);font-family:'Figtree Variable', ui-sans-serif, system-ui, sans-serif;} .ds-list{margin:0;width:420px;border-radius:0.875rem;background:var(--background, #ffffff);box-shadow:0 1px 2px rgb(31 26 23 / 0.06),0 8px 24px -12px rgb(31 26 23 / 0.18);} .ds-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;padding:12px 16px;} .ds-row + .ds-row{border-top:1px solid var(--border, #e9e1d9);} .ds-row dt{font-size:0.875rem;color:var(--muted-foreground, #66594f);} .ds-row dd{margin:0;font-weight:500;color:var(--foreground, #1f1a17);}"
+    },
+    {
+      "name": "Moldura de acesso",
+      "kind": "custom",
+      "refersTo": "auth-panel",
+      "description": "Assinatura: a imagem preenche o quadro (aqui um gradiente no lugar da ilustração), a marca fica em branco sobre o véu e o painel branco assenta embaixo à esquerda.",
+      "html": "<div class=\"ds-frame\"><div class=\"ds-veil\"></div><div class=\"ds-brand\"><span class=\"ds-wordmark\">Acolhe<span class=\"ds-plus\">+</span></span><p class=\"ds-tagline\">Adoção responsável, do resgate ao lar.</p></div><div class=\"ds-auth-panel\"><h1 class=\"ds-auth-title\">Entrar</h1><p class=\"ds-auth-desc\">Acesse a área da sua organização.</p><button class=\"ds-auth-btn\">Entrar</button></div></div>",
+      "css": ".ds-frame{position:relative;display:flex;align-items:flex-end;width:640px;height:420px;padding:24px;box-sizing:border-box;overflow:hidden;background:radial-gradient(circle at 75% 45%, #d98f45, #8a5428 45%, #3b2618 90%);font-family:'Figtree Variable', ui-sans-serif, system-ui, sans-serif;} .ds-veil{position:absolute;inset:0;background:linear-gradient(160deg in oklab, rgb(26 16 10 / 0.8), rgb(26 16 10 / 0.35) 30%, transparent 60%);} .ds-brand{position:absolute;top:24px;left:24px;color:#fff;} .ds-wordmark{font-size:1.5rem;font-weight:800;letter-spacing:-0.025em;} .ds-plus{color:var(--primary, #ffb547);} .ds-tagline{margin:12px 0 0;max-width:14ch;font-size:1.875rem;font-weight:700;line-height:1.05;letter-spacing:-0.025em;} .ds-auth-panel{position:relative;width:280px;padding:24px;border-radius:1rem;background:var(--background, #ffffff);color:var(--foreground, #1f1a17);box-shadow:0 24px 64px -16px rgb(26 16 10 / 0.55);} .ds-auth-title{margin:0;font-size:1.875rem;font-weight:700;line-height:1.2;letter-spacing:-0.025em;} .ds-auth-desc{margin:8px 0 24px;color:var(--muted-foreground, #66594f);} .ds-auth-btn{width:100%;height:48px;border:0;border-radius:0.625rem;background:var(--primary, #ffb547);color:var(--primary-foreground, #000000);font:inherit;font-weight:600;cursor:pointer;transition:background-color 150ms ease-out;} .ds-auth-btn:hover{background:color-mix(in srgb, var(--primary, #ffb547), black 8%);} .ds-auth-btn:focus-visible{outline:2px solid var(--ring, #996d2b);outline-offset:2px;}"
+    }
+  ],
+  "narrative": {
+    "northStar": "O Feed de Resgate",
+    "overview": "O Acolhe+ se apresenta como os posts de resgate que as ONGs publicam: o animal preenche o quadro inteiro e a interface fica ancorada num canto, sem disputar com ele. Nas telas de acesso, uma ilustração pintada de um vira-lata caramelo na luz dourada do fim de tarde ocupa a tela; um painel branco de cantos generosos assenta embaixo, à esquerda, e a marca fica no alto, em branco, sobre um véu marrom-escuro que só existe ali. Quem chega reconhece o universo da adoção antes de ler qualquer coisa.\n\nFora da imagem, o sistema é calmo e utilitário: tinta quente quase preta, neutros tingidos do caramelo da ilustração, uma família só (Figtree) numa escala curta e fixa, e uma única cor de ação, o âmbar, que aparece apenas no que se pode clicar. O âmbar escurecido (o \"âmbar tostado\") faz o trabalho de foco e links, porque o âmbar claro some sobre o branco. A densidade é de formulário de trabalho: campos de 44px, botões de 40 a 48px, mensagens em espaço reservado para que nada pule quando o estado muda.\n\nO sistema é multi-tenant por construção: a cor de ação, o texto sobre ela e a cor de foco/links são variáveis CSS que cada ONG substitui pelas próprias cores, sempre com contraste AA garantido pelo pacote de domínio. Só existe tema claro. A tela de login em cartão centralizado sobre fundo cinza foi recusada explicitamente para as telas de acesso.",
+    "keyCharacteristics": [
+      "Mídia do animal preenchendo o próprio quadro; interface ancorada embaixo, à esquerda.",
+      "Uma única cor de ação (âmbar), só em elementos clicáveis, uma vez por tela.",
+      "Foco e links no âmbar tostado; contorno sólido de 2px com afastamento de 2px.",
+      "Neutros quentes derivados do caramelo; nada de cinza frio.",
+      "Figtree auto-hospedada, escala curta, títulos em negrito com tracking apertado.",
+      "Cores de marca trocáveis por ONG via variáveis CSS, com AA garantido.",
+      "Só tema claro; ícones Lucide."
+    ],
+    "rules": [
+      {
+        "name": "A Regra do Âmbar Único",
+        "body": "O âmbar preenche apenas o botão principal de cada tela. As demais ações são contorno, secundário, fantasma ou link. Fora disso ele só aparece no \"+\" da marca sobre o marrom e, a 45%, na seleção de texto.",
+        "section": "colors"
+      },
+      {
+        "name": "A Regra do Âmbar Tostado",
+        "body": "Sobre fundo claro, toda cor de marca em forma de texto, ícone, link ou foco usa `ring`, nunca `primary`. O âmbar claro é preenchimento, não tinta.",
+        "section": "colors"
+      },
+      {
+        "name": "A Regra da Marca Emprestada",
+        "body": "Cores de marca só entram pelo `brandThemeStyle()`, aplicado na raiz da área com a marca (o `body` na plataforma, a página da ONG nas páginas dela). Componentes usam `var(--primary)`, `var(--primary-foreground)` e `var(--ring)`, nunca o hex do âmbar.",
+        "section": "colors"
+      },
+      {
+        "name": "A Regra da Escala Curta",
+        "body": "Uma família, nove papéis. Tamanho novo só entra quando uma tela real pedir e não couber em nenhum destes.",
+        "section": "typography"
+      },
+      {
+        "name": "A Regra do Quadro do Animal",
+        "body": "Onde houver mídia do animal, ela preenche o próprio quadro e a interface ou a legenda ancoram embaixo, sobre véu ou num painel; a mídia nunca vira miniatura dentro de um cartão de login.",
+        "section": "layout"
+      },
+      {
+        "name": "A Regra do Espaço Reservado",
+        "body": "Toda mensagem de campo tem lugar reservado (20px, ou 40px no último campo, que também mostra o erro do envio). Mudar de estado nunca empurra o layout; o esqueleto de carregamento tem a mesma altura do formulário.",
+        "section": "layout"
+      },
+      {
+        "name": "A Regra da Sombra Quente",
+        "body": "Toda sombra usa o marrom do véu ou da tinta, nunca preto neutro. Se a superfície está sobre branco, ela não tem sombra.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** usar `primary` só como preenchimento do botão principal de cada tela; as outras ações vão em contorno, secundário, fantasma ou link.",
+      "**Do** usar `ring` para todo foco (contorno sólido de 2px, afastamento de 2px), todo link (sublinhado de 1px, afastamento de 4px, 2px no hover) e toda cor de marca em forma de texto ou ícone sobre fundo claro.",
+      "**Do** aplicar cores de marca com `brandThemeStyle()` na raiz da área com a marca e consumir `var(--primary)`, `var(--primary-foreground)` e `var(--ring)` nos componentes.",
+      "**Do** reservar o espaço das mensagens abaixo dos campos (20px; 40px no último) e dar ao esqueleto de carregamento a altura do conteúdo final.",
+      "**Do** manter alvos de toque entre 40 e 48px (botões 40/48px, campos 44px, casas do código 56px).",
+      "**Do** manter o rótulo visível acima de cada campo e o erro com ícone `CircleAlert` no lugar da ajuda.",
+      "**Do** usar ícones Lucide de 16px dentro de botões e mensagens, com `aria-hidden`.",
+      "**Do** registrar a proveniência de toda imagem gerada ao lado do arquivo e rotular material ilustrativo como exemplo.",
+      "**Do** tingir sombras com o marrom (`rgb(26 16 10)` ou `rgb(31 26 23)`) e usá-las só sobre imagem ou névoa."
+    ],
+    "donts": [
+      "**Don't** usar o âmbar (`primary`) como texto ou ícone sobre branco ou névoa (1,76:1); sobre fundo claro, use `ring`. Âmbar como texto só sobre o marrom moldura (8,1:1), como no \"+\" da marca.",
+      "**Don't** colocar links em `ring` sobre a névoa caramelo (4,06:1, abaixo de AA); links ficam em superfícies brancas.",
+      "**Don't** escrever o hex do âmbar ou do âmbar tostado em componentes: isso quebra o tema das ONGs.",
+      "**Don't** montar as telas de acesso como cartão de login centralizado sobre fundo cinza.",
+      "**Don't** usar laranja-amarelo saturado dentro de ilustrações: é reservado à interface.",
+      "**Don't** usar o véu escuro fora da área da marca sobre a imagem.",
+      "**Don't** introduzir uma segunda família tipográfica nem fonte de sistema como display.",
+      "**Don't** aninhar cartões.",
+      "**Don't** criar tema escuro nem variantes `dark:`: o contraste por ONG é validado só sobre o tema claro.",
+      "**Don't** adicionar animação de entrada além do settle da ilustração, nem animação que ignore `prefers-reduced-motion`."
+    ]
+  }
+}
