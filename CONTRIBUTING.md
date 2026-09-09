@@ -51,6 +51,7 @@ Antes de abrir o PR, rode o mesmo que o CI:
 ```bash
 pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build
 pnpm test:integration   # precisa do pnpm db:up
+pnpm test:e2e           # precisa do banco migrado e do build da web (ver abaixo)
 ```
 
 ### Banco de dados
@@ -73,6 +74,42 @@ pnpm test:integration   # precisa do pnpm db:up
 - Para ter um superadmin local:
   `pnpm auth:create-admin --email voce@exemplo.org --name "Seu nome" --role superadmin`. A equipe da
   plataforma precisa ativar o 2FA antes de usar as rotas de administração.
+
+### Interface e design system
+
+- Os componentes ficam em `packages/ui` (shadcn/ui sobre Base UI, ADR 0007). Para trazer um novo
+  do registro, rode `pnpm dlx shadcn@4.23.0 add <componente>` dentro de `apps/web` e ajuste-o aos
+  tokens de `packages/ui/src/styles/globals.css` (foco com contorno sólido, alvos de 40 px ou
+  mais). Mostre-o, em todos os estados, na vitrine `/dev/ui`.
+- Só tema claro. A cor de ação aparece só no que se pode clicar; o tema de uma ONG entra por
+  `brandThemeStyle()`, nunca com cores fixas no componente.
+- Em `apps/web`:
+  - As rotas ficam em grupos: `(auth)` para as telas de acesso (moldura com a ilustração) e
+    `(application)` para a área logada. O que o grupo compartilha fica em `_components/` dele.
+    Toda rota da área logada entra também no `matcher` de `src/proxy.ts`, que manda para
+    `/entrar` quem não tem sessão.
+  - `page.tsx` contém só a página (`LoginPage`, `PanelPage`…); os demais componentes ficam em
+    `components/` dentro da rota, e os formulários em `components/forms/`, com o schema zod no
+    topo do próprio arquivo (react-hook-form + zod).
+  - Toda requisição usa React Query, com `useQuery`/`useMutation` escritos no componente que os
+    usa (sem hooks próprios para isso). Chamadas às rotas da nossa API ficam em
+    `src/services/<assunto>/index.ts`; o Better Auth é chamado pelo `authClient`.
+  - `app/providers.tsx` (ao lado do layout raiz) reúne tudo o que envolve a aplicação
+    (next-intl, React Query); o `QueryClient` fica em `src/lib/tanstack-query.tsx`.
+  - CSS global em `src/styles/`.
+
+### Testes E2E
+
+```bash
+pnpm db:up && pnpm db:migrate
+ACOLHEMAIS_DEV_PAGES=1 pnpm --filter @acolhemais/web build   # inclui a vitrine /dev/ui
+pnpm --filter @acolhemais/e2e exec playwright install chromium
+pnpm test:e2e
+```
+
+O Playwright sobe a API (`wrangler dev`, com o rate limit por IP desligado, só em localhost) e a
+web (`next start`), ou reaproveita os que já estiverem abertos nas portas 3001 e 3000. Cada teste
+cria as próprias contas pela API e passa o axe (WCAG 2.1 AA) nos estados que importam.
 
 ## Convenções de código
 
