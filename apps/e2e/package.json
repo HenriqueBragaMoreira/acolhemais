@@ -1,0 +1,17 @@
+{
+  "name": "@acolhemais/e2e",
+  "version": "0.0.0",
+  "private": true,
+  "license": "AGPL-3.0-only",
+  "type": "module",
+  "scripts": {
+    "test:e2e": "playwright test",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "devDependencies": {
+    "@acolhemais/config": "workspace:*",
+    "@axe-core/playwright": "4.14.0",
+    "@playwright/test": "1.64.1",
+    "@types/node": "^24.19.2"
+  }
+}

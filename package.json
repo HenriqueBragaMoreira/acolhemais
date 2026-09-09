@@ -14,6 +14,7 @@
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
     "test:integration": "turbo run test:integration",
+    "test:e2e": "pnpm --filter @acolhemais/e2e test:e2e",
     "format": "oxfmt",
     "format:check": "oxfmt --check",
     "clean": "node node_modules/rimraf/dist/esm/bin.mjs --glob \"{apps,packages}/*/{node_modules,dist,.next,.turbo,.wrangler,out,coverage,playwright-report,test-results}\" \"{apps,packages}/*/*.tsbuildinfo\" .turbo node_modules",
