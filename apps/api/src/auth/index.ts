@@ -7,14 +7,14 @@ import { admin } from 'better-auth/plugins/admin'
 import { haveIBeenPwned } from 'better-auth/plugins/haveibeenpwned'
 import { organization } from 'better-auth/plugins/organization'
 import { twoFactor } from 'better-auth/plugins/two-factor'
-import type { Config } from '../env'
-import { auditTrail } from './audit-trail'
-import { loginLockout } from './login-lockout'
+import type { Config } from '../config'
+import { auditTrail } from './plugins/audit-trail'
+import { loginLockout } from './plugins/login-lockout'
 import { authMessages } from './messages'
-import { organizationAc, organizationRoles } from './organization-access'
-import { platformAc, platformRoles } from './platform-access'
-import { platformTwoFactor } from './platform-two-factor'
-import { socialTwoFactor } from './social-two-factor'
+import { organizationAc, organizationRoles } from './access/organization'
+import { platformAc, platformRoles } from './access/platform'
+import { platformTwoFactor } from './plugins/platform-two-factor'
+import { socialTwoFactor } from './plugins/social-two-factor'
 
 type AuthDeps = {
   config: Config
@@ -37,7 +37,7 @@ export function createAuth({ config, db, waitUntil }: AuthDeps) {
     trustedOrigins: [config.WEB_ORIGIN],
     database: drizzleAdapter(db, { provider: 'pg', schema, transaction: true }),
     socialProviders: {
-      // Opcional: só liga com as duas credenciais (ver env.ts).
+      // Opcional: só liga com as duas credenciais (ver config.ts).
       ...(config.GOOGLE_CLIENT_ID &&
         config.GOOGLE_CLIENT_SECRET && {
           google: {
@@ -64,9 +64,9 @@ export function createAuth({ config, db, waitUntil }: AuthDeps) {
       revokeSessionsOnPasswordReset: true,
     },
     // Ligado também em localhost, para o comportamento local ser o de produção (só o E2E
-    // desliga, ver AUTH_RATE_LIMIT em env.ts). Guardado no
-    // banco: no Workers, a memória não é compartilhada entre instâncias. As rotas sensíveis
-    // (login, cadastro, troca de senha) já têm limites mais baixos por padrão.
+    // desliga, ver AUTH_RATE_LIMIT em config.ts). Guardado no banco: no Workers, a memória
+    // não é compartilhada entre instâncias. As rotas sensíveis (login, cadastro, troca de
+    // senha) já têm limites mais baixos por padrão.
     rateLimit: { enabled: config.AUTH_RATE_LIMIT === 'on', storage: 'database' },
     telemetry: { enabled: false },
     advanced: {

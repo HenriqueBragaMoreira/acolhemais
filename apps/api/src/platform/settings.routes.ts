@@ -13,9 +13,9 @@ import { sql } from 'drizzle-orm'
 import { Hono } from 'hono'
 import { z } from 'zod'
 import { auditOrigin, recordAudit } from '../audit/record'
-import { apiError } from './errors'
-import { requirePlatformPermission } from './middleware'
-import type { PlatformEnv } from './middleware'
+import { apiError } from '../http/errors'
+import { requirePlatformPermission } from './require-permission'
+import type { PlatformEnv } from './require-permission'
 
 const { platformSetting } = schema
 
@@ -69,7 +69,7 @@ function parseUpdate(values: Record<string, unknown>) {
  * quem tem `platform_setting.update` altera; cada valor alterado vai para a auditoria na
  * mesma transação.
  */
-export const platformSettings = new Hono<PlatformEnv>()
+export const platformSettingsRoutes = new Hono<PlatformEnv>()
   .get('/', requirePlatformPermission({ platform_setting: ['view'] }), async (c) =>
     c.json({ settings: await settingsView(c.var.db()) }),
   )

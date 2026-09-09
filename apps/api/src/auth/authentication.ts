@@ -1,5 +1,5 @@
 import { createMiddleware } from 'hono/factory'
-import type { AppEnv } from '../env'
+import type { AppEnv } from '../config'
 import { createAuth } from '.'
 import type { Auth } from '.'
 

@@ -1,7 +1,7 @@
 import { createDb } from '@acolhemais/db'
 import type { Database } from '@acolhemais/db'
 import { createMiddleware } from 'hono/factory'
-import type { AppEnv } from './env'
+import type { AppEnv } from './config'
 
 /**
  * Expõe o banco em `c.var.db()`. No Workers, conexões não podem ser reaproveitadas entre

@@ -4,7 +4,7 @@ import { LOGIN_FAILURE_WINDOW_MS, loginLockoutMs } from '@acolhemais/domain'
 import type { BetterAuthPlugin } from 'better-auth'
 import { APIError, createAuthMiddleware, isAPIError } from 'better-auth/api'
 import { eq, sql } from 'drizzle-orm'
-import { authMessages } from './messages'
+import { authMessages } from '../messages'
 
 const { loginThrottle } = schema
 const SIGN_IN_PATH = '/sign-in/email'

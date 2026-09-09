@@ -6,7 +6,7 @@
   "type": "module",
   "exports": {
     ".": "./src/app.ts",
-    "./access": "./src/auth/access.ts"
+    "./access": "./src/auth/access/index.ts"
   },
   "scripts": {
     "dev": "wrangler dev --port 3001",

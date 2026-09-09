@@ -1,5 +1,5 @@
 import { createDb, databaseUrl } from '@acolhemais/db'
-import { loadConfig } from '../env'
+import { loadConfig } from '../config'
 import { createAuth } from '.'
 
 // Instância usada só pela CLI do Better Auth (`auth generate`, `auth create-admin`), que roda no

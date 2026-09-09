@@ -5,7 +5,7 @@
   "compatibility_date": "2026-10-23",
   "compatibility_flags": ["nodejs_compat"],
   // Vars e segredos não ficam aqui: em dev vêm do .env (ver .env.example);
-  // em produção, de `wrangler secret`. O schema Zod em src/env.ts valida tudo.
+  // em produção, de `wrangler secret`. O schema Zod em src/config.ts valida tudo.
   "observability": { "enabled": true },
   "hyperdrive": [
     {

@@ -1,7 +1,7 @@
 import { platformRequiresTwoFactor } from '@acolhemais/domain'
 import type { BetterAuthPlugin } from 'better-auth'
 import { APIError, createAuthMiddleware, getSessionFromCtx } from 'better-auth/api'
-import { authMessages } from './messages'
+import { authMessages } from '../messages'
 
 function isAdminRoute(ctx: { path?: string }) {
   return ctx.path?.startsWith('/admin/') ?? false
@@ -9,7 +9,7 @@ function isAdminRoute(ctx: { path?: string }) {
 
 /**
  * Exige 2FA ativo da equipe da plataforma nas rotas do plugin `admin`. As rotas próprias da
- * plataforma aplicam a mesma regra em `requirePlatformPermission` (platform/middleware.ts).
+ * plataforma aplicam a mesma regra em `requirePlatformPermission` (platform/require-permission.ts).
  */
 export function platformTwoFactor() {
   return {

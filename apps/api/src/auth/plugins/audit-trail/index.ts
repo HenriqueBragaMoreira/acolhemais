@@ -4,7 +4,7 @@ import type { AuditEntry } from '@acolhemais/domain'
 import type { BetterAuthPlugin } from 'better-auth'
 import { createAuthMiddleware, getSessionFromCtx, isAPIError } from 'better-auth/api'
 import { and, eq } from 'drizzle-orm'
-import { auditOrigin, recordAudit } from '../audit/record'
+import { auditOrigin, recordAudit } from '../../../audit/record'
 
 type Body = Record<string, unknown>
 

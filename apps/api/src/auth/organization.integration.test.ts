@@ -1,7 +1,7 @@
 import { createDb } from '@acolhemais/db'
 import type { SystemRoleKey } from '@acolhemais/domain'
 import { afterAll, describe, expect, inject, it } from 'vitest'
-import { loadConfig } from '../env'
+import { loadConfig } from '../config'
 import { regularUser as account } from '../test/accounts'
 import { env, post, uniqueEmail } from '../test/auth'
 import { createAuth } from '.'

@@ -1,8 +1,8 @@
 import { platformCan, platformRolesOf } from '@acolhemais/domain'
 import type { PlatformGrants } from '@acolhemais/domain'
 import { createMiddleware } from 'hono/factory'
-import type { AppEnv } from '../env'
-import { apiError } from './errors'
+import type { AppEnv } from '../config'
+import { apiError } from '../http/errors'
 
 /** Quem da equipe da plataforma fez a requisição. */
 export type PlatformUser = { id: string; role: string }

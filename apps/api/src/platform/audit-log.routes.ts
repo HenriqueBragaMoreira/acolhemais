@@ -4,9 +4,9 @@ import { and, desc, eq, lt } from 'drizzle-orm'
 import type { SQL } from 'drizzle-orm'
 import { Hono } from 'hono'
 import { z } from 'zod'
-import { apiError } from './errors'
-import { requirePlatformPermission } from './middleware'
-import type { PlatformEnv } from './middleware'
+import { apiError } from '../http/errors'
+import { requirePlatformPermission } from './require-permission'
+import type { PlatformEnv } from './require-permission'
 
 const { auditLog } = schema
 
