@@ -1,6 +1,12 @@
 {
   "version": 1,
   "skills": {
+    "ai-repo-setup": {
+      "source": "fellipeutaka/leon",
+      "sourceType": "github",
+      "skillPath": "skills/ai-repo-setup/SKILL.md",
+      "computedHash": "67ae7ca7bdcb223749da56ee8d41be564fcb744add37c40a5cebd06836a77cd7"
+    },
     "better-auth-best-practices": {
       "source": "better-auth/skills",
       "sourceType": "github",
