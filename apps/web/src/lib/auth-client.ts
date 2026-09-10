@@ -3,12 +3,13 @@ import {
   organizationRoles,
   platformAc,
   platformRoles,
+  TWO_FACTOR_PAGE,
 } from '@acolhemais/api/access'
 import { adminClient, organizationClient, twoFactorClient } from 'better-auth/client/plugins'
 import { createAuthClient } from 'better-auth/react'
 
-/** Página que pede o código de 2FA para concluir o login (a mesma para onde a API redireciona). */
-export const TWO_FACTOR_PAGE = '/entrar/2fa'
+/** Página que pede o código de 2FA para concluir o login. Vem da API, que redireciona para ela. */
+export { TWO_FACTOR_PAGE }
 
 /** Para onde a pessoa vai depois de entrar. */
 export const AFTER_SIGN_IN_PAGE = '/painel'

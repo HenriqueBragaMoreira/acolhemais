@@ -1,9 +1,7 @@
 import type { BetterAuthPlugin } from 'better-auth'
 import { APIError, createAuthMiddleware } from 'better-auth/api'
 import type { SessionUser } from '../session'
-
-/** Página do frontend que pede o código de 2FA para concluir o login. */
-export const TWO_FACTOR_PAGE = '/entrar/2fa'
+import { TWO_FACTOR_PAGE } from '../web-pages'
 
 function isOAuthCallback(ctx: { path?: string }) {
   return ctx.path?.startsWith('/callback/') ?? false
