@@ -37,6 +37,12 @@
       "skillPath": "better-auth/create-auth/SKILL.md",
       "computedHash": "d101953fda9452eb4e59d4eb50aa829c1961cdd7d0587d26a2b1871abe885e07"
     },
+    "design-patterns": {
+      "source": "fellipeutaka/leon",
+      "sourceType": "github",
+      "skillPath": "skills/design-patterns/SKILL.md",
+      "computedHash": "a8fc3f22b3b4b940e500ec851e5a864def00547c8b97a78f3419f693ed53648f"
+    },
     "email-and-password-best-practices": {
       "source": "better-auth/skills",
       "sourceType": "github",
