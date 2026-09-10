@@ -75,6 +75,18 @@ pnpm test:e2e           # precisa do banco migrado e do build da web (ver abaixo
   `pnpm auth:create-admin --email voce@exemplo.org --name "Seu nome" --role superadmin`. A equipe da
   plataforma precisa ativar o 2FA antes de usar as rotas de administração.
 
+### API
+
+- `apps/api/src` é organizado por funcionalidade (`auth/`, `platform/`; na Fase 1, `organizations/`,
+  `animals/`...), não por camada. Em cada pasta, `<recurso>.routes.ts` tem as rotas (validação da
+  entrada, permissão e orquestração) e `<recurso>.ts` as consultas e transações. Os testes de
+  integração ficam ao lado. A regra de negócio continua em `packages/domain`.
+- A entrada de toda rota passa pelo `zodValidator` (`src/http/validate.ts`), que dá o tipo ao
+  cliente `hc` do frontend. Erros respondem com `apiError` (`src/http/errors.ts`), no formato
+  `{ code, message }` do Better Auth; erros não tratados e rotas inexistentes caem no mesmo formato.
+- Os plugins próprios do Better Auth ficam em `src/auth/plugins/`. A sessão com os campos dos
+  plugins é tipada em `src/auth/session.ts`: use-a em vez de redeclarar campos com `as`.
+
 ### Interface e design system
 
 - Os componentes ficam em `packages/ui` (shadcn/ui sobre Base UI, ADR 0007). Para trazer um novo
