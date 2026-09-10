@@ -61,6 +61,12 @@
       "skillPath": "better-auth/organization/SKILL.md",
       "computedHash": "f03e41bc2995c4fceec98f3db85f9638d71cc391fb10f9d85460304d6642efc2"
     },
+    "solid": {
+      "source": "fellipeutaka/leon",
+      "sourceType": "github",
+      "skillPath": "skills/solid/SKILL.md",
+      "computedHash": "93e1f8afbe17acfeef5c69fbc033b5982b76240bb18364b5e1335d00c016031f"
+    },
     "two-factor-authentication-best-practices": {
       "source": "better-auth/skills",
       "sourceType": "github",
