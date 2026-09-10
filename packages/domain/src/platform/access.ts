@@ -69,12 +69,17 @@ export function isPlatformRole(role: string): role is PlatformRole {
   return Object.hasOwn(PLATFORM_ROLES, role)
 }
 
-/** Papéis da plataforma de um usuário. O Better Auth guarda os papéis separados por vírgula. */
-export function platformRolesOf(role: string | null | undefined): PlatformRole[] {
-  return (role ?? '')
+/** Papéis guardados num campo só: o Better Auth separa vários papéis por vírgula. */
+export function splitRoles(value: string | null | undefined): string[] {
+  return (value ?? '')
     .split(',')
-    .map((value) => value.trim())
-    .filter(isPlatformRole)
+    .map((role) => role.trim())
+    .filter(Boolean)
+}
+
+/** Papéis da plataforma de um usuário. */
+export function platformRolesOf(role: string | null | undefined): PlatformRole[] {
+  return splitRoles(role).filter(isPlatformRole)
 }
 
 /** Toda a equipe da plataforma precisa de 2FA ativo. */

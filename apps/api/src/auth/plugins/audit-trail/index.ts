@@ -1,5 +1,6 @@
 import { schema } from '@acolhemais/db'
 import type { Database } from '@acolhemais/db'
+import { splitRoles } from '@acolhemais/domain'
 import type { AuditEntry } from '@acolhemais/domain'
 import type { BetterAuthPlugin } from 'better-auth'
 import { createAuthMiddleware, isAPIError } from 'better-auth/api'
@@ -28,14 +29,6 @@ type RoleRow = { id: string; organizationId: string; role: string }
 
 function text(value: unknown): string | null {
   return typeof value === 'string' && value.length > 0 ? value : null
-}
-
-/** O Better Auth guarda vários papéis separados por vírgula. */
-function roles(value: string | null | undefined): string[] {
-  return (value ?? '')
-    .split(',')
-    .map((role) => role.trim())
-    .filter(Boolean)
 }
 
 function isoDate(value: unknown): string | null {
@@ -104,7 +97,7 @@ const AUDITED_ROUTES: Record<string, AuditedRoute> = {
           action: 'user.created',
           actorUserId: actor?.userId ?? null,
           targetId: user.id,
-          metadata: { roles: roles(user.role) },
+          metadata: { roles: splitRoles(user.role) },
         },
       ]
     },
@@ -128,7 +121,7 @@ const AUDITED_ROUTES: Record<string, AuditedRoute> = {
           action: 'user.role_changed',
           actorUserId: actor?.userId ?? null,
           targetId: user.id,
-          metadata: { from: roles(snapshot as string | null), to: roles(user.role) },
+          metadata: { from: splitRoles(snapshot as string | null), to: splitRoles(user.role) },
         },
       ]
     },

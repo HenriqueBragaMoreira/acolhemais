@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest'
-import { PLATFORM_ROLES, platformCan, platformRequiresTwoFactor, platformRolesOf } from './access'
+import {
+  PLATFORM_ROLES,
+  platformCan,
+  platformRequiresTwoFactor,
+  platformRolesOf,
+  splitRoles,
+} from './access'
 
 describe('papéis da plataforma', () => {
   it('não deixam ninguém personificar usuários nem trocar senha ou e-mail de outra pessoa', () => {
@@ -21,6 +27,7 @@ describe('papéis da plataforma', () => {
   })
 
   it('leem os papéis guardados separados por vírgula', () => {
+    expect(splitRoles('user, moderator,')).toEqual(['user', 'moderator'])
     expect(platformRolesOf('user,moderator')).toEqual(['moderator'])
     expect(platformRolesOf('superadmin, support')).toEqual(['superadmin', 'support'])
     expect(platformRolesOf(null)).toEqual([])
