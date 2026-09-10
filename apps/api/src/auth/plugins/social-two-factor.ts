@@ -9,6 +9,20 @@ function isOAuthCallback(ctx: { path?: string }) {
   return ctx.path?.startsWith('/callback/') ?? false
 }
 
+type HookContext = Parameters<Parameters<typeof createAuthMiddleware>[0]>[0]
+
+/**
+ * O hook que o plugin `twoFactor` roda depois do login por senha. É código interno do plugin,
+ * achado pelo `matcher` (e não pela posição na lista, que muda sem aviso numa atualização):
+ * revisar a cada upgrade do better-auth. O teste do login pelo Google com 2FA cobre isto.
+ */
+function passwordSignInChallenge(ctx: HookContext) {
+  const twoFactor = ctx.context.options.plugins?.find((plugin) => plugin.id === 'two-factor')
+  return twoFactor?.hooks?.after?.find((hook) =>
+    hook.matcher({ path: '/sign-in/email', context: ctx.context }),
+  )?.handler
+}
+
 /**
  * Leva o desafio de 2FA ao login pelo Google. O plugin `twoFactor` só desafia o login por
  * senha: sem isto, quem tem 2FA entraria pelo Google sem o código.
@@ -28,9 +42,7 @@ export function socialTwoFactor({ webOrigin }: { webOrigin: string }) {
             const user = ctx.context.newSession?.user as SessionUser | undefined
             if (!user?.twoFactorEnabled) return
 
-            const challenge = ctx.context.options.plugins?.find(
-              (plugin) => plugin.id === 'two-factor',
-            )?.hooks?.after?.[0]?.handler
+            const challenge = passwordSignInChallenge(ctx)
             if (!challenge) throw new Error('socialTwoFactor exige o plugin twoFactor configurado')
 
             const challenged = (await challenge(ctx)) as { headers?: Headers } | undefined
