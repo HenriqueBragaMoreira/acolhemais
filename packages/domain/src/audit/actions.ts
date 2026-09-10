@@ -103,6 +103,11 @@ export type AuditEntry<A extends AuditAction = AuditAction> = {
 
 export const AUDIT_ACTION_KEYS = Object.keys(AUDIT_ACTIONS) as AuditAction[]
 
+/** Tipos de alvo do catálogo, sem repetição (ex.: para filtrar a auditoria por alvo). */
+export const AUDIT_TARGET_TYPES = [
+  ...new Set(Object.values(AUDIT_ACTIONS).map(({ target }) => target)),
+] as AuditTargetType[]
+
 export function isAuditAction(value: string): value is AuditAction {
   return Object.hasOwn(AUDIT_ACTIONS, value)
 }

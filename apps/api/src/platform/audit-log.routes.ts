@@ -1,5 +1,5 @@
 import { schema } from '@acolhemais/db'
-import { AUDIT_ACTION_KEYS, AUDIT_ACTIONS } from '@acolhemais/domain'
+import { AUDIT_ACTION_KEYS, AUDIT_TARGET_TYPES } from '@acolhemais/domain'
 import { and, desc, eq, lt } from 'drizzle-orm'
 import type { SQL } from 'drizzle-orm'
 import { Hono } from 'hono'
@@ -10,16 +10,11 @@ import type { PlatformEnv } from './require-permission'
 
 const { auditLog } = schema
 
-const TARGET_TYPES = [...new Set(Object.values(AUDIT_ACTIONS).map(({ target }) => target))] as [
-  string,
-  ...string[],
-]
-
 const querySchema = z.object({
   action: z.enum(AUDIT_ACTION_KEYS).optional(),
   actorUserId: z.uuid().optional(),
   organizationId: z.uuid().optional(),
-  targetType: z.enum(TARGET_TYPES).optional(),
+  targetType: z.enum(AUDIT_TARGET_TYPES).optional(),
   targetId: z.string().min(1).max(200).optional(),
   /** Cursor: id do último registro da página anterior (os ids UUIDv7 seguem a ordem). */
   before: z.uuid().optional(),

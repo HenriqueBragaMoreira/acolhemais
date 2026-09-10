@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { AUDIT_ACTION_KEYS, auditTargetType, isAuditAction } from './actions'
+import { AUDIT_ACTION_KEYS, AUDIT_TARGET_TYPES, auditTargetType, isAuditAction } from './actions'
 
 describe('catálogo da auditoria', () => {
   it('reconhece só as ações do catálogo', () => {
@@ -18,5 +18,7 @@ describe('catálogo da auditoria', () => {
     expect(auditTargetType('user.role_changed')).toBe('user')
     expect(auditTargetType('member.role_changed')).toBe('member')
     expect(auditTargetType('platform_setting.updated')).toBe('platform_setting')
+    expect(AUDIT_TARGET_TYPES).toContain('organization_role')
+    expect(new Set(AUDIT_TARGET_TYPES).size).toBe(AUDIT_TARGET_TYPES.length)
   })
 })
