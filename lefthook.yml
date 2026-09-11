@@ -1,0 +1,20 @@
+# Hooks do Git, instalados pelo `pnpm install`. Rodam o mesmo que o CI nos arquivos do commit;
+# o erro volta para quem commitou (pessoa ou agente) corrigir. Não pule com --no-verify.
+pre-commit:
+  parallel: true
+  jobs:
+    - name: formatação
+      glob: '*.{ts,tsx,js,mjs,cjs,json,jsonc,md,css,yml,yaml}'
+      run: pnpm exec oxfmt --no-error-on-unmatched-pattern {staged_files}
+      stage_fixed: true
+    - name: lint
+      glob: '*.{ts,tsx,js,mjs,cjs}'
+      run: pnpm exec oxlint --deny-warnings {staged_files}
+    - name: tipos
+      glob: '*.{ts,tsx}'
+      run: pnpm typecheck
+
+commit-msg:
+  jobs:
+    - name: conventional commits + DCO
+      run: pnpm exec commitlint --edit {1}

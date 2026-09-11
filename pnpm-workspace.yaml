@@ -5,6 +5,8 @@ packages:
 # Apenas dependências explicitamente liberadas podem rodar scripts de instalação.
 allowBuilds:
   sharp: true
+  # Instala os hooks do Git (lefthook.yml) no pnpm install.
+  lefthook: true
   unrs-resolver: false
   '@parcel/watcher': false
   '@swc/core': false
