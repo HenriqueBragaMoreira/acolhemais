@@ -40,23 +40,23 @@ têm o status só aqui. **Fase** é a do roadmap ([PLANO](PLANO.md) §6).
 - **Fase**: 0 (API) / 2 (tela, com o perfil do adotante)
 - **Descrição**: Cadastro com nome, e-mail e senha. Senha recusada se curta ou vazada.
 - **Regras**: BR-001, BR-007
-- **Em aberto**: Q-007
 
 #### FR-003: Verificar o e-mail
 
-- **Status**: `draft`
+- **Status**: `refined`
 - **Fase**: 0 (pendência antes de produção)
-- **Descrição**: E-mail com link de verificação no cadastro; reenvio sob demanda.
+- **Descrição**: E-mail com link de verificação no cadastro; reenvio sob demanda e a cada
+  tentativa de login sem e-mail verificado, que é recusada.
 - **Regras**: BR-007
 - **Depende de**: FR-080
-- **Em aberto**: Q-007
 
 #### FR-004: Redefinir a senha
 
 - **Status**: `draft`
 - **Fase**: 0 (pendência antes de produção)
-- **Descrição**: "Esqueci a senha" envia link por e-mail; a nova senha segue BR-001 e derruba as
-  outras sessões (BR-006).
+- **Descrição**: "Esqueci a senha" envia link por e-mail; a nova senha segue BR-001, derruba as
+  outras sessões (BR-006) e zera o bloqueio progressivo (BR-002).
+- **Regras**: BR-001, BR-002, BR-006
 - **Depende de**: FR-080
 
 #### FR-005: Entrar com Google
@@ -69,12 +69,12 @@ têm o status só aqui. **Fase** é a do roadmap ([PLANO](PLANO.md) §6).
 
 #### FR-006: Código 2FA no login
 
-- **Status**: `implemented`
+- **Status**: `in-progress`
 - **Fase**: 0
 - **Descrição**: Quem tem 2FA ativo informa o código TOTP (ou um código de recuperação) depois
-  da senha ou do Google; a sessão só abre com ele.
+  da senha ou do Google; a sessão só abre com ele. Caixa "confiar neste dispositivo por 30
+  dias", desmarcada por padrão, para todos.
 - **Regras**: BR-005, BR-009
-- **Em aberto**: Q-003
 
 #### FR-007: Gerenciar a própria conta
 
@@ -98,26 +98,31 @@ têm o status só aqui. **Fase** é a do roadmap ([PLANO](PLANO.md) §6).
 
 - **Status**: `in-progress`
 - **Fase**: 0 (API) / 1 (telas)
-- **Descrição**: A equipe lista e consulta usuários; o superadmin atribui papéis da plataforma,
-  bane e desbane, e encerra sessões. Ninguém entra como outro usuário.
+- **Descrição**: A equipe lista e consulta usuários; o superadmin cria contas sem senha (com
+  e-mail de primeiro acesso), corrige nome e foto, dá e tira `moderator` e `support`, bane e
+  desbane, e encerra sessões. Ninguém entra como outro usuário, remove contas nem mexe no papel
+  `superadmin` pela API.
 - **Regras**: BR-008, BR-010 a BR-016
-- **Em aberto**: Q-001, Q-002, Q-004, Q-005
+- **Depende de**: FR-080 (e-mail de primeiro acesso)
 
-#### FR-011: Criar o primeiro superadmin pela linha de comando
+#### FR-011: Gerenciar superadmins pela linha de comando
 
-- **Status**: `implemented`
+- **Status**: `in-progress`
 - **Fase**: 0
 - **Descrição**: `pnpm auth:create-admin` cria uma conta com papel da plataforma, sem tela nem
-  rota pública. A conta precisa ativar o 2FA antes de usar as rotas da equipe.
+  rota pública (pronto). Dar e tirar o papel `superadmin` de uma conta existente também é só por
+  linha de comando (BR-013; falta). A conta precisa ativar o 2FA antes de usar as rotas da
+  equipe.
+- **Regras**: BR-011, BR-013
 
 #### FR-012: Consultar a auditoria
 
 - **Status**: `in-progress`
-- **Fase**: 0 (API) / 1 (tela)
+- **Fase**: 0 (API da equipe) / 1 (telas e visão da organização)
 - **Descrição**: Lista da auditoria do mais novo ao mais antigo, com filtros por autor, ação,
-  alvo e organização e paginação por cursor.
+  alvo e organização e paginação por cursor. O superadmin vê tudo; o Responsável vê só os
+  eventos da própria organização, sem IP nem Ray ID.
 - **Regras**: BR-020 a BR-025
-- **Em aberto**: Q-064
 
 #### FR-013: Consultar e alterar os parâmetros da plataforma
 
@@ -131,30 +136,30 @@ têm o status só aqui. **Fase** é a do roadmap ([PLANO](PLANO.md) §6).
 
 #### FR-020: Inscrever uma organização
 
-- **Status**: `draft`
+- **Status**: `refined`
 - **Fase**: 1
 - **Descrição**: Uma pessoa com conta inscreve uma ONG (CNPJ) ou se inscreve como protetor
-  independente (CPF + comprovação de atuação), com nome, slug desejado e contato.
+  independente (CPF + comprovação de atuação), com nome, slug desejado e contato. A inscrição é
+  um registro próprio; nenhuma organização existe até a aprovação.
 - **Regras**: BR-040, BR-041, BR-042, BR-047
-- **Em aberto**: Q-010, Q-011, Q-012
 
 #### FR-021: Analisar a inscrição
 
-- **Status**: `draft`
+- **Status**: `refined`
 - **Fase**: 1
-- **Descrição**: A moderação abre a inscrição, pede informações, aprova ou recusa com motivo. Na
-  aprovação, a organização nasce com o inscrito como Responsável e os papéis padrão.
+- **Descrição**: A moderação abre a inscrição, pede informações, aprova ou recusa com motivo
+  (guardando quem decidiu e quando). Na aprovação, a organização nasce com o inscrito como
+  Responsável e os papéis padrão.
 - **Regras**: BR-041, BR-042, BR-046
-- **Em aberto**: Q-010
 
 #### FR-022: Suspender, reativar e encerrar uma organização
 
-- **Status**: `draft`
+- **Status**: `refined`
 - **Fase**: 1
 - **Descrição**: A moderação suspende (ex.: indício de venda), reativa ou encerra uma
-  organização, com motivo e auditoria.
-- **Regras**: BR-043, BR-044, BR-045
-- **Em aberto**: Q-013
+  organização, com motivo e auditoria. A organização guarda o status atual, o motivo e a data da
+  última mudança; o histórico fica na auditoria.
+- **Regras**: BR-041, BR-043, BR-044, BR-045
 
 #### FR-023: Gerenciar a equipe da organização
 
@@ -164,16 +169,14 @@ têm o status só aqui. **Fase** é a do roadmap ([PLANO](PLANO.md) §6).
   sair da equipe, criar e editar papéis próprios a partir do catálogo.
 - **Regras**: BR-050 a BR-058
 - **Depende de**: FR-080 (e-mail do convite)
-- **Em aberto**: Q-018, Q-020
 
 #### FR-024: Conceder permissões individuais
 
-- **Status**: `draft`
+- **Status**: `refined`
 - **Fase**: 1
-- **Descrição**: Quem gerencia a equipe concede a um membro permissões além das do papel
-  (somente aditivas) e as retira.
+- **Descrição**: Quem gerencia a equipe concede a um membro permissões da plataforma além das do
+  papel (somente aditivas) e as retira. Permissões de gestão da equipe só vêm do papel.
 - **Regras**: BR-053, BR-054
-- **Em aberto**: Q-019
 
 #### FR-025: Personalizar a página da organização
 
@@ -181,18 +184,19 @@ têm o status só aqui. **Fase** é a do roadmap ([PLANO](PLANO.md) §6).
 - **Fase**: 1
 - **Descrição**: Logo, cor primária e secundária (com prévia e contraste garantido), banner,
   "sobre", redes sociais, contato (WhatsApp, e-mail), chave PIX com QR e cidades de atuação.
-  Layout fixo.
+  Layout fixo. Qualquer cor é aceita e a prévia mostra o tema ajustado; chave PIX com aviso de
+  que fica pública (e confirmação se for CPF). Onde exatamente a cor secundária entra é decidido
+  no design da tela, com a skill `impeccable` e o mantenedor, dentro do limite de BR-048.
 - **Regras**: BR-048, BR-049
-- **Em aberto**: Q-015, Q-016
 
 #### FR-026: Página pública da organização
 
-- **Status**: `draft`
+- **Status**: `refined`
 - **Fase**: 1
 - **Descrição**: `/ong/{slug}` com a marca da organização e seus animais disponíveis. Slug
-  antigo redireciona (301) para o atual.
-- **Regras**: BR-047, BR-062
-- **Em aberto**: Q-014
+  antigo redireciona (301) para o atual. Organização suspensa sai do ar; encerrada mostra só
+  "organização encerrada", sem animais.
+- **Regras**: BR-043, BR-044, BR-047, BR-062
 
 ### Animais
 
@@ -215,11 +219,11 @@ têm o status só aqui. **Fase** é a do roadmap ([PLANO](PLANO.md) §6).
 
 #### FR-032: Status e histórico do animal
 
-- **Status**: `draft`
+- **Status**: `refined`
 - **Fase**: 1
-- **Descrição**: Mudança de status com histórico (quem, quando, de/para, motivo).
-- **Regras**: BR-064, BR-065
-- **Em aberto**: Q-023
+- **Descrição**: Mudança de status com histórico (quem, quando, de/para, motivo), seguindo a
+  máquina de BR-064. Lar temporário não é status (FR-071).
+- **Regras**: BR-064, BR-065, BR-078
 
 ### Adotantes e candidaturas
 
@@ -439,21 +443,23 @@ têm o status só aqui. **Fase** é a do roadmap ([PLANO](PLANO.md) §6).
 - **Descrição**: Edição dos dados pessoais; CPF segue BR-071.
 - **Em aberto**: Q-034
 
-#### FR-092: Excluir a conta
+#### FR-092: Inativar a conta
 
-- **Status**: `draft`
+- **Status**: `refined`
 - **Fase**: 2
-- **Descrição**: Self-service; apaga os dados pessoais e mantém só o mínimo de BR-140.
-- **Regras**: BR-140, BR-142
-- **Em aberto**: Q-005, Q-063
+- **Descrição**: Self-service. Conta nunca é apagada, só inativada (BR-140), e esse é o único
+  caminho: a equipe não remove nem inativa, só bane (BR-016). Recusa enquanto a pessoa for o
+  único Responsável de uma organização ativa ou suspensa. Por 30 dias, entrar de novo reativa;
+  depois, os dados pessoais são anonimizados (FR-093).
+- **Regras**: BR-016, BR-055, BR-140, BR-142
 
-#### FR-093: Anonimizar candidaturas antigas
+#### FR-093: Anonimizar dados antigos
 
 - **Status**: `draft`
 - **Fase**: 2
 - **Descrição**: Tarefa agendada anonimiza candidaturas encerradas sem adoção após o prazo de
-  retenção.
-- **Regras**: BR-141
+  retenção e os dados pessoais de contas inativadas há mais de 30 dias.
+- **Regras**: BR-140, BR-141
 - **Em aberto**: Q-061
 
 #### FR-094: Páginas legais
@@ -555,10 +561,11 @@ têm o status só aqui. **Fase** é a do roadmap ([PLANO](PLANO.md) §6).
 
 #### NFR-012: Textos em português e traduzíveis
 
-- **Status**: `implemented`
+- **Status**: `in-progress`
 - **Fase**: 0 (contínuo)
 - **Descrição**: Textos da web em arquivos do next-intl (pt-BR) desde o início; mensagens da API
-  com `code` estável e `message` em português.
+  com `code` estável em `MAIUSCULAS_COM_SUBLINHADO` (também nos erros do domínio) e `message` em
+  português.
 
 #### NFR-013: Custo de hospedagem perto de zero
 

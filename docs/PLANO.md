@@ -98,12 +98,13 @@ docs/adr            Architecture Decision Records
 **Dev local**: `docker compose` com Postgres + PostGIS, S3Mock e Mailpit — sem nenhuma chave real
 (NFR-017).
 
-**Entidades principais**: User, Session, AdopterProfile (cpf_enc, cpf_hmac), Organization (tipo,
-status, slug, tema), OrganizationSlugHistory, Member, OrganizationRole, MemberPermissionGrant,
+**Entidades principais**: User, Session, AdopterProfile (cpf_enc, cpf_hmac), OrganizationApplication
+(inscrição e decisão da análise), Organization (nasce na aprovação; tipo, status, slug, tema),
+OrganizationSlugHistory, Member, OrganizationRole, MemberPermissionGrant,
 Animal, AnimalPhoto, AnimalStatusHistory, ApplicationForm (versionado), Application,
 ApplicationStageHistory, Adoption, PostAdoptionCheckin, FosterHome, FosterAssignment, Incident,
 IncidentEvidence, ModerationDecision, ReputationEvent, ContentReport, EmailOutbox, ScheduledJob,
-AuditLog, PlatformSetting, Municipality (IBGE). Inscrição de organização separada ou não: Q-010.
+AuditLog, PlatformSetting, Municipality (IBGE).
 
 ## 6. Roadmap
 
@@ -116,7 +117,8 @@ AuditLog, PlatformSetting, Municipality (IBGE). Inscrição de organização sep
 | 4 — Reputação e pós-adoção   | FR-060 a FR-065, FR-070, FR-071                                                                                       | E2E de ocorrência ponta a ponta; auditoria completa                                 |
 | 5 — Beta                     | FR-094, NFR-010, NFR-021, pentest básico (OWASP ZAP), 3–5 ONGs piloto                                                 | Go/no-go com checklist de segurança e LGPD                                          |
 
-**Antes de produção** (qualquer fase): FR-003, FR-004, Q-001 a Q-007, NFR-008 (usuário de banco),
+**Antes de produção** (qualquer fase): FR-003, FR-004, as travas da equipe da plataforma (BR-008,
+BR-010, BR-013 a BR-016), NFR-008 (usuário de banco),
 NFR-013 (Workers Paid), NFR-019, NFR-020.
 
 **Pós-MVP**: termo de adoção digital em PDF, subdomínio/domínio próprio, eventos/feiras,
@@ -145,7 +147,7 @@ apadrinhamento, API pública, WhatsApp API, PWA, ES/EN.
 | Limites de free tier (e-mail/dia, banco 0,5 GB, Vercel Hobby) | Abstrações de provedor, monitoramento de cotas, plano B, buscar patrocínio/créditos OSS                                        |
 | Sobrecarga de moderação                                       | Filas priorizadas, prazos, moderadores voluntários com 2FA e termo de confidencialidade (Q-055)                                |
 | PR malicioso de fork                                          | CI sem segredos, CODEOWNERS, revisão reforçada, label para preview                                                             |
-| Equipe da plataforma abusando do acesso                       | Catálogo sem personificação, 2FA obrigatório, auditoria só de acréscimo (Q-001 a Q-004)                                        |
+| Equipe da plataforma abusando do acesso                       | Catálogo sem personificação, 2FA obrigatório, auditoria só de acréscimo (BR-008, BR-010, BR-013, BR-015)                       |
 | Burnout de mantenedor                                         | Governança clara, issues bem descritas, automação máxima                                                                       |
 
 ## 9. Pendências

@@ -43,20 +43,23 @@ Item ausente = ainda sem escopo definido para a API; ao refinar, adicione-o aqui
 
 #### FR-010: Gerenciar usuários (equipe da plataforma)
 
-- **Status**: `implemented`
+- **Status**: `in-progress`
 - **Escopo (api)**: rotas `/api/auth/admin/*` do plugin `admin` com o catálogo da plataforma e o
-  plugin `platformTwoFactor`. Mudanças pendentes em Q-001, Q-002, Q-004 e Q-005.
+  plugin `platformTwoFactor`. Faltam as travas de BR-008, BR-010, BR-013, BR-014, BR-015 e
+  BR-016.
 
-#### FR-011: Criar o primeiro superadmin pela linha de comando
+#### FR-011: Gerenciar superadmins pela linha de comando
 
-- **Status**: `implemented`
-- **Escopo (api)**: script `auth:create-admin` (sem rota HTTP).
+- **Status**: `in-progress`
+- **Escopo (api)**: script `auth:create-admin` (sem rota HTTP, pronto); falta o comando para dar e
+  tirar `superadmin` de uma conta existente.
 
 #### FR-012: Consultar a auditoria
 
-- **Status**: `implemented`
+- **Status**: `in-progress`
 - **Escopo (api)**: `GET /platform/audit-log` com filtros (autor, ação, alvo, organização) e
-  cursor (id UUIDv7), só com `audit_log.view` e 2FA.
+  cursor (id UUIDv7), só com `audit_log.view` e 2FA (pronto). Falta a rota da organização para o
+  Responsável (BR-024).
 
 #### FR-013: Consultar e alterar os parâmetros da plataforma
 
@@ -69,7 +72,7 @@ Item ausente = ainda sem escopo definido para a API; ao refinar, adicione-o aqui
 - **Status**: `in-progress`
 - **Escopo (api)**: plugin `organization` configurado (papéis do catálogo, papéis próprios,
   convite de 7 dias, sem criação por usuário nem exclusão) e auditado. Faltam: e-mail do convite
-  (FR-080), trava contra escalada (Q-018), 2FA de membros sensíveis (Q-020), traduzir os erros do
+  (FR-080), trava contra escalada (BR-054), 2FA de membros sensíveis (BR-057), traduzir os erros do
   plugin.
 
 ---
@@ -111,9 +114,11 @@ Item ausente = ainda sem escopo definido para a API; ao refinar, adicione-o aqui
 
 #### NFR-012: Textos em português e traduzíveis
 
-- **Status**: `implemented`
+- **Status**: `in-progress`
 - **Escopo (api)**: erros no formato `{ code, message }`, com mensagens próprias e traduções dos
-  códigos do Better Auth.
+  códigos do Better Auth. Falta renomear os códigos do `DomainError` que fogem do padrão
+  (`theme.invalid_color`, `rbac.team_manage_required`, `rbac.cannot_assign_unowned_permission`,
+  `rbac.owner_required`) para `MAIUSCULAS_COM_SUBLINHADO`.
 
 #### NFR-014: Compatível com o runtime do Workers
 

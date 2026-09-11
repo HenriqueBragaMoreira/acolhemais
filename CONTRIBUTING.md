@@ -84,6 +84,8 @@ pnpm test:e2e           # precisa do banco migrado e do build da web (ver abaixo
 - A entrada de toda rota passa pelo `zodValidator` (`src/http/validate.ts`), que dá o tipo ao
   cliente `hc` do frontend. Erros respondem com `apiError` (`src/http/errors.ts`), no formato
   `{ code, message }` do Better Auth; erros não tratados e rotas inexistentes caem no mesmo formato.
+  O `code` é sempre `MAIUSCULAS_COM_SUBLINHADO`, também no `DomainError` do domínio, para a web
+  mapear a mensagem direto pelo código.
 - Os plugins próprios do Better Auth ficam em `src/auth/plugins/`. A sessão com os campos dos
   plugins é tipada em `src/auth/session.ts`: use-a em vez de redeclarar campos com `as`.
 

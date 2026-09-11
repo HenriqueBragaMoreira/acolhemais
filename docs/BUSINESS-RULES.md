@@ -27,14 +27,16 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 
 ### BR-002: Bloqueio progressivo por e-mail
 
-- **Status**: `implemented`
+- **Status**: `in-progress`
 - **Quando**: o login por senha falha por senha errada
 - **Então**: conta erros seguidos por e-mail (guardado como HMAC). A partir de 5 erros bloqueia
   1 min; de 10, 15 min; de 15, 60 min — cada novo erro renova o bloqueio. Bloqueado recusa até
-  a senha certa, com `Retry-After`. Senha certa zera a contagem; 24 h sem errar também. Vale
-  para e-mails sem conta (não revela quais existem).
+  a senha certa, com `Retry-After`. Senha certa zera a contagem; 24 h sem errar também; redefinir
+  a senha (FR-004) também. Vale para e-mails sem conta (não revela quais existem).
 - **Por quê**: o rate limit por IP não segura ataque distribuído contra uma conta.
-- **Em aberto**: Q-006
+- **Nota**: quem sabe o e-mail de alguém consegue manter o login por senha dele travado. Aceito:
+  o Google e a redefinição de senha continuam funcionando, e o rate limit por IP limita o
+  atacante. Falta só zerar na redefinição, que entra com FR-004.
 
 ### BR-003: Rate limit por IP
 
@@ -70,24 +72,26 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 
 ### BR-007: E-mail verificado
 
-- **Status**: `draft`
+- **Status**: `refined`
 - **Quando**: uma conta com senha entra, aceita convite ou se candidata
-- **Então**: aceitar convite exige e-mail verificado (pronto). Falta decidir se o próprio login
-  exige.
-- **Por quê**: o e-mail é o canal das decisões, prazos e redefinição de senha.
-- **Em aberto**: Q-007
+- **Então**: o login por senha exige e-mail verificado; quem tenta entrar sem verificar é
+  recusado e recebe de novo o e-mail de verificação. Aceitar convite também exige (pronto).
+  Quem entra pelo Google já chega com o e-mail verificado pelo Google.
+- **Por quê**: o e-mail é o canal das decisões, prazos e redefinição de senha; uma regra só para
+  todas as ações.
 
 ### BR-008: Ninguém age como outra pessoa
 
 - **Status**: `in-progress`
 - **Quando**: alguém da equipe da plataforma age sobre a conta de outra pessoa
 - **Então**: ninguém personifica usuários, define a senha ou o e-mail de outra pessoa, nem
-  enfraquece a segurança da conta dela (2FA, e-mail verificado). Mudar isso exige revisar o
-  catálogo da plataforma.
+  enfraquece a segurança da conta dela (2FA, e-mail verificado). Editar a conta de outra pessoa
+  aceita só nome e foto, para a equipe corrigir o que o titular não consegue; qualquer outro
+  campo é recusado. Criar conta segue BR-015. Mudar isso exige revisar o catálogo da
+  plataforma.
 - **Por quê**: seria acesso a dados pessoais sem o titular e porta para sequestro de conta.
-- **Nota**: personificação, senha e e-mail alheios estão bloqueados e testados; a brecha de
-  Q-001 e Q-002 ainda permite enfraquecer ou pré-criar contas.
-- **Em aberto**: Q-001, Q-002
+- **Nota**: personificação, senha e e-mail alheios estão bloqueados e testados. Faltam a trava de
+  campos na edição (`update-user`) e a de BR-015 na criação (`create-user`).
 
 ### BR-009: 2FA por app autenticador
 
@@ -95,10 +99,11 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 - **Quando**: alguém ativa ou usa o 2FA
 - **Então**: TOTP (emissor "Acolhe+") com códigos de recuperação de uso único; segredo e códigos
   cifrados com o segredo da API. Quem só usa o Google também pode ativar. Para desativar ou
-  gerar novos códigos, quem tem senha informa a senha.
+  gerar novos códigos, quem tem senha informa a senha. Na verificação do código, qualquer pessoa
+  (inclusive a equipe da plataforma) pode marcar "confiar neste dispositivo": o navegador fica
+  30 dias sem pedir o código. A tela oferece a caixa, desmarcada por padrão.
 - **Por quê**: 2FA é obrigatório para a equipe da plataforma (BR-011) e para dados sensíveis
-  (BR-057).
-- **Em aberto**: Q-003
+  (BR-057). Desmarcada por padrão por causa de computadores compartilhados.
 
 ---
 
@@ -106,7 +111,7 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 
 ### BR-010: Papéis da plataforma
 
-- **Status**: `implemented`
+- **Status**: `in-progress`
 - **Quando**: alguém da equipe usa uma rota da plataforma
 - **Então**: vale a tabela abaixo (um usuário pode ter mais de um papel; vale a união). Usuário
   comum tem o papel `user`, sem permissão da plataforma.
@@ -114,8 +119,10 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
   | Permissão                                  | superadmin | moderator | support |
   | ------------------------------------------ | :--------: | :-------: | :-----: |
   | `user.list`, `user.get`                    |     ✓      |     ✓     |    ✓    |
-  | `user.create`, `user.update`               |     ✓      |           |         |
-  | `user.set-role`, `user.ban`, `user.delete` |     ✓      |           |         |
+  | `user.create` (BR-015)                     |     ✓      |           |         |
+  | `user.update` (só nome e foto, BR-008)     |     ✓      |           |         |
+  | `user.set-role` (sem `superadmin`, BR-013) |     ✓      |           |         |
+  | `user.ban` (BR-014)                        |     ✓      |           |         |
   | `session.list/revoke/delete`               |     ✓      |           |         |
   | `organization_review.view`                 |     ✓      |     ✓     |    ✓    |
   | `organization_review.decide`               |     ✓      |     ✓     |         |
@@ -126,11 +133,12 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
   | `platform_setting.update`                  |     ✓      |           |         |
   | `audit_log.view`                           |     ✓      |           |         |
 
-  Ninguém tem `user.impersonate`, `user.impersonate-admins`, `user.set-password` nem
-  `user.set-email`.
+  Ninguém tem `user.impersonate`, `user.impersonate-admins`, `user.set-password`,
+  `user.set-email` nem `user.delete` (BR-016).
 
 - **Por quê**: menor privilégio; o suporte só lê e não vê ocorrências.
-- **Em aberto**: Q-001, Q-002, Q-004
+- **Nota**: falta tirar `user.delete` do superadmin e aplicar as travas de BR-008, BR-013 e
+  BR-015 nas rotas do plugin `admin`.
 
 ### BR-011: 2FA obrigatório para a equipe da plataforma
 
@@ -150,38 +158,51 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 
 ### BR-013: Continuidade dos superadmins
 
-- **Status**: `draft`
+- **Status**: `refined`
 - **Quando**: um papel de superadmin é dado ou retirado
-- **Então**: a definir — hoje qualquer superadmin dá ou tira o papel de qualquer pessoa,
-  inclusive o próprio, e nada impede ficar sem superadmin.
+- **Então**: só pela linha de comando (FR-011), nunca pela API. Pela API, o superadmin só dá ou
+  tira `moderator` e `support`; pedido que dê, tire ou inclua `superadmin` é recusado, inclusive
+  sobre a própria conta.
 - **Por quê**: superadmin altera parâmetros e lê a auditoria; ficar sem nenhum trava a
-  plataforma, e promover sem controle concentra poder.
-- **Em aberto**: Q-004
+  plataforma, e promover sem controle concentra poder. Quem tem acesso ao deploy é quem cria.
 
 ### BR-014: Banimento de conta
 
-- **Status**: `implemented`
+- **Status**: `in-progress`
 - **Quando**: o superadmin bane uma conta
 - **Então**: as sessões dela são encerradas, o login é recusado até o fim do banimento (ou para
-  sempre) e o motivo e o prazo vão para a auditoria. Ninguém bane a si mesmo. Banimento é sobre
-  a conta; inelegibilidade para adotar é outra coisa (BR-096).
-- **Em aberto**: Q-005
+  sempre) e o motivo e o prazo vão para a auditoria. Ninguém bane a si mesmo. Recusa banir quem é
+  o único Responsável de uma organização ativa ou suspensa (BR-055). Banimento é sobre a conta;
+  inelegibilidade para adotar é outra coisa (BR-096).
+- **Nota**: falta a recusa do único Responsável.
 
-### BR-015: A equipe não cria contas de terceiros
+### BR-015: Conta criada pela equipe
 
-- **Status**: `draft`
-- **Quando**: alguém da equipe quer criar uma conta
-- **Então**: a definir — hoje o superadmin cria contas pela API com senha e "e-mail verificado"
-  à escolha dele.
-- **Em aberto**: Q-002
+- **Status**: `refined`
+- **Quando**: o superadmin cria a conta de outra pessoa
+- **Então**: informa só nome, e-mail e, se for da equipe, o papel (`moderator` ou `support`,
+  BR-013). A conta nasce sem senha e com o e-mail não verificado; senha, "e-mail verificado" e
+  qualquer outro campo são recusados. A pessoa recebe um e-mail de primeiro acesso, que é o
+  mesmo link de uso único da redefinição de senha (FR-004): ao usá-lo, cria a senha (BR-001) e o
+  e-mail fica verificado. Se o link expirar, "esqueci a senha" envia outro, mesmo sem senha
+  criada. Depois, se quiser, ativa o 2FA (obrigatório só para a equipe, BR-011). Até usar o
+  link, entrar pelo Google com esse e-mail é recusado (BR-004).
+- **Nota**: verificado no Better Auth 1.7.15 — `create-user` aceita conta sem senha (não cria o
+  login por senha); a redefinição de senha cria o login quando ele não existe. Falta marcar o
+  e-mail como verificado quando a senha é redefinida (`onPasswordReset`): usar o link já prova
+  que a pessoa recebe o e-mail. Vale para toda redefinição, não só a de primeiro acesso.
+- **Por quê**: a equipe pode abrir contas sem nunca conhecer a senha de ninguém, e quem pré-cria
+  uma conta não fica com acesso a ela.
 
-### BR-016: Remoção de conta pela equipe
+### BR-016: A equipe não remove contas
 
-- **Status**: `draft`
-- **Quando**: o superadmin remove uma conta
-- **Então**: a definir — hoje remove sem checar se a pessoa é a única Responsável de uma
-  organização nem reter o mínimo exigido pela reputação (BR-140).
-- **Em aberto**: Q-005
+- **Status**: `refined`
+- **Quando**: alguém da equipe quer remover uma conta
+- **Então**: recusado para todos (ninguém tem `user.delete`); conta nunca é apagada. Só o
+  titular inativa a própria conta, pelo fluxo de FR-092 (BR-140). Para afastar alguém, a equipe
+  bane (BR-014).
+- **Por quê**: apagar a conta apagaria o histórico que sustenta a reputação e deixaria
+  organizações sem Responsável.
 
 ---
 
@@ -194,7 +215,7 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 - **Então**: o banco recusa `UPDATE`, `DELETE` e `TRUNCATE` na tabela. Sem chave estrangeira
   para usuário ou organização. Os detalhes guardam ids, papéis e nomes de campos — nunca nome,
   e-mail, CPF ou segredos. Guarda autor (`null` = sistema), organização, ação, alvo, IP e Ray ID.
-- **Por quê**: a auditoria precisa sobreviver à exclusão de contas (LGPD) e a quem quiser apagar
+- **Por quê**: a auditoria precisa sobreviver à anonimização de contas (LGPD) e a quem quiser apagar
   rastros pela aplicação.
 
 ### BR-021: Catálogo fechado de ações
@@ -226,15 +247,17 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
     e desvínculo de login externo; parâmetros da plataforma.
   - **Com seus módulos**: mudanças de status de organização, concessões individuais, revelação
     de CPF, decisões de moderação (inscrição, conteúdo, ocorrência), exportações de dados,
-    exclusão de conta, acesso a evidências privadas.
+    inativação de conta, acesso a evidências privadas.
   - **Não**: cada login (a sessão e o bloqueio já guardam isso).
 
 ### BR-024: Quem consulta a auditoria
 
-- **Status**: `implemented`
+- **Status**: `in-progress`
 - **Quando**: alguém consulta a auditoria
-- **Então**: só quem tem `audit_log.view` (o superadmin).
-- **Em aberto**: Q-064
+- **Então**: a auditoria inteira só quem tem `audit_log.view` (o superadmin; pronto). O
+  Responsável de uma organização vê só os eventos dela (filtrados por `organization_id`), sem o
+  IP e sem o Ray ID.
+- **Nota**: falta a consulta do Responsável (Fase 1).
 
 ### BR-025: Retenção do IP
 
@@ -265,7 +288,7 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
   | `ineligibilityReviewMonths` | 60 meses      | 12–120                      | BR-099         |
   | `postAdoptionCheckinDays`   | [30, 90, 180] | 1–6 itens, 1–730, crescente | BR-110         |
   | `refusalResubmissionDays`   | 30 dias       | 0–365                       | BR-042         |
-  | `adoptionFeeCapCents`       | não definido  | 0–50000 (R$ 500)            | BR-063         |
+  | `adoptionFeeCapCents`       | `null` (R$ 0) | 0–50000 (R$ 500)            | BR-063         |
 
 - **Em aberto**: Q-036, Q-061
 
@@ -279,10 +302,12 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 
 ### BR-032: Parâmetro alterado e prazos em andamento
 
-- **Status**: `draft`
+- **Status**: `refined`
 - **Quando**: um parâmetro muda enquanto há prazos correndo ou limites já atingidos
-- **Então**: a definir.
-- **Em aberto**: Q-024
+- **Então**: todo prazo é calculado e gravado quando começa, com o parâmetro em vigor naquele
+  momento; mudar o parâmetro não altera prazos já em andamento. Limites valem só para novas
+  ações: quem já passou do novo limite não perde nada, só não abre mais.
+- **Por quê**: ninguém perde um prazo ou uma candidatura por uma mudança que não viu.
 
 ---
 
@@ -290,45 +315,56 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 
 ### BR-040: Tipos de organização
 
-- **Status**: `draft`
+- **Status**: `refined`
 - **Quando**: alguém se inscreve
 - **Então**: **ONG** — CNPJ com dígito válido e consulta pública (BrasilAPI) ativa. **Protetor
   independente** — CPF válido + comprovação de atuação (redes sociais, referências, fotos de
-  resgates), avaliada pela moderação.
-- **Em aberto**: Q-012
+  resgates), avaliada pela moderação. Um CNPJ tem no máximo uma organização não encerrada, e um
+  CPF, no máximo uma organização de protetor independente. A mesma pessoa pode ser membro de
+  várias organizações (inclusive sendo protetora independente).
 
-### BR-041: Ciclo de vida da organização
+### BR-041: Ciclo de vida da inscrição e da organização
 
-- **Status**: `draft`
+- **Status**: `refined`
 - **Quando**: a moderação decide ou a situação muda
-- **Então**: `Pendente → Em análise ⇄ Informações solicitadas → Aprovada | Recusada`;
-  `Aprovada → Suspensa → Reativada (Aprovada) | Encerrada`. Toda mudança tem autor, motivo e
-  auditoria.
-- **Em aberto**: Q-010
+- **Então**: a **inscrição** é um registro próprio, com os dados, os documentos e o status da
+  análise: `Pendente → Em análise ⇄ Informações solicitadas → Aprovada | Recusada`. A decisão
+  (aprovar ou recusar) guarda quem decidiu, quando e o motivo. A **organização** só nasce na
+  aprovação (BR-046) e tem o próprio status: `Ativa → Suspensa → Ativa | Encerrada`. Ela guarda o
+  status atual, o motivo e a data da última mudança; o histórico completo de cada mudança (quem,
+  quando, de/para, motivo) fica na auditoria (BR-023).
+- **Por quê**: o plugin `organization` só enxerga organizações aprovadas, sem hook que bloqueie
+  equipe e convites de uma ONG ainda em análise.
 
 ### BR-042: Recusa e nova inscrição
 
-- **Status**: `draft`
+- **Status**: `refined`
 - **Quando**: a inscrição é recusada
 - **Então**: a recusa tem motivo enviado ao inscrito; nova inscrição só depois de
-  `refusalResubmissionDays` (parâmetro).
-- **Em aberto**: Q-011
+  `refusalResubmissionDays` (parâmetro). A espera vale para o documento (CNPJ da ONG ou HMAC do
+  CPF do protetor) **e** para a conta que se inscreveu.
+- **Por quê**: sem isso, basta outra conta para tentar de novo.
 
 ### BR-043: Suspensão
 
-- **Status**: `draft`
+- **Status**: `refined`
 - **Quando**: a moderação suspende (ex.: indício de venda de animais)
-- **Então**: a página e os animais saem do ar, as candidaturas ficam congeladas e a equipe
-  mantém acesso só de leitura.
-- **Em aberto**: Q-013
+- **Então**: tudo congela até a reativação:
+  - a página e os animais saem do portal e voltam na reativação;
+  - toda escrita da organização é recusada, inclusive convites, troca de papéis e as demais rotas
+    do plugin `organization`; a equipe mantém só a leitura;
+  - os prazos em andamento (candidaturas, convites, respostas) ficam pausados e voltam de onde
+    pararam na reativação;
+  - quem tem candidatura ativa recebe um aviso neutro ("a organização está temporariamente
+    indisponível"), sem citar o motivo.
 
 ### BR-044: Encerramento
 
-- **Status**: `draft`
+- **Status**: `refined`
 - **Quando**: a organização é encerrada
 - **Então**: animais arquivados, candidaturas abertas canceladas com aviso aos adotantes,
-  histórico de adoções mantido (alimenta a reputação).
-- **Em aberto**: Q-014, Q-063
+  histórico de adoções mantido (alimenta a reputação). A página pública mostra só "organização
+  encerrada", sem animais; o slug não volta a ficar livre (BR-047).
 
 ### BR-045: Ninguém apaga uma organização
 
@@ -343,32 +379,37 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 - **Quando**: alguém tenta criar uma organização
 - **Então**: usuário nenhum cria organização pela API; ela nasce da aprovação da inscrição, com
   o inscrito como Responsável e os papéis padrão (bloqueio pronto; a aprovação é FR-021).
-- **Em aberto**: Q-010
+  Antes disso existe só a inscrição (BR-041).
 
 ### BR-047: Slug
 
-- **Status**: `draft`
+- **Status**: `refined`
 - **Quando**: uma organização escolhe ou troca o slug
 - **Então**: único, minúsculo, fora da lista de reservados (`admin`, `api`, `ong`, `portal`, …).
-  Troca permitida; o antigo vai para o histórico e redireciona (301) para o atual.
-- **Em aberto**: Q-014
+  Troca permitida; o antigo vai para o histórico e redireciona (301) para o atual. Slug usado
+  uma vez fica reservado para sempre, inclusive o de organização encerrada: nenhuma outra
+  organização o recebe.
+- **Por quê**: o redirecionamento mandaria o público para a organização errada.
 
 ### BR-048: Cores da organização
 
 - **Status**: `implemented`
 - **Quando**: a organização escolhe cor primária e secundária
-- **Então**: o tema é derivado com contraste WCAG AA garantido: texto preto ou branco sobre a
-  cor, e uma variante escurecida da primária para texto e foco sobre branco (pronto no domínio
-  e na web). Layout fixo.
-- **Em aberto**: Q-015
+- **Então**: qualquer cor é aceita; nada é recusado por contraste. O tema é derivado com
+  contraste WCAG AA garantido: texto preto ou branco sobre a cor, e uma variante escurecida da
+  primária para texto e foco sobre branco (pronto no domínio e na web). A prévia mostra o tema
+  já ajustado. Layout fixo. A cor secundária só aparece em detalhes decorativos (faixas, ícones,
+  fundo do banner), nunca em texto nem em botão; o desenho fino sai do design da tela de
+  personalização (FR-025).
 
 ### BR-049: Doações só para a organização
 
-- **Status**: `draft`
+- **Status**: `refined`
 - **Quando**: a página mostra como doar
 - **Então**: só a chave PIX (e QR) da própria organização. A plataforma nunca recebe, guarda ou
-  intermedia dinheiro.
-- **Em aberto**: Q-016
+  intermedia dinheiro. Qualquer tipo de chave é aceito; antes de salvar, um aviso explica que a
+  chave fica pública, e chave CPF pede confirmação explícita.
+- **Por quê**: protetor independente costuma usar CPF ou telefone como chave.
 
 ---
 
@@ -395,10 +436,10 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
   - **Coordenador** (`coordinator`): animais (criar, editar, arquivar), candidaturas (ver, ver
     dados sensíveis, mover, aprovar), concluir adoção, avaliar pós-adoção, reportar ocorrência,
     lar temporário.
-  - **Voluntário** (`volunteer`): criar e editar animais.
+  - **Voluntário** (`volunteer`): criar e editar animais. Não arquiva nem vê candidaturas.
 - **Nota**: todo membro é adicionado com um desses papéis ou um papel próprio, nunca com o
-  padrão `member` da tabela do plugin (que não existe no catálogo).
-- **Em aberto**: Q-017
+  padrão `member` da tabela do plugin (que não existe no catálogo). Quem quiser um Voluntário
+  que veja candidaturas cria um papel próprio (BR-052).
 
 ### BR-052: Papéis próprios da organização
 
@@ -412,26 +453,39 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 - **Status**: `in-progress`
 - **Quando**: o sistema checa se um membro pode fazer algo
 - **Então**: permissões do papel ∪ concessões individuais. Concessões só somam, nunca tiram
-  (regra pura pronta; concessões ainda não existem).
-- **Em aberto**: Q-019
+  (regra pura pronta; concessões ainda não existem). As concessões ficam numa tabela própria,
+  lida pelo nosso `can()` nas rotas próprias, e só podem ser de permissões da plataforma
+  (`animal.*`, `application.*`, `adoption.*`, `post_adoption.*`, `incident.*`, `foster.*`,
+  `page.*`). Gestão da equipe (`organization.*`, `member.*`, `invitation.*`, `ac.*`) vem só do
+  papel.
+- **Por quê**: o plugin só conhece permissões de papéis; uma concessão de gestão da equipe não
+  valeria nas rotas dele.
 
 ### BR-054: Ninguém concede o que não tem
 
 - **Status**: `in-progress`
-- **Quando**: alguém concede uma permissão, convida com um papel ou troca o papel de um membro
-- **Então**: só quem gerencia a equipe, e só permissões que já tem. Só o Responsável promove a
-  Responsável (pronto no plugin). A trava para concessões, convites e troca de papel em geral
-  está no domínio, mas ainda não é aplicada nas rotas.
+- **Quando**: alguém concede uma permissão, convida com um papel, troca o papel de um membro ou
+  remove um membro
+- **Então**: só quem já tem todas as permissões envolvidas:
+  - **convidar** com o papel P exige `invitation.create` e ter todas as permissões de P;
+  - **trocar o papel** de alguém exige `member.update` e ter todas as permissões do papel antigo
+    e do novo;
+  - **remover** um membro exige `member.delete` e ter todas as permissões dele;
+  - **conceder** uma permissão exige gerenciar a equipe e ter a permissão concedida.
+
+  Só o Responsável promove a Responsável (pronto no plugin). A regra fica no domínio e é
+  aplicada por hook nas rotas do plugin; falta ajustar `assertCanAssign` (hoje exige
+  `member.update` até para convites) e ligar o hook.
+
 - **Por quê**: escalada de privilégio por convite ou troca de papel.
-- **Em aberto**: Q-018
 
 ### BR-055: Sempre um Responsável
 
 - **Status**: `in-progress`
-- **Quando**: alguém sai, é removido ou muda de papel
-- **Então**: a organização mantém ao menos um Responsável: o último não sai nem é rebaixado
-  (pronto no plugin).
-- **Em aberto**: Q-005 (remoção, banimento ou exclusão da conta do último Responsável)
+- **Quando**: alguém sai, é removido, muda de papel, é banido ou inativa a conta
+- **Então**: a organização ativa ou suspensa mantém ao menos um Responsável: o último não sai,
+  não é removido nem rebaixado (pronto no plugin), não pode ser banido (BR-014) nem inativar a
+  conta (BR-140, FR-092) enquanto for o único.
 
 ### BR-056: Convites
 
@@ -443,13 +497,15 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 
 ### BR-057: 2FA para dados sensíveis
 
-- **Status**: `draft`
+- **Status**: `refined`
 - **Quando**: um membro tem permissão sensível: `application.view_sensitive`,
   `organization.update` ou qualquer permissão de gestão da equipe (`member.*`, `invitation.*`,
   `ac.*`)
-- **Então**: precisa de 2FA ativo (regra pura pronta; ainda não aplicada). O Responsável e o
-  Coordenador sempre caem aqui.
-- **Em aberto**: Q-020
+- **Então**: precisa de 2FA ativo (regra pura pronta; ainda não aplicada). Sem ele, todas as
+  rotas da organização respondem `TWO_FACTOR_REQUIRED`, exceto as de ativar o 2FA, como na
+  equipe da plataforma (BR-011). Convidar ou promover alguém para um papel sensível continua
+  permitido; a exigência vale quando a pessoa age. O Responsável e o Coordenador sempre caem
+  aqui.
 
 ### BR-058: Equipe auditada
 
@@ -459,11 +515,13 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 
 ### BR-059: Membro em causa própria
 
-- **Status**: `draft`
+- **Status**: `refined`
 - **Quando**: um membro da organização se candidata a um animal dela, ou é alvo de uma
   ocorrência
-- **Então**: a definir.
-- **Em aberto**: Q-021
+- **Então**: pode se candidatar a um animal da própria organização, mas não move, aprova,
+  conclui nem avalia a própria candidatura ou adoção, nem reporta ou decide ocorrência sobre si
+  mesmo; outro membro com a permissão precisa fazer.
+- **Por quê**: ninguém decide em causa própria.
 
 ---
 
@@ -496,20 +554,24 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 
 - **Status**: `draft`
 - **Quando**: a organização define uma taxa de adoção
-- **Então**: opcional; se maior que zero, exige justificativa (castração, vacinas…) e não passa
-  de `adoptionFeeCapCents` (parâmetro, até R$ 500). Indício de comércio vira denúncia e pode
-  suspender a organização (BR-043).
+- **Então**: opcional; a taxa do animal nasce vazia (sem taxa). Se maior que zero, exige
+  justificativa (castração, vacinas…) e não passa de `adoptionFeeCapCents` (parâmetro). O
+  parâmetro nasce `null`, que vale R$ 0: nenhuma taxa até a equipe definir um teto, que vai no
+  máximo a R$ 500. Indício de comércio vira denúncia e pode suspender a organização (BR-043).
 - **Por quê**: a taxa só cobre custos; venda de animais é proibida.
-- **Em aberto**: Q-022
 
 ### BR-064: Status do animal
 
-- **Status**: `draft`
+- **Status**: `refined`
 - **Quando**: a situação do animal muda
-- **Então**: `Rascunho → Disponível ⇄ Em lar temporário (ainda adotável) → Em processo →
-  Adotado`; `Indisponível` (tratamento); `Arquivado` (óbito, transferência). Toda mudança vai
-  para o histórico.
-- **Em aberto**: Q-023
+- **Então**: `Rascunho → Disponível ⇄ Em processo → Adotado`, além de `Indisponível`
+  (tratamento) e `Arquivado` (óbito, transferência). Toda mudança vai para o histórico.
+  - **Em processo**: quando uma candidatura chega a `Aprovada`; volta a `Disponível` se ela
+    terminar sem adoção.
+  - **Indisponível**: pausa — não aceita candidaturas novas e mantém as ativas.
+  - **Adotado** e **Arquivado**: cancelam as candidaturas ativas (BR-078).
+  - **Lar temporário** não é status: é um vínculo à parte (FR-071), e o animal continua com o
+    status que tiver (pode estar `Disponível` ou `Em processo` num lar temporário).
 
 ### BR-065: Devolução
 
@@ -558,8 +620,8 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 - **Status**: `draft`
 - **Quando**: alguém envia uma candidatura
 - **Então**: recusa se o CPF já tem `maxActiveApplications` (parâmetro) candidaturas ativas em
-  toda a plataforma.
-- **Em aberto**: Q-030, Q-024
+  toda a plataforma. Baixar o parâmetro não cancela candidaturas já enviadas (BR-032).
+- **Em aberto**: Q-030
 
 ### BR-075: Uma candidatura por animal
 
@@ -587,11 +649,10 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 
 ### BR-078: Cancelamento automático
 
-- **Status**: `draft`
-- **Quando**: o animal é adotado por outra pessoa ou deixa de estar disponível
+- **Status**: `refined`
+- **Quando**: o animal é adotado por outra pessoa ou arquivado
 - **Então**: as candidaturas ativas para ele viram `Cancelada`, com mensagem gentil automática.
-  Neutro para a reputação.
-- **Em aberto**: Q-023
+  Neutro para a reputação. `Indisponível` não cancela (BR-064).
 
 ### BR-079: Concluir a adoção
 
@@ -821,13 +882,28 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 
 ## Dados pessoais (LGPD)
 
-### BR-140: Exclusão da conta
+### BR-140: Inativação da conta
 
-- **Status**: `draft`
-- **Quando**: o titular exclui a conta
-- **Então**: os dados pessoais são apagados; fica só o registro de inelegibilidade (HMAC do CPF +
-  categoria), se houver — validar juridicamente.
-- **Em aberto**: Q-005, Q-063
+- **Status**: `refined`
+- **Quando**: o titular inativa a conta
+- **Então**: não existe exclusão de conta: o registro nunca é apagado. É o único caminho
+  (BR-016) e recusa enquanto o titular for o único Responsável de uma organização ativa ou
+  suspensa (BR-055); o protetor independente encerra a organização antes (BR-044), e a tela
+  explica o caminho.
+  - **Na hora**: encerra as sessões e tira a pessoa das listas e buscas. As candidaturas ativas
+    dela viram `Desistência` (neutra).
+  - **Por 30 dias**: a inativação tem volta; entrar de novo reativa a conta.
+  - **Depois de 30 dias**: a tarefa agendada de FR-093 anonimiza os dados pessoais (nome,
+    e-mail, telefone, endereço, CPF cifrado). Ficam o id, o histórico (adoções, ocorrências,
+    decisões) e o registro de inelegibilidade (HMAC do CPF + categoria), se houver. Selos e
+    reputação continuam ligados ao HMAC do CPF.
+  - **O que a organização vê**: membro inativado sai da equipe; nos históricos (status de
+    animal, etapas, decisões) aparece "Conta inativada" no lugar do nome e, depois da
+    anonimização, "Ex-membro". Nas candidaturas e adoções passadas de um adotante inativado
+    aparece "Adotante com conta inativada", sem dados de contato.
+- **Por quê**: o histórico sustenta a reputação, e a LGPD pede anonimizar o que não é mais
+  necessário (art. 18). Os 30 dias protegem contra inativação por engano ou por quem invadiu a
+  conta. Validar com o advogado (PLANO §4).
 
 ### BR-141: Anonimização
 
@@ -836,10 +912,10 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 - **Então**: os dados pessoais dela são anonimizados.
 - **Em aberto**: Q-061
 
-### BR-142: Auditoria sobrevive à exclusão
+### BR-142: Auditoria sobrevive à anonimização
 
 - **Status**: `implemented`
-- **Quando**: uma conta é excluída
+- **Quando**: dados pessoais de uma conta são anonimizados (BR-140, BR-141)
 - **Então**: a auditoria não muda (só guarda ids; BR-020).
 
 ### BR-143: Chaves de cifra e HMAC

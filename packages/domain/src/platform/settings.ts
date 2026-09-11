@@ -93,7 +93,7 @@ export const PLATFORM_SETTINGS = {
     max: 500_00,
     nullable: true,
     // A taxa só cobre custos (transporte, vacinas, remédios), daí o limite de R$ 500.
-    // Valor do teto e sentido de "não definido": decididos antes da Fase 1 (Q-022).
+    // `null` vale R$ 0: nenhuma taxa até a equipe definir um teto (BR-063).
     default: null,
     description: 'Teto da taxa de adoção, em centavos',
   },

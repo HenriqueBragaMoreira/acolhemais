@@ -12,9 +12,10 @@ banco, com teste unitário); a API valida a entrada, checa escopo e permissão e
 
 ### BR-002: Bloqueio progressivo por e-mail
 
-- **Status**: `implemented`
+- **Status**: `in-progress`
 - **Escopo (api)**: regra `loginLockoutMs` no domínio; plugin `loginLockout` com a tabela
-  `login_throttle` (chave = HMAC do e-mail, upsert atômico). Falta a limpeza periódica da tabela.
+  `login_throttle` (chave = HMAC do e-mail, upsert atômico). Faltam zerar o bloqueio na
+  redefinição de senha (com FR-004) e a limpeza periódica da tabela.
 
 ### BR-003: Rate limit por IP
 
@@ -42,18 +43,26 @@ banco, com teste unitário); a API valida a entrada, checa escopo e permissão e
 
 - **Status**: `in-progress`
 - **Escopo (api)**: catálogo da plataforma sem `impersonate`, `set-password` e `set-email`
-  (teste de domínio e de integração). Falta fechar `update-user` e `create-user` (Q-001, Q-002).
+  (teste de domínio e de integração). Falta hook em `update-user` que só aceite `name` e `image`
+  em `data`.
 
 ### BR-009: 2FA por app autenticador
 
 - **Status**: `implemented`
-- **Escopo (api)**: plugin `twoFactor` com `issuer` e `allowPasswordless`.
+- **Escopo (api)**: plugin `twoFactor` com `issuer` e `allowPasswordless`; `trustDevice` aceito
+  (padrão do plugin, 30 dias).
 
 ### BR-010: Papéis da plataforma
 
-- **Status**: `implemented`
+- **Status**: `in-progress`
 - **Escopo (api)**: `PLATFORM_ROLES` no domínio → plugin `admin` (`platformAc`); `platformCan` nas
-  rotas próprias.
+  rotas próprias. Faltam tirar `user.delete` do superadmin e as travas de BR-008, BR-013 e BR-015.
+
+### BR-013: Continuidade dos superadmins
+
+- **Status**: `refined`
+- **Escopo (api)**: hook em `set-role` (e em `create-user`) que recusa dar, tirar ou incluir
+  `superadmin`; comando de linha para dar e tirar o papel (FR-011).
 
 ### BR-011: 2FA obrigatório para a equipe da plataforma
 
@@ -68,8 +77,20 @@ banco, com teste unitário); a API valida a entrada, checa escopo e permissão e
 
 ### BR-014: Banimento de conta
 
-- **Status**: `implemented`
-- **Escopo (api)**: plugin `admin` (encerra sessões, recusa login); auditado.
+- **Status**: `in-progress`
+- **Escopo (api)**: plugin `admin` (encerra sessões, recusa login); auditado. Falta hook em
+  `ban-user` que recuse o único Responsável (`assertOwnerRemains`).
+
+### BR-015: Conta criada pela equipe
+
+- **Status**: `refined`
+- **Escopo (api)**: hook em `create-user` que aceite só nome, e-mail e papel da equipe, sem senha
+  nem `emailVerified`; e-mail de primeiro acesso com link de uso único (FR-080).
+
+### BR-016: A equipe não remove contas
+
+- **Status**: `refined`
+- **Escopo (api)**: nenhum papel com `user.delete`; conta só é inativada, por FR-092.
 
 ### BR-020: Auditoria só de acréscimo
 
@@ -96,8 +117,10 @@ banco, com teste unitário); a API valida a entrada, checa escopo e permissão e
 
 ### BR-024: Quem consulta a auditoria
 
-- **Status**: `implemented`
-- **Escopo (api)**: `requirePlatformPermission({ audit_log: ['view'] })`.
+- **Status**: `in-progress`
+- **Escopo (api)**: `requirePlatformPermission({ audit_log: ['view'] })` para a auditoria inteira
+  (pronto); falta a rota da organização, só para o Responsável, filtrada pela organização e sem
+  IP nem Ray ID.
 
 ### BR-030: Parâmetros configuráveis
 
@@ -146,18 +169,20 @@ banco, com teste unitário); a API valida a entrada, checa escopo e permissão e
 
 - **Status**: `in-progress`
 - **Escopo (api)**: `effectivePermissions` e `can` no domínio; falta a tabela de concessões e o
-  uso nas rotas (Q-019).
+  uso nas rotas próprias (só permissões da plataforma, BR-053).
 
 ### BR-054: Ninguém concede o que não tem
 
 - **Status**: `in-progress`
-- **Escopo (api)**: `assertCanAssign` no domínio; falta hook nas rotas do plugin (Q-018).
+- **Escopo (api)**: `assertCanAssign` no domínio (falta separar convite, troca de papel e
+  remoção, cada um com sua permissão); falta hook nas rotas do plugin.
 
 ### BR-055: Sempre um Responsável
 
 - **Status**: `in-progress`
 - **Escopo (api)**: plugin garante que o último Responsável não sai nem é rebaixado;
-  `assertOwnerRemains` no domínio para os fluxos próprios (Q-005).
+  `assertOwnerRemains` no domínio, a ligar no banimento (BR-014) e na inativação da conta
+  (FR-092).
 
 ### BR-056: Convites
 
@@ -170,7 +195,7 @@ banco, com teste unitário); a API valida a entrada, checa escopo e permissão e
 - **Status**: `implemented`
 - **Escopo (api)**: plugin `auditTrail` nas rotas de organização, membros, convites e papéis.
 
-### BR-142: Auditoria sobrevive à exclusão
+### BR-142: Auditoria sobrevive à anonimização
 
 - **Status**: `implemented`
 - **Escopo (api)**: `audit_log` sem FK para usuário ou organização.
