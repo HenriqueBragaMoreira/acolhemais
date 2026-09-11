@@ -13,6 +13,7 @@ import { loginLockout } from './plugins/login-lockout'
 import { authMessages } from './messages'
 import { organizationAc, organizationRoles } from './access/organization'
 import { platformAc, platformRoles } from './access/platform'
+import { platformGuards } from './plugins/platform-guards'
 import { platformTwoFactor } from './plugins/platform-two-factor'
 import { socialTwoFactor } from './plugins/social-two-factor'
 
@@ -86,6 +87,9 @@ export function createAuth({ config, db, waitUntil }: AuthDeps) {
       // Equipe da plataforma (Superadmin, Moderador, Suporte), com papéis em `user.role`.
       admin({ ac: platformAc, roles: platformRoles, defaultRole: 'user' }),
       platformTwoFactor(),
+      // Travas que o plugin admin não oferece: campos editáveis, papel superadmin, conta sem
+      // senha, último Responsável (BR-008, BR-013, BR-014, BR-015).
+      platformGuards({ db }),
       // ONGs e protetores, com equipe, convites e papéis. As regras próprias da plataforma
       // (aprovação, concessões individuais, travas contra escalada, slugs) chegam na Fase 1.
       organization({

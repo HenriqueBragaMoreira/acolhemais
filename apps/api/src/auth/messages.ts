@@ -46,4 +46,14 @@ export const authMessages = {
   YOU_CANNOT_REMOVE_YOURSELF: 'Você não pode excluir a própria conta por aqui.',
   YOU_ARE_NOT_ALLOWED_TO_SET_NON_EXISTENT_VALUE: 'Papel inexistente.',
   INVALID_ROLE_TYPE: 'Papel inválido.',
+
+  // Travas da equipe da plataforma (plugin platformGuards)
+  USER_FIELD_NOT_EDITABLE: 'Na conta de outra pessoa, só é possível corrigir o nome e a foto.',
+  CREATE_USER_FIELD_NOT_ALLOWED:
+    'Informe só nome, e-mail e, se for da equipe, o papel. A pessoa cria a senha pelo e-mail de primeiro acesso.',
+  ROLE_NOT_ASSIGNABLE: 'Pela API só é possível dar os papéis de moderador e suporte.',
+  SUPERADMIN_CLI_ONLY:
+    'O papel de superadmin só muda pela linha de comando. Para suspender um superadmin, retire o papel antes.',
+  OWNER_REQUIRED:
+    'Esta pessoa é a única Responsável de uma organização. Defina outro Responsável antes.',
 }
