@@ -1,10 +1,13 @@
 import { describe, expect, it } from 'vitest'
 import {
   PLATFORM_ROLES,
+  assertSuperadminRemains,
   platformCan,
   platformRequiresTwoFactor,
   platformRolesOf,
+  requestedRoles,
   splitRoles,
+  touchesSuperadmin,
 } from './access'
 
 describe('BR-016: a equipe não remove contas', () => {
@@ -13,6 +16,33 @@ describe('BR-016: a equipe não remove contas', () => {
       const userActions: readonly string[] = grants.user
       expect(userActions).not.toContain('delete')
     }
+  })
+})
+
+describe('BR-013: continuidade dos superadmins', () => {
+  it('lê os papéis pedidos em texto, lista ou separados por vírgula', () => {
+    expect(requestedRoles('moderator')).toEqual(['moderator'])
+    expect(requestedRoles(['support', 'moderator,superadmin'])).toEqual([
+      'support',
+      'moderator',
+      'superadmin',
+    ])
+    expect(requestedRoles(undefined)).toEqual([])
+  })
+
+  it('reconhece pedido que dá, tira ou mantém superadmin', () => {
+    expect(touchesSuperadmin('user', ['superadmin'])).toBe(true)
+    expect(touchesSuperadmin('superadmin', ['moderator'])).toBe(true)
+    expect(touchesSuperadmin('superadmin,support', ['superadmin', 'support'])).toBe(true)
+    expect(touchesSuperadmin('moderator', ['support'])).toBe(false)
+    expect(touchesSuperadmin(null, ['moderator'])).toBe(false)
+  })
+
+  it('não deixa a plataforma sem superadmin', () => {
+    expect(() => assertSuperadminRemains(0)).toThrow(
+      expect.objectContaining({ code: 'SUPERADMIN_REQUIRED' }),
+    )
+    expect(() => assertSuperadminRemains(1)).not.toThrow()
   })
 })
 

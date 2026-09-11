@@ -1,3 +1,5 @@
+import { DomainError } from '../errors'
+
 /**
  * Permissões da equipe da plataforma (Superadmin, Moderador, Suporte), aplicadas pelo plugin
  * `admin` do Better Auth. `user` e `session` são recursos do próprio plugin (gestão de contas);
@@ -68,6 +70,35 @@ export const PLATFORM_ROLE_KEYS = Object.keys(PLATFORM_ROLES) as PlatformRole[]
 
 export function isPlatformRole(role: string): role is PlatformRole {
   return Object.hasOwn(PLATFORM_ROLES, role)
+}
+
+export const SUPERADMIN_ROLE = 'superadmin' satisfies PlatformRole
+
+/**
+ * Papéis que o superadmin dá e tira pela API (BR-013) e informa ao criar uma conta (BR-015).
+ * `superadmin` só muda pela linha de comando.
+ */
+export const TEAM_ROLES: readonly string[] = ['moderator', 'support'] satisfies PlatformRole[]
+
+/** Papéis informados à API, em texto ou lista, cada um podendo vir separado por vírgula. */
+export function requestedRoles(value: unknown): string[] {
+  const list: unknown[] = Array.isArray(value) ? value : [value]
+  return list.flatMap((role) => (typeof role === 'string' ? splitRoles(role) : []))
+}
+
+/** Se a troca de papel dá, tira ou mantém `superadmin`: pela API, sempre recusada (BR-013). */
+export function touchesSuperadmin(
+  currentRole: string | null | undefined,
+  requested: readonly string[],
+): boolean {
+  return splitRoles(currentRole).includes(SUPERADMIN_ROLE) || requested.includes(SUPERADMIN_ROLE)
+}
+
+/** A plataforma nunca fica sem superadmin: só ele altera parâmetros e lê a auditoria (BR-013). */
+export function assertSuperadminRemains(otherSuperadmins: number): void {
+  if (otherSuperadmins < 1) {
+    throw new DomainError('SUPERADMIN_REQUIRED', 'Platform must keep at least one superadmin')
+  }
 }
 
 /** Papéis guardados num campo só: o Better Auth separa vários papéis por vírgula. */
