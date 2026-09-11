@@ -7,6 +7,15 @@ import {
   splitRoles,
 } from './access'
 
+describe('BR-016: a equipe não remove contas', () => {
+  it('nenhum papel da plataforma tem user.delete', () => {
+    for (const grants of Object.values(PLATFORM_ROLES)) {
+      const userActions: readonly string[] = grants.user
+      expect(userActions).not.toContain('delete')
+    }
+  })
+})
+
 describe('papéis da plataforma', () => {
   it('não deixam ninguém personificar usuários nem trocar senha ou e-mail de outra pessoa', () => {
     for (const grants of Object.values(PLATFORM_ROLES)) {

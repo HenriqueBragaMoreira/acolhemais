@@ -36,7 +36,8 @@ export const authMessages = {
   YOU_ARE_NOT_ALLOWED_TO_IMPERSONATE_USERS: 'Ninguém pode entrar como outro usuário.',
   YOU_ARE_NOT_ALLOWED_TO_REVOKE_USERS_SESSIONS:
     'Você não tem permissão para encerrar sessões de usuários.',
-  YOU_ARE_NOT_ALLOWED_TO_DELETE_USERS: 'Você não tem permissão para excluir usuários.',
+  YOU_ARE_NOT_ALLOWED_TO_DELETE_USERS:
+    'Contas não são excluídas. Para afastar alguém, suspenda a conta.',
   YOU_ARE_NOT_ALLOWED_TO_SET_USERS_PASSWORD: 'Ninguém pode definir a senha de outro usuário.',
   YOU_ARE_NOT_ALLOWED_TO_SET_USERS_EMAIL: 'Ninguém pode mudar o e-mail de outro usuário.',
   BANNED_USER: 'Esta conta está suspensa.',

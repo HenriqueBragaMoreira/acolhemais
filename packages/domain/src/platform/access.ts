@@ -33,11 +33,12 @@ export type PlatformGrants = { [R in keyof Statements]?: readonly Statements[R][
 
 /**
  * Ninguém personifica outro usuário nem define a senha ou o e-mail de outra pessoa: seria
- * acesso a dados pessoais sem o titular e uma porta para sequestro de conta.
+ * acesso a dados pessoais sem o titular e uma porta para sequestro de conta. Ninguém remove
+ * contas (BR-016): para afastar alguém, a equipe bane.
  */
 export const PLATFORM_ROLES = {
   superadmin: {
-    user: ['create', 'list', 'set-role', 'ban', 'delete', 'get', 'update'],
+    user: ['create', 'list', 'set-role', 'ban', 'get', 'update'],
     session: ['list', 'revoke', 'delete'],
     organization_review: ['view', 'decide'],
     incident: ['view', 'decide'],
