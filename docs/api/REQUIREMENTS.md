@@ -44,15 +44,16 @@ Item ausente = ainda sem escopo definido para a API; ao refinar, adicione-o aqui
 #### FR-010: Gerenciar usuários (equipe da plataforma)
 
 - **Status**: `in-progress`
-- **Escopo (api)**: rotas `/api/auth/admin/*` do plugin `admin` com o catálogo da plataforma e o
-  plugin `platformTwoFactor`. Faltam as travas de BR-008, BR-010, BR-013, BR-014, BR-015 e
-  BR-016.
+- **Escopo (api)**: rotas `/api/auth/admin/*` do plugin `admin` com o catálogo da plataforma e os
+  plugins `platformTwoFactor` e `platformGuards` (travas de BR-008, BR-013, BR-014, BR-015 e
+  BR-016, prontas). Falta o e-mail de primeiro acesso da conta criada pela equipe (FR-080).
 
 #### FR-011: Gerenciar superadmins pela linha de comando
 
-- **Status**: `in-progress`
-- **Escopo (api)**: script `auth:create-admin` (sem rota HTTP, pronto); falta o comando para dar e
-  tirar `superadmin` de uma conta existente.
+- **Status**: `implemented`
+- **Escopo (api)**: `pnpm auth:create-admin` (CLI do Better Auth) cria a conta; `pnpm
+  auth:superadmin grant|revoke <email>` dá e tira `superadmin` de uma conta existente, recusa
+  tirar o último e grava na auditoria. Nenhum dos dois tem rota HTTP.
 
 #### FR-012: Consultar a auditoria
 

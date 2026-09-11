@@ -41,10 +41,11 @@ banco, com teste unitário); a API valida a entrada, checa escopo e permissão e
 
 ### BR-008: Ninguém age como outra pessoa
 
-- **Status**: `in-progress`
+- **Status**: `implemented`
 - **Escopo (api)**: catálogo da plataforma sem `impersonate`, `set-password` e `set-email`
-  (teste de domínio e de integração). Falta hook em `update-user` que só aceite `name` e `image`
-  em `data`.
+  (teste de domínio e de integração). Plugin `platformGuards`: `update-user` só aceita `name` e
+  `image` em `data` (`USER_FIELD_NOT_EDITABLE`), o que também fecha a troca de papel e o
+  banimento por essa rota.
 
 ### BR-009: 2FA por app autenticador
 
@@ -54,15 +55,18 @@ banco, com teste unitário); a API valida a entrada, checa escopo e permissão e
 
 ### BR-010: Papéis da plataforma
 
-- **Status**: `in-progress`
+- **Status**: `implemented`
 - **Escopo (api)**: `PLATFORM_ROLES` no domínio → plugin `admin` (`platformAc`); `platformCan` nas
-  rotas próprias. Faltam tirar `user.delete` do superadmin e as travas de BR-008, BR-013 e BR-015.
+  rotas próprias. Travas de BR-008, BR-013, BR-014 e BR-015 no plugin `platformGuards`.
 
 ### BR-013: Continuidade dos superadmins
 
-- **Status**: `refined`
-- **Escopo (api)**: hook em `set-role` (e em `create-user`) que recusa dar, tirar ou incluir
-  `superadmin`; comando de linha para dar e tirar o papel (FR-011).
+- **Status**: `implemented`
+- **Escopo (api)**: `touchesSuperadmin` e `assertSuperadminRemains` no domínio. Plugin
+  `platformGuards` recusa (`SUPERADMIN_CLI_ONLY`) `set-role` e `create-user` que deem, tirem ou
+  incluam `superadmin`, e `ban-user` sobre um superadmin. `pnpm auth:superadmin grant|revoke
+  <email>` (`setSuperadmin`) dá e tira o papel mantendo os outros, recusa tirar o último e grava
+  `user.role_changed` (autor `null`) na mesma transação.
 
 ### BR-011: 2FA obrigatório para a equipe da plataforma
 
@@ -77,20 +81,28 @@ banco, com teste unitário); a API valida a entrada, checa escopo e permissão e
 
 ### BR-014: Banimento de conta
 
-- **Status**: `in-progress`
-- **Escopo (api)**: plugin `admin` (encerra sessões, recusa login); auditado. Falta hook em
-  `ban-user` que recuse o único Responsável (`assertOwnerRemains`).
+- **Status**: `implemented`
+- **Escopo (api)**: plugin `admin` (encerra sessões, recusa login); auditado. Plugin
+  `platformGuards` recusa banir o único Responsável (`assertOwnerRemains`, `OWNER_REQUIRED`) e
+  um superadmin; a checagem só roda para quem tem `user.ban`, para não revelar nada a quem não
+  pode banir.
+- **Nota**: até existir o status da organização (BR-041, Fase 1), toda organização conta como
+  ativa; com ele, ignorar as encerradas.
 
 ### BR-015: Conta criada pela equipe
 
-- **Status**: `refined`
-- **Escopo (api)**: hook em `create-user` que aceite só nome, e-mail e papel da equipe, sem senha
-  nem `emailVerified`; e-mail de primeiro acesso com link de uso único (FR-080).
+- **Status**: `in-progress`
+- **Escopo (api)**: plugin `platformGuards`: chamado por requisição, `create-user` aceita só
+  `name`, `email` e `role` `moderator`/`support` (`CREATE_USER_FIELD_NOT_ALLOWED`,
+  `ROLE_NOT_ASSIGNABLE`); a conta nasce sem senha e com o e-mail não verificado. Chamadas do
+  servidor sem requisição (o `auth create-admin`) ficam de fora. Faltam o e-mail de primeiro
+  acesso (FR-080) e marcar o e-mail como verificado no `onPasswordReset` (FR-004).
 
 ### BR-016: A equipe não remove contas
 
-- **Status**: `refined`
-- **Escopo (api)**: nenhum papel com `user.delete`; conta só é inativada, por FR-092.
+- **Status**: `implemented`
+- **Escopo (api)**: nenhum papel com `user.delete` (teste de domínio e de integração); conta só é
+  inativada, por FR-092.
 
 ### BR-020: Auditoria só de acréscimo
 
@@ -181,8 +193,8 @@ banco, com teste unitário); a API valida a entrada, checa escopo e permissão e
 
 - **Status**: `in-progress`
 - **Escopo (api)**: plugin garante que o último Responsável não sai nem é rebaixado;
-  `assertOwnerRemains` no domínio, a ligar no banimento (BR-014) e na inativação da conta
-  (FR-092).
+  `assertOwnerRemains` no domínio, ligado no banimento (BR-014, pronto); falta ligar na
+  inativação da conta (FR-092).
 
 ### BR-056: Convites
 

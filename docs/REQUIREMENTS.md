@@ -107,12 +107,12 @@ têm o status só aqui. **Fase** é a do roadmap ([PLANO](PLANO.md) §6).
 
 #### FR-011: Gerenciar superadmins pela linha de comando
 
-- **Status**: `in-progress`
+- **Status**: `implemented`
 - **Fase**: 0
 - **Descrição**: `pnpm auth:create-admin` cria uma conta com papel da plataforma, sem tela nem
-  rota pública (pronto). Dar e tirar o papel `superadmin` de uma conta existente também é só por
-  linha de comando (BR-013; falta). A conta precisa ativar o 2FA antes de usar as rotas da
-  equipe.
+  rota pública. `pnpm auth:superadmin grant|revoke <email>` dá e tira o papel `superadmin` de uma
+  conta existente (BR-013), recusa tirar o último e registra na auditoria. A conta precisa ativar
+  o 2FA antes de usar as rotas da equipe.
 - **Regras**: BR-011, BR-013
 
 #### FR-012: Consultar a auditoria

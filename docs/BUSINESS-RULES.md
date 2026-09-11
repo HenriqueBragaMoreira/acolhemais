@@ -82,7 +82,7 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 
 ### BR-008: Ninguém age como outra pessoa
 
-- **Status**: `in-progress`
+- **Status**: `implemented`
 - **Quando**: alguém da equipe da plataforma age sobre a conta de outra pessoa
 - **Então**: ninguém personifica usuários, define a senha ou o e-mail de outra pessoa, nem
   enfraquece a segurança da conta dela (2FA, e-mail verificado). Editar a conta de outra pessoa
@@ -90,8 +90,6 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
   campo é recusado. Criar conta segue BR-015. Mudar isso exige revisar o catálogo da
   plataforma.
 - **Por quê**: seria acesso a dados pessoais sem o titular e porta para sequestro de conta.
-- **Nota**: personificação, senha e e-mail alheios estão bloqueados e testados. Faltam a trava de
-  campos na edição (`update-user`) e a de BR-015 na criação (`create-user`).
 
 ### BR-009: 2FA por app autenticador
 
@@ -111,7 +109,7 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 
 ### BR-010: Papéis da plataforma
 
-- **Status**: `in-progress`
+- **Status**: `implemented`
 - **Quando**: alguém da equipe usa uma rota da plataforma
 - **Então**: vale a tabela abaixo (um usuário pode ter mais de um papel; vale a união). Usuário
   comum tem o papel `user`, sem permissão da plataforma.
@@ -137,8 +135,6 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
   `user.set-email` nem `user.delete` (BR-016).
 
 - **Por quê**: menor privilégio; o suporte só lê e não vê ocorrências.
-- **Nota**: falta tirar `user.delete` do superadmin e aplicar as travas de BR-008, BR-013 e
-  BR-015 nas rotas do plugin `admin`.
 
 ### BR-011: 2FA obrigatório para a equipe da plataforma
 
@@ -158,27 +154,28 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 
 ### BR-013: Continuidade dos superadmins
 
-- **Status**: `refined`
+- **Status**: `implemented`
 - **Quando**: um papel de superadmin é dado ou retirado
 - **Então**: só pela linha de comando (FR-011), nunca pela API. Pela API, o superadmin só dá ou
   tira `moderator` e `support`; pedido que dê, tire ou inclua `superadmin` é recusado, inclusive
-  sobre a própria conta.
+  sobre a própria conta. Pela API ninguém bane um superadmin: o papel sai antes, pela linha de
+  comando. A linha de comando recusa tirar o último superadmin.
 - **Por quê**: superadmin altera parâmetros e lê a auditoria; ficar sem nenhum trava a
   plataforma, e promover sem controle concentra poder. Quem tem acesso ao deploy é quem cria.
 
 ### BR-014: Banimento de conta
 
-- **Status**: `in-progress`
+- **Status**: `implemented`
 - **Quando**: o superadmin bane uma conta
 - **Então**: as sessões dela são encerradas, o login é recusado até o fim do banimento (ou para
-  sempre) e o motivo e o prazo vão para a auditoria. Ninguém bane a si mesmo. Recusa banir quem é
-  o único Responsável de uma organização ativa ou suspensa (BR-055). Banimento é sobre a conta;
-  inelegibilidade para adotar é outra coisa (BR-096).
-- **Nota**: falta a recusa do único Responsável.
+  sempre) e o motivo e o prazo vão para a auditoria. Ninguém bane a si mesmo nem um superadmin
+  (BR-013). Recusa banir quem é o único Responsável de uma organização ativa ou suspensa
+  (BR-055). Banimento é sobre a conta; inelegibilidade para adotar é outra coisa (BR-096).
+- **Nota**: até existir o status da organização (Fase 1), toda organização conta como ativa.
 
 ### BR-015: Conta criada pela equipe
 
-- **Status**: `refined`
+- **Status**: `in-progress`
 - **Quando**: o superadmin cria a conta de outra pessoa
 - **Então**: informa só nome, e-mail e, se for da equipe, o papel (`moderator` ou `support`,
   BR-013). A conta nasce sem senha e com o e-mail não verificado; senha, "e-mail verificado" e
@@ -187,16 +184,17 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
   e-mail fica verificado. Se o link expirar, "esqueci a senha" envia outro, mesmo sem senha
   criada. Depois, se quiser, ativa o 2FA (obrigatório só para a equipe, BR-011). Até usar o
   link, entrar pelo Google com esse e-mail é recusado (BR-004).
-- **Nota**: verificado no Better Auth 1.7.15 — `create-user` aceita conta sem senha (não cria o
-  login por senha); a redefinição de senha cria o login quando ele não existe. Falta marcar o
-  e-mail como verificado quando a senha é redefinida (`onPasswordReset`): usar o link já prova
-  que a pessoa recebe o e-mail. Vale para toda redefinição, não só a de primeiro acesso.
+- **Nota**: a trava da criação está pronta (só nome, e-mail e papel; conta sem senha e sem login
+  por senha). A redefinição de senha cria o login quando ele não existe (Better Auth 1.7.15).
+  Faltam o e-mail de primeiro acesso (FR-080) e marcar o e-mail como verificado quando a senha é
+  redefinida (`onPasswordReset`): usar o link já prova que a pessoa recebe o e-mail. Vale para
+  toda redefinição, não só a de primeiro acesso.
 - **Por quê**: a equipe pode abrir contas sem nunca conhecer a senha de ninguém, e quem pré-cria
   uma conta não fica com acesso a ela.
 
 ### BR-016: A equipe não remove contas
 
-- **Status**: `refined`
+- **Status**: `implemented`
 - **Quando**: alguém da equipe quer remover uma conta
 - **Então**: recusado para todos (ninguém tem `user.delete`); conta nunca é apagada. Só o
   titular inativa a própria conta, pelo fluxo de FR-092 (BR-140). Para afastar alguém, a equipe
@@ -484,8 +482,8 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 - **Status**: `in-progress`
 - **Quando**: alguém sai, é removido, muda de papel, é banido ou inativa a conta
 - **Então**: a organização ativa ou suspensa mantém ao menos um Responsável: o último não sai,
-  não é removido nem rebaixado (pronto no plugin), não pode ser banido (BR-014) nem inativar a
-  conta (BR-140, FR-092) enquanto for o único.
+  não é removido nem rebaixado (pronto no plugin), não pode ser banido (BR-014, pronto) nem
+  inativar a conta (BR-140, FR-092) enquanto for o único.
 
 ### BR-056: Convites
 
