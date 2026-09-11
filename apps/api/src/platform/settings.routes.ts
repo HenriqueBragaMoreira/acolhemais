@@ -10,7 +10,7 @@ import { parseSettingsChanges, settingsView, updatePlatformSettings } from './se
 const updateSchema = z.object({ values: z.record(z.string(), z.unknown()) })
 
 /**
- * Parâmetros da plataforma (PLANO §3.10). A equipe com `platform_setting.view` consulta e
+ * Parâmetros da plataforma (BR-030, BR-031). A equipe com `platform_setting.view` consulta e
  * quem tem `platform_setting.update` altera; cada valor alterado vai para a auditoria na
  * mesma transação.
  */

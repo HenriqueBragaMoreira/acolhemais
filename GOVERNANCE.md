@@ -26,7 +26,9 @@ mínimo de 48 h com o PR aberto para revisão da comunidade.
 ## Decisões
 
 Mudanças de arquitetura ou de regra de negócio são discutidas em issue e registradas como ADR em
-`docs/adr/`. Mudanças nas regras de reputação e privacidade também atualizam `docs/PLANO.md`.
+`docs/adr/`. Toda regra de negócio vive em `docs/BUSINESS-RULES.md` e todo requisito em
+`docs/REQUIREMENTS.md`; mudanças nas regras de reputação, privacidade e permissões passam pela
+revisão reforçada acima.
 
 ## Contato
 

@@ -23,7 +23,7 @@ type SettingDefinition = (IntegerSetting | IntegerListSetting) & {
 }
 
 /**
- * Parâmetros da plataforma (PLANO §3.10), alteráveis pela equipe sem novo deploy. O banco
+ * Parâmetros da plataforma (BR-030), alteráveis pela equipe sem novo deploy. O banco
  * (`platform_setting`) guarda só os valores alterados; os demais valem o padrão daqui.
  * Toda alteração passa por `parsePlatformSetting` e vai para a auditoria.
  */
@@ -93,7 +93,7 @@ export const PLATFORM_SETTINGS = {
     max: 500_00,
     nullable: true,
     // A taxa só cobre custos (transporte, vacinas, remédios), daí o limite de R$ 500.
-    // O valor do teto ainda é decidido antes da Fase 1 (PLANO §9).
+    // Valor do teto e sentido de "não definido": decididos antes da Fase 1 (Q-022).
     default: null,
     description: 'Teto da taxa de adoção, em centavos',
   },

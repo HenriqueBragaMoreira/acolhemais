@@ -13,4 +13,5 @@
 - [ ] Testes adicionados ou atualizados para a regra alterada
 - [ ] Textos de interface estão nos arquivos de tradução
 - [ ] Não expõe dados pessoais (CPF, endereço, contato) além do necessário
-- [ ] Se altera regra de negócio, `docs/PLANO.md` ou um ADR foi atualizado
+- [ ] Se altera requisito ou regra de negócio, `docs/REQUIREMENTS.md` / `docs/BUSINESS-RULES.md`
+      (e o status em `docs/api/` ou `docs/web/`) foram atualizados; se altera arquitetura, há ADR
