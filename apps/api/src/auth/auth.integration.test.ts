@@ -101,6 +101,24 @@ describe('BR-007 / FR-003: e-mail verificado', () => {
     expect(await emailsTo(email)).toHaveLength(1)
   })
 
+  it('cadastro com e-mail já usado responde igual a um novo: não revela quem tem conta', async () => {
+    const { email, res: first } = await signUpUnverified()
+    const again = await post('/sign-up/email', { name: 'Ana Souza', email, password })
+    expect(again.status).toBe(200)
+
+    const real = (await first.json<{ user: Record<string, unknown> }>()).user
+    const fake = (await again.json<{ user: Record<string, unknown> }>()).user
+    expect(Object.keys(fake)).toEqual(Object.keys(real))
+    expect(fake.id).toMatch(uuidv7)
+    expect(fake.id).not.toBe(real.id)
+    // Fora o ID e as datas, os valores são os mesmos de um cadastro novo.
+    expect({ ...fake, id: real.id, createdAt: real.createdAt, updatedAt: real.updatedAt }).toEqual(
+      real,
+    )
+    // A dona do e-mail não recebe outro link por causa da tentativa.
+    expect(await emailsTo(email)).toHaveLength(1)
+  })
+
   it('volta para /entrar com o erro quando o link é inválido', async () => {
     const { email } = await signUpUnverified()
     const link = linkIn(await lastEmailTo(email))

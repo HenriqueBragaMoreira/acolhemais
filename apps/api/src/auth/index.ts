@@ -20,6 +20,17 @@ import { platformGuards } from './plugins/platform-guards'
 import { platformTwoFactor } from './plugins/platform-two-factor'
 import { socialTwoFactor } from './plugins/social-two-factor'
 
+/** UUIDv7 (RFC 9562): 48 bits de milissegundos e o resto aleatório, como o `uuidv7()` do Postgres. */
+function uuidv7(): string {
+  const bytes = crypto.getRandomValues(new Uint8Array(16))
+  const now = Date.now()
+  for (let i = 0; i < 6; i++) bytes[i] = Math.floor(now / 2 ** (8 * (5 - i))) & 0xff
+  bytes[6] = ((bytes[6] ?? 0) & 0x0f) | 0x70
+  bytes[8] = ((bytes[8] ?? 0) & 0x3f) | 0x80
+  const hex = [...bytes].map((byte) => byte.toString(16).padStart(2, '0')).join('')
+  return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`
+}
+
 type AuthDeps = {
   config: Config
   db: Database
@@ -65,6 +76,19 @@ export function createAuth({ config, db, waitUntil }: AuthDeps) {
       revokeSessionsOnPasswordReset: true,
       // O login por senha exige e-mail verificado (BR-007); o cadastro não abre sessão.
       requireEmailVerification: true,
+      // Cadastro com e-mail já usado responde com um usuário falso, igual ao de um cadastro novo:
+      // os campos dos plugins (2FA e admin) e um ID UUIDv7 como os do banco, para não revelar
+      // quem tem conta.
+      customSyntheticUser: ({ coreFields, additionalFields }) => ({
+        ...coreFields,
+        twoFactorEnabled: false,
+        role: 'user',
+        banned: false,
+        banReason: null,
+        banExpires: null,
+        ...additionalFields,
+        id: uuidv7(),
+      }),
       // "Esqueci a senha" (FR-004): link de uso único, válido por 1 h (padrão do Better Auth).
       sendResetPassword: emails.resetPassword,
       // Usar o link prova que a pessoa recebe o e-mail: confirma o e-mail (BR-015) e zera o
