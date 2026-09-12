@@ -7,10 +7,11 @@ import { admin } from 'better-auth/plugins/admin'
 import { haveIBeenPwned } from 'better-auth/plugins/haveibeenpwned'
 import { organization } from 'better-auth/plugins/organization'
 import { twoFactor } from 'better-auth/plugins/two-factor'
+import { eq } from 'drizzle-orm'
 import type { Config } from '../config'
 import { authEmails } from './emails'
 import { auditTrail } from './plugins/audit-trail'
-import { loginLockout } from './plugins/login-lockout'
+import { clearLoginLockout, loginLockout } from './plugins/login-lockout'
 import { authMessages } from './messages'
 import { organizationAc, organizationRoles } from './access/organization'
 import { platformAc, platformRoles } from './access/platform'
@@ -63,6 +64,14 @@ export function createAuth({ config, db, waitUntil }: AuthDeps) {
       revokeSessionsOnPasswordReset: true,
       // O login por senha exige e-mail verificado (BR-007); o cadastro não abre sessão.
       requireEmailVerification: true,
+      // "Esqueci a senha" (FR-004): link de uso único, válido por 1 h (padrão do Better Auth).
+      sendResetPassword: emails.resetPassword,
+      // Usar o link prova que a pessoa recebe o e-mail: confirma o e-mail (BR-015) e zera o
+      // bloqueio progressivo (BR-002).
+      onPasswordReset: async ({ user }) => {
+        await db.update(schema.user).set({ emailVerified: true }).where(eq(schema.user.id, user.id))
+        await clearLoginLockout({ db, secret: config.BETTER_AUTH_SECRET }, user.email)
+      },
     },
     emailVerification: {
       sendOnSignUp: true,

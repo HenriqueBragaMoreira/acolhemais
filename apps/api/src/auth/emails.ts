@@ -1,6 +1,6 @@
 import type { Config } from '../config'
 import { deliver, emailProvider } from '../email/provider'
-import { verificationEmail } from '../email/templates'
+import { resetPasswordEmail, verificationEmail } from '../email/templates'
 
 type EmailUser = { email: string; name: string }
 
@@ -18,6 +18,12 @@ export function authEmails(config: Config) {
       const callbackURL = encodeURIComponent(`${config.WEB_ORIGIN}/entrar?verificado=1`)
       const url = `${api}/verify-email?token=${token}&callbackURL=${callbackURL}`
       await deliver(provider, { to: user.email, ...verificationEmail({ name: user.name, url }) })
+    },
+
+    /** O link abre a tela da web, que manda o token com a nova senha (FR-004). */
+    async resetPassword({ user, token }: { user: EmailUser; token: string }) {
+      const url = `${config.WEB_ORIGIN}/redefinir-senha?token=${encodeURIComponent(token)}`
+      await deliver(provider, { to: user.email, ...resetPasswordEmail({ name: user.name, url }) })
     },
   }
 }

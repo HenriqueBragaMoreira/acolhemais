@@ -29,6 +29,11 @@ async function emailKey(secret: string, email: string): Promise<string> {
   return [...new Uint8Array(mac)].map((byte) => byte.toString(16).padStart(2, '0')).join('')
 }
 
+/** Zera o bloqueio do e-mail: a redefinição de senha prova que a pessoa é a dona (BR-002). */
+export async function clearLoginLockout({ db, secret }: LockoutDeps, email: string) {
+  await db.delete(loginThrottle).where(eq(loginThrottle.emailHash, await emailKey(secret, email)))
+}
+
 function emailFrom(body: unknown): string | undefined {
   const email = (body as { email?: unknown } | undefined)?.email
   return typeof email === 'string' && email.length > 0 ? email : undefined
