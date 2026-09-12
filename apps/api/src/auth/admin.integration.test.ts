@@ -1,10 +1,12 @@
 import { createDb, schema } from '@acolhemais/db'
 import type { PlatformRole } from '@acolhemais/domain'
 import { eq } from 'drizzle-orm'
-import { afterAll, describe, expect, inject, it } from 'vitest'
+import { afterAll, describe, expect, inject, it, vi } from 'vitest'
 import { loadConfig } from '../config'
 import { platformMember as createPlatformMember, regularUser } from '../test/accounts'
-import { env, get, post, uniqueEmail } from '../test/auth'
+import { env, get, password, post, uniqueEmail, WEB_ORIGIN } from '../test/auth'
+import { signInWithGoogle } from '../test/google'
+import { emailsTo, lastEmailTo, linkIn } from '../test/mailpit'
 import { createAuth } from '.'
 
 const db = createDb(inject('databaseUrl'))
@@ -161,6 +163,47 @@ describe('BR-015: conta criada pela equipe', () => {
     const { cookie } = await platformMember('superadmin')
     const res = await post('/admin/create-user', { name: 'Caio', email: uniqueEmail() }, { cookie })
     expect(res.status).toBe(200)
+  })
+
+  it('envia o primeiro acesso: a pessoa cria a senha pelo link e o e-mail fica confirmado', async () => {
+    const { cookie } = await platformMember('superadmin')
+    const email = uniqueEmail()
+    await post('/admin/create-user', { name: 'Gil', email, role: 'support' }, { cookie })
+
+    // Antes de usar o link, entrar pelo Google com esse e-mail é recusado (BR-004).
+    const google = await signInWithGoogle({ email })
+    expect(google.headers.get('location')).toContain('error=account_not_linked')
+    vi.restoreAllMocks()
+
+    const message = await lastEmailTo(email)
+    expect(message.Subject).toBe('Sua conta no Acolhe+ foi criada')
+    const link = linkIn(message)
+    expect(`${link.origin}${link.pathname}`).toBe(`${WEB_ORIGIN}/redefinir-senha`)
+    const newPassword = 'senha-do-primeiro-acesso-2026'
+    const reset = await post('/reset-password', {
+      token: link.searchParams.get('token'),
+      newPassword,
+    })
+    expect(reset.status).toBe(200)
+    expect((await post('/sign-in/email', { email, password: newPassword })).status).toBe(200)
+  })
+
+  it('reenvia o primeiro acesso pelo "esqueci a senha" enquanto a senha não foi criada', async () => {
+    const { cookie } = await platformMember('superadmin')
+    const email = uniqueEmail()
+    await post('/admin/create-user', { name: 'Hana', email }, { cookie })
+    await lastEmailTo(email)
+
+    expect((await post('/request-password-reset', { email })).status).toBe(200)
+    expect(await emailsTo(email)).toHaveLength(2)
+    expect((await lastEmailTo(email)).Subject).toBe('Sua conta no Acolhe+ foi criada')
+  })
+
+  it('não manda e-mail quando a criação é recusada', async () => {
+    const { cookie } = await platformMember('superadmin')
+    const email = uniqueEmail()
+    await post('/admin/create-user', { name: 'Ivo', email, password }, { cookie })
+    expect(await emailsTo(email)).toEqual([])
   })
 
   it.each([

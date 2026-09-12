@@ -15,6 +15,7 @@ import { clearLoginLockout, loginLockout } from './plugins/login-lockout'
 import { authMessages } from './messages'
 import { organizationAc, organizationRoles } from './access/organization'
 import { platformAc, platformRoles } from './access/platform'
+import { firstAccess } from './plugins/first-access'
 import { platformGuards } from './plugins/platform-guards'
 import { platformTwoFactor } from './plugins/platform-two-factor'
 import { socialTwoFactor } from './plugins/social-two-factor'
@@ -33,9 +34,9 @@ type AuthDeps = {
  * Opções que mudam tabelas exigem regenerar o schema com `pnpm auth:generate`.
  */
 export function createAuth({ config, db, waitUntil }: AuthDeps) {
-  const emails = authEmails(config)
+  const emails = authEmails(config, db)
 
-  return betterAuth({
+  const auth = betterAuth({
     appName: 'Acolhe+',
     baseURL: config.BETTER_AUTH_URL,
     secret: config.BETTER_AUTH_SECRET,
@@ -113,6 +114,10 @@ export function createAuth({ config, db, waitUntil }: AuthDeps) {
       // Travas que o plugin admin não oferece: campos editáveis, papel superadmin, conta sem
       // senha, último Responsável (BR-008, BR-013, BR-014, BR-015).
       platformGuards({ db }),
+      firstAccess({
+        requestPasswordReset: (email): Promise<unknown> =>
+          auth.api.requestPasswordReset({ body: { email } }),
+      }),
       // ONGs e protetores, com equipe, convites e papéis. As regras próprias da plataforma
       // (aprovação, concessões individuais, travas contra escalada, slugs) chegam na Fase 1.
       organization({
@@ -134,6 +139,7 @@ export function createAuth({ config, db, waitUntil }: AuthDeps) {
       i18n({ translations: { pt: authMessages }, defaultLocale: 'pt' }),
     ],
   })
+  return auth
 }
 
 export type Auth = ReturnType<typeof createAuth>
