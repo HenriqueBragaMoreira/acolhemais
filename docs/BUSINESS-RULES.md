@@ -71,14 +71,13 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 
 ### BR-007: E-mail verificado
 
-- **Status**: `in-progress`
+- **Status**: `implemented`
 - **Quando**: uma conta com senha entra, aceita convite ou se candidata
 - **Então**: o login por senha exige e-mail verificado; quem tenta entrar sem verificar é
   recusado e recebe de novo o e-mail de verificação. Aceitar convite também exige (pronto).
   Quem entra pelo Google já chega com o e-mail verificado pelo Google.
 - **Por quê**: o e-mail é o canal das decisões, prazos e redefinição de senha; uma regra só para
   todas as ações.
-- **Nota**: pronto na API; falta a tela de `/entrar` tratar a recusa e a volta do link (FR-003).
 
 ### BR-008: Ninguém age como outra pessoa
 
@@ -175,7 +174,7 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 
 ### BR-015: Conta criada pela equipe
 
-- **Status**: `in-progress`
+- **Status**: `implemented`
 - **Quando**: o superadmin cria a conta de outra pessoa
 - **Então**: informa só nome, e-mail e, se for da equipe, o papel (`moderator` ou `support`,
   BR-013). A conta nasce sem senha e com o e-mail não verificado; senha, "e-mail verificado" e
@@ -184,10 +183,9 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
   e-mail fica verificado. Se o link expirar, "esqueci a senha" envia outro, mesmo sem senha
   criada. Depois, se quiser, ativa o 2FA (obrigatório só para a equipe, BR-011). Até usar o
   link, entrar pelo Google com esse e-mail é recusado (BR-004).
-- **Nota**: pronto na API: trava da criação, e-mail de primeiro acesso (também pelo "esqueci a
-  senha" enquanto não há senha) e e-mail confirmado em toda redefinição. A redefinição cria o
-  login por senha quando ele não existe (Better Auth 1.7.15). Falta a tela `/redefinir-senha`
-  (FR-004), onde a pessoa cria a senha.
+- **Nota**: o primeiro acesso é a tela `/redefinir-senha` (FR-004); o e-mail tem texto próprio
+  enquanto a conta não tem senha. A redefinição cria o login por senha quando ele não existe
+  (Better Auth 1.7.15).
 - **Por quê**: a equipe pode abrir contas sem nunca conhecer a senha de ninguém, e quem pré-cria
   uma conta não fica com acesso a ela.
 

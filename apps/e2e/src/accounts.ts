@@ -28,7 +28,7 @@ async function apiContext(): Promise<APIRequestContext> {
 const MAILPIT_URL = 'http://localhost:8025'
 
 /** Link do e-mail mais recente enviado a `email` (o único link do texto puro). */
-async function lastEmailLink(email: string): Promise<string> {
+export async function lastEmailLink(email: string): Promise<string> {
   const query = encodeURIComponent(`to:"${email}"`)
   for (let attempt = 0; attempt < 20; attempt++) {
     const search = await fetch(`${MAILPIT_URL}/api/v1/search?query=${query}`)
@@ -47,10 +47,11 @@ async function lastEmailLink(email: string): Promise<string> {
 
 /**
  * Cria uma conta pela API, como o cadastro faria: cadastra e confirma o e-mail pelo link que
- * chega no Mailpit (BR-007). Se pedido, entra e ativa o 2FA confirmando o primeiro código (como
- * no app autenticador). A interface de cadastro ainda não existe.
+ * chega no Mailpit (BR-007), a não ser que `verified` seja `false`. Se pedido, entra e ativa o
+ * 2FA confirmando o primeiro código (como no app autenticador). A interface de cadastro ainda
+ * não existe.
  */
-export async function createAccount({ twoFactor = false } = {}): Promise<Account> {
+export async function createAccount({ twoFactor = false, verified = true } = {}): Promise<Account> {
   const api = await apiContext()
   const account: Account = {
     name: 'Coordenação Patinhas',
@@ -62,6 +63,7 @@ export async function createAccount({ twoFactor = false } = {}): Promise<Account
       data: { name: account.name, email: account.email, password: account.password },
     })
     if (!signUp.ok()) throw new Error(`cadastro falhou: ${signUp.status()} ${await signUp.text()}`)
+    if (!verified) return account
     const verify = await api.get(await lastEmailLink(account.email), { maxRedirects: 0 })
     if (verify.status() !== 302) throw new Error(`verificar o e-mail falhou: ${verify.status()}`)
     if (!twoFactor) return account

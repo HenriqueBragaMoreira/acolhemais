@@ -28,9 +28,35 @@ export function signInMessageFor(failure: unknown, t: Translator) {
       return t('SignIn.locked', { minutes: Math.max(1, Math.ceil((error.retryAfter ?? 60) / 60)) })
     case 'BANNED_USER':
       return t('SignIn.banned')
+    case 'EMAIL_NOT_VERIFIED':
+      return t('SignIn.emailNotVerified')
     default:
       return commonMessage(error, t)
   }
+}
+
+/** Telas cuja resposta não tem erro próprio (ex.: pedir o link de redefinição). */
+export function requestMessageFor(failure: unknown, t: Translator) {
+  return commonMessage(asAuthError(failure), t)
+}
+
+export function resetPasswordMessageFor(failure: unknown, t: Translator) {
+  const error = asAuthError(failure)
+  switch (error.code) {
+    case 'INVALID_TOKEN':
+      return t('ResetPassword.invalidLink')
+    case 'PASSWORD_TOO_SHORT':
+      return t('ResetPassword.passwordTooShort')
+    case 'PASSWORD_COMPROMISED':
+      return t('ResetPassword.compromised')
+    default:
+      return commonMessage(error, t)
+  }
+}
+
+/** O link de redefinição venceu ou já foi usado: só um novo link resolve. */
+export function isInvalidResetLink(failure: unknown) {
+  return asAuthError(failure).code === 'INVALID_TOKEN'
 }
 
 export function twoFactorMessageFor(failure: unknown, t: Translator) {

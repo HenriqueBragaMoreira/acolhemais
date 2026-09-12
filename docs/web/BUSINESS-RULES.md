@@ -14,6 +14,17 @@ aplicada na API; aqui ela só é explicada e antecipada ao usuário.
 - **Status**: `implemented`
 - **Escopo (web)**: `/entrar/2fa` recebe quem volta do Google com desafio pendente.
 
+### BR-007: E-mail verificado
+
+- **Status**: `implemented`
+- **Escopo (web)**: `/entrar` explica que o login foi recusado por falta de confirmação e que um
+  novo link foi enviado, e avisa na volta do link se o e-mail foi confirmado ou se o link venceu.
+
+### BR-015: Conta criada pela equipe
+
+- **Status**: `implemented`
+- **Escopo (web)**: o link de primeiro acesso abre `/redefinir-senha`, onde a pessoa cria a senha.
+
 ### BR-009: 2FA por app autenticador
 
 - **Status**: `in-progress`

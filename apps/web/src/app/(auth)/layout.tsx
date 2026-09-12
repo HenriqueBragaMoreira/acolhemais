@@ -4,7 +4,7 @@ import { AuthHeader } from './_components/auth-header'
 import { AuthIllustration } from './_components/auth-illustration'
 
 /**
- * Moldura das telas de acesso (Entrar e código 2FA): o animal ocupa o quadro e a interface
+ * Moldura das telas de acesso (Entrar, código 2FA, esqueci a senha e criar nova senha): o animal ocupa o quadro e a interface
  * fica ancorada embaixo, à esquerda, num painel claro. No celular, a ilustração fica no topo
  * e o formulário logo abaixo, sem sobreposição.
  */

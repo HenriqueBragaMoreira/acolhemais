@@ -13,6 +13,8 @@ export function LoginFormSkeleton() {
         <div className="min-h-10" />
       </div>
       <div className="h-12 rounded-lg bg-muted" />
+      {/* "Esqueci a senha" */}
+      <div className="mt-3 h-5 w-32 rounded bg-muted" />
     </div>
   )
 }

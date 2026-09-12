@@ -1,6 +1,6 @@
 'use client'
 
-import { Button } from '@acolhemais/ui/components/button'
+import { Button, buttonVariants } from '@acolhemais/ui/components/button'
 import { Field, FieldLabel } from '@acolhemais/ui/components/field'
 import { Input } from '@acolhemais/ui/components/input'
 import { PasswordInput } from '@acolhemais/ui/components/password-input'
@@ -8,6 +8,7 @@ import { Spinner } from '@acolhemais/ui/components/spinner'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useTranslations } from 'next-intl'
+import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -16,6 +17,7 @@ import { authServices } from '@/services/auth'
 import { isInvalidCredentials, signInMessageFor } from '../../../_components/auth-errors'
 import { FieldMessage } from '../../../_components/field-message'
 import { GoogleSignIn } from '../google-sign-in'
+import { SignInNotice } from '../sign-in-notice'
 
 /** As mensagens são chaves do namespace `SignIn` (traduzidas na tela). */
 const loginSchema = z.object({
@@ -76,6 +78,13 @@ export function LoginForm() {
 
   return (
     <div className="mt-8">
+      {/* Depois do primeiro envio, o que vale é a resposta do login, não o link de chegada. */}
+      {!isSubmitted && (
+        <div className="mb-6 empty:hidden">
+          <SignInNotice />
+        </div>
+      )}
+
       {providers?.google && (
         <GoogleSignIn onError={(message) => form.setError('root.server', { message })} />
       )}
@@ -145,6 +154,12 @@ export function LoginForm() {
           {isPending ? t('submitting') : t('submit')}
         </Button>
       </form>
+
+      <div className="mt-6 flex flex-col items-start">
+        <Link href="/esqueci-a-senha" className={buttonVariants({ variant: 'link' })}>
+          {t('forgotPassword')}
+        </Link>
+      </div>
     </div>
   )
 }

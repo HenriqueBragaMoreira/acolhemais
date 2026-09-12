@@ -8,8 +8,8 @@ escopo definido para a web; ao refinar, adicione-o aqui.
 
 - **Status**: `implemented`
 - **Escopo (web)**: `/entrar` com e-mail e senha (react-hook-form + zod), erro da API no
-  formulário, espera do bloqueio a partir do `Retry-After`. Sem "esqueci a senha" nem "criar
-  conta" até FR-002 e FR-004 existirem.
+  formulário, espera do bloqueio a partir do `Retry-After`. Link "Esqueci a senha" (FR-004); sem
+  "criar conta" até FR-002.
 
 #### FR-002: Criar conta com e-mail e senha
 
@@ -18,16 +18,18 @@ escopo definido para a web; ao refinar, adicione-o aqui.
 
 #### FR-003: Verificar o e-mail
 
-- **Status**: `refined`
+- **Status**: `implemented`
 - **Escopo (web)**: em `/entrar`, a recusa `EMAIL_NOT_VERIFIED` avisa que o link foi reenviado;
-  a volta do link (`/entrar?verificado=1`, ou com `error`) mostra se o e-mail foi confirmado.
+  a volta do link (`/entrar?verificado=1`, ou com `error`) mostra se o e-mail foi confirmado
+  (`SignInNotice`). E2E com axe.
 
 #### FR-004: Redefinir a senha
 
-- **Status**: `refined`
+- **Status**: `implemented`
 - **Escopo (web)**: link "Esqueci a senha" em `/entrar`; `/esqueci-a-senha` (pede o e-mail, sempre
   responde que, se houver conta, o link foi enviado); `/redefinir-senha?token=` (nova senha com
-  as regras de BR-001; serve também ao primeiro acesso).
+  as regras de BR-001; serve também ao primeiro acesso; sem referrer, porque o token vai na URL),
+  que volta para `/entrar?senha=redefinida`. E2E com axe.
 
 #### FR-005: Entrar com Google
 

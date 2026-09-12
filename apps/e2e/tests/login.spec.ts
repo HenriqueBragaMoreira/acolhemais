@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test'
 import { expectAccessible } from '../src/a11y'
 import { formError } from '../src/form-error'
-import { createAccount } from '../src/accounts'
+import { createAccount, lastEmailLink } from '../src/accounts'
 
 test.describe('Entrar', () => {
   test('abre acessível, só com o que funciona', async ({ page }) => {
@@ -12,8 +12,40 @@ test.describe('Entrar', () => {
     await expect(page.getByLabel('Senha', { exact: true })).toBeVisible()
     // Sem credenciais do Google no ambiente de teste, o botão não aparece.
     await expect(page.getByRole('button', { name: 'Entrar com Google' })).toHaveCount(0)
-    await expect(page.getByRole('link', { name: /esqueci|criar conta/i })).toHaveCount(0)
+    await expect(page.getByRole('link', { name: 'Esqueci a senha' })).toBeVisible()
+    await expect(page.getByRole('link', { name: /criar conta/i })).toHaveCount(0)
     await expectAccessible(page)
+  })
+
+  test('FR-003: sem o e-mail confirmado, recusa e avisa que reenviou o link', async ({ page }) => {
+    const account = await createAccount({ verified: false })
+    await page.goto('/entrar')
+    await page.getByLabel('E-mail').fill(account.email)
+    await page.getByLabel('Senha', { exact: true }).fill(account.password)
+    await page.getByRole('button', { name: 'Entrar', exact: true }).click()
+
+    await expect(formError(page)).toHaveText(
+      'Confirme seu e-mail para entrar. Enviamos um novo link de confirmação para a sua caixa de entrada.',
+    )
+    await expectAccessible(page)
+  })
+
+  test('FR-003: o link de confirmação volta para Entrar avisando que deu certo', async ({
+    page,
+  }) => {
+    const account = await createAccount({ verified: false })
+    await page.goto(await lastEmailLink(account.email))
+
+    await expect(page).toHaveURL('/entrar?verificado=1')
+    await expect(page.locator('[data-slot="alert"]')).toHaveText(
+      'E-mail confirmado. Agora é só entrar.',
+    )
+    await expectAccessible(page)
+
+    await page.getByLabel('E-mail').fill(account.email)
+    await page.getByLabel('Senha', { exact: true }).fill(account.password)
+    await page.getByRole('button', { name: 'Entrar', exact: true }).click()
+    await expect(page).toHaveURL('/painel')
   })
 
   test('aponta os campos vazios e leva o foco ao primeiro', async ({ page }) => {

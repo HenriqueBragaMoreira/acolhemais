@@ -38,7 +38,42 @@
     "submitting": "Entrando…",
     "invalidCredentials": "E-mail ou senha incorretos.",
     "locked": "Muitas tentativas com senha errada. Tente de novo em {minutes, plural, one {# minuto} other {# minutos}}.",
-    "banned": "Esta conta está suspensa. Se acha que é um engano, fale com a equipe do Acolhe+."
+    "banned": "Esta conta está suspensa. Se acha que é um engano, fale com a equipe do Acolhe+.",
+    "forgotPassword": "Esqueci a senha",
+    "emailNotVerified": "Confirme seu e-mail para entrar. Enviamos um novo link de confirmação para a sua caixa de entrada.",
+    "emailVerified": "E-mail confirmado. Agora é só entrar.",
+    "verificationFailed": "O link de confirmação expirou ou já foi usado. Entre com seu e-mail e senha para receber outro.",
+    "passwordReset": "Senha criada. Entre com o seu e-mail e a nova senha."
+  },
+  "ForgotPassword": {
+    "metaTitle": "Esqueci a senha",
+    "title": "Esqueci a senha",
+    "description": "Informe o e-mail da sua conta. Vamos enviar um link para você criar uma nova senha.",
+    "email": "E-mail",
+    "emailRequired": "Informe seu e-mail.",
+    "emailInvalid": "Confira o e-mail digitado.",
+    "submit": "Enviar link",
+    "submitting": "Enviando…",
+    "sentTitle": "Confira seu e-mail",
+    "sent": "Se houver uma conta com {email}, enviamos um link para criar uma nova senha. Ele vale por 1 hora. Não chegou? Veja a caixa de spam.",
+    "backToSignIn": "Voltar para Entrar"
+  },
+  "ResetPassword": {
+    "metaTitle": "Criar nova senha",
+    "title": "Criar nova senha",
+    "description": "Escolha uma senha para entrar no Acolhe+. Ao salvar, as outras sessões abertas da sua conta são encerradas.",
+    "password": "Nova senha",
+    "passwordHint": "Use pelo menos 12 caracteres. Uma frase com palavras soltas é fácil de lembrar.",
+    "passwordRequired": "Informe a nova senha.",
+    "passwordTooShort": "A senha precisa ter pelo menos 12 caracteres.",
+    "showPassword": "Mostrar",
+    "hidePassword": "Ocultar",
+    "submit": "Salvar senha",
+    "submitting": "Salvando…",
+    "invalidLink": "Este link expirou ou já foi usado. Peça outro em “Esqueci a senha”.",
+    "requestNewLink": "Pedir outro link",
+    "compromised": "Esta senha apareceu em vazamentos de dados de outros sites. Escolha uma senha diferente.",
+    "backToSignIn": "Voltar para Entrar"
   },
   "TwoFactor": {
     "metaTitle": "Verificação em duas etapas",

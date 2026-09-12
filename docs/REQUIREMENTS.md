@@ -43,7 +43,7 @@ têm o status só aqui. **Fase** é a do roadmap ([PLANO](PLANO.md) §6).
 
 #### FR-003: Verificar o e-mail
 
-- **Status**: `in-progress`
+- **Status**: `implemented`
 - **Fase**: 0 (pendência antes de produção)
 - **Descrição**: E-mail com link de verificação no cadastro; reenvio sob demanda e a cada
   tentativa de login sem e-mail verificado, que é recusada (só depois da senha certa). O link
@@ -54,7 +54,7 @@ têm o status só aqui. **Fase** é a do roadmap ([PLANO](PLANO.md) §6).
 
 #### FR-004: Redefinir a senha
 
-- **Status**: `in-progress`
+- **Status**: `implemented`
 - **Fase**: 0 (pendência antes de produção)
 - **Descrição**: "Esqueci a senha" (`/esqueci-a-senha`) envia link de uso único por e-mail, que
   vale 1 h e abre `/redefinir-senha`; a resposta não revela se o e-mail tem conta. A nova senha
