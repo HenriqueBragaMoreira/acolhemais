@@ -3,7 +3,8 @@ import type { SystemRoleKey } from '@acolhemais/domain'
 import { afterAll, describe, expect, inject, it } from 'vitest'
 import { loadConfig } from '../config'
 import { regularUser as account } from '../test/accounts'
-import { env, post, uniqueEmail } from '../test/auth'
+import { env, post, uniqueEmail, WEB_ORIGIN } from '../test/auth'
+import { lastEmailTo, linkIn } from '../test/mailpit'
 import { createAuth } from '.'
 
 const db = createDb(inject('databaseUrl'))
@@ -71,6 +72,22 @@ describe('organizações (plugin organization)', () => {
     const res = await post('/organization/delete', { organizationId }, { cookie: owner.cookie })
     expect(res.status).not.toBe(200)
     expect(await can(owner.cookie, organizationId, { organization: ['delete'] })).toBe(false)
+  })
+
+  it('BR-056: envia o convite por e-mail com o link da tela de convite', async () => {
+    const { organizationId, owner } = await approvedOrganization()
+    const email = uniqueEmail()
+    const res = await post(
+      '/organization/invite-member',
+      { organizationId, email, role: 'volunteer' },
+      { cookie: owner.cookie },
+    )
+    const { id } = await res.json<{ id: string }>()
+
+    const message = await lastEmailTo(email)
+    expect(message.Subject).toBe('Convite para a equipe de ONG de Teste no Acolhe+')
+    expect(message.Text).toContain('Ana Souza convidou você')
+    expect(linkIn(message).href).toBe(`${WEB_ORIGIN}/convites/${id}`)
   })
 
   it('cria convites que valem 7 dias', async () => {

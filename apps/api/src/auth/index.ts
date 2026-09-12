@@ -133,6 +133,7 @@ export function createAuth({ config, db, waitUntil }: AuthDeps) {
         invitationExpiresIn: 7 * 24 * 60 * 60,
         requireEmailVerificationOnInvitation: true,
         cancelPendingInvitationsOnReInvite: true,
+        sendInvitationEmail: emails.invitation,
       }),
       // Auditoria das ações sobre permissões e a segurança das contas.
       auditTrail({ db }),

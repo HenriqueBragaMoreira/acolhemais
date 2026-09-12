@@ -3,7 +3,12 @@ import type { Database } from '@acolhemais/db'
 import { and, eq, isNotNull } from 'drizzle-orm'
 import type { Config } from '../config'
 import { deliver, emailProvider } from '../email/provider'
-import { firstAccessEmail, resetPasswordEmail, verificationEmail } from '../email/templates'
+import {
+  firstAccessEmail,
+  invitationEmail,
+  resetPasswordEmail,
+  verificationEmail,
+} from '../email/templates'
 
 type EmailUser = { id: string; email: string; name: string; emailVerified: boolean }
 
@@ -50,6 +55,30 @@ export function authEmails(config: Config, db: Database) {
         url,
       })
       await deliver(provider, { to: user.email, ...message })
+    },
+
+    /**
+     * Convite para a equipe (BR-056). A tela `/convites/{id}` da web, que aceita ou recusa,
+     * entra com FR-023 (Fase 1): decidido mandar o link desde já.
+     */
+    async invitation({
+      id,
+      email,
+      organization,
+      inviter,
+    }: {
+      id: string
+      email: string
+      organization: { name: string }
+      inviter: { user: { name: string } }
+    }) {
+      const url = `${config.WEB_ORIGIN}/convites/${encodeURIComponent(id)}`
+      const message = invitationEmail({
+        organizationName: organization.name,
+        inviterName: inviter.user.name,
+        url,
+      })
+      await deliver(provider, { to: email, ...message })
     },
   }
 }
