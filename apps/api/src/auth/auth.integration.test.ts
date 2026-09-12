@@ -85,6 +85,8 @@ describe('Better Auth: senhas vazadas', () => {
     ...env,
     BETTER_AUTH_URL: 'https://api.acolhemais.example',
     BETTER_AUTH_SECRET: 'segredo-de-teste-com-mais-de-32-caracteres',
+    RESEND_API_KEY: 're_chave_de_teste',
+    EMAIL_FROM: 'nao-responda@acolhemais.example',
   }
 
   afterEach(() => {

@@ -32,6 +32,11 @@ const configSchema = z
     // Rate limit por IP das rotas do Better Auth. Só pode ser desligado com a API em localhost:
     // o E2E desliga, porque todo login dele sai do mesmo IP. O bloqueio por e-mail continua.
     AUTH_RATE_LIMIT: z.enum(['on', 'off']).default('on'),
+    // E-mail (FR-080): pelo Resend com a chave; sem ela, só em localhost, pelo Mailpit do docker
+    // compose. O remetente é obrigatório fora do ambiente local.
+    RESEND_API_KEY: z.string().min(1).optional(),
+    EMAIL_FROM: z.email().optional(),
+    MAILPIT_URL: z.url().default('http://localhost:8025'),
   })
   .superRefine((config, ctx) => {
     if (!config.BETTER_AUTH_SECRET && !isLocalUrl(config.BETTER_AUTH_URL)) {
@@ -48,6 +53,11 @@ const configSchema = z
         message: 'só pode ser desligado no ambiente local',
       })
     }
+    for (const key of ['RESEND_API_KEY', 'EMAIL_FROM'] as const) {
+      if (!config[key] && !isLocalUrl(config.BETTER_AUTH_URL)) {
+        ctx.addIssue({ code: 'custom', path: [key], message: 'obrigatório fora do ambiente local' })
+      }
+    }
     if (!config.GOOGLE_CLIENT_ID !== !config.GOOGLE_CLIENT_SECRET) {
       ctx.addIssue({
         code: 'custom',
@@ -59,6 +69,7 @@ const configSchema = z
   .transform((config) => ({
     ...config,
     BETTER_AUTH_SECRET: config.BETTER_AUTH_SECRET ?? DEV_AUTH_SECRET,
+    EMAIL_FROM: config.EMAIL_FROM ?? 'nao-responda@acolhemais.local',
     /** Credenciais do login com Google, ou `null` quando ele está desligado. */
     google:
       config.GOOGLE_CLIENT_ID && config.GOOGLE_CLIENT_SECRET

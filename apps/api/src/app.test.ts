@@ -47,12 +47,15 @@ describe('API', () => {
     expect(await res.json()).toMatchObject({ code: 'NOT_FOUND' })
   })
 
-  it('exige BETTER_AUTH_SECRET fora do ambiente local', async () => {
+  it('exige BETTER_AUTH_SECRET e o envio de e-mail (FR-080) fora do ambiente local', async () => {
+    const email = { RESEND_API_KEY: 're_chave', EMAIL_FROM: 'nao-responda@acolhemais.example' }
     const remote = { ...env, BETTER_AUTH_URL: 'https://api.acolhemais.example' }
     expect((await app.request('/health', {}, remote)).status).toBe(500)
+    expect((await app.request('/health', {}, { ...remote, ...email })).status).toBe(500)
 
     const withSecret = { ...remote, BETTER_AUTH_SECRET: 'x'.repeat(32) }
-    expect((await app.request('/health', {}, withSecret)).status).toBe(200)
+    expect((await app.request('/health', {}, withSecret)).status).toBe(500)
+    expect((await app.request('/health', {}, { ...withSecret, ...email })).status).toBe(200)
   })
 
   it('informa se o login com Google está ligado', async () => {
@@ -73,6 +76,8 @@ describe('API', () => {
       AUTH_RATE_LIMIT: 'off',
       BETTER_AUTH_URL: 'https://api.acolhemais.example',
       BETTER_AUTH_SECRET: 'x'.repeat(32),
+      RESEND_API_KEY: 're_chave',
+      EMAIL_FROM: 'nao-responda@acolhemais.example',
     }
     expect((await app.request('/health', {}, remote)).status).toBe(500)
   })
