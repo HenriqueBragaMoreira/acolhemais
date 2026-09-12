@@ -14,8 +14,8 @@ banco, com teste unitário); a API valida a entrada, checa escopo e permissão e
 
 - **Status**: `in-progress`
 - **Escopo (api)**: regra `loginLockoutMs` no domínio; plugin `loginLockout` com a tabela
-  `login_throttle` (chave = HMAC do e-mail, upsert atômico). Faltam zerar o bloqueio na
-  redefinição de senha (com FR-004) e a limpeza periódica da tabela.
+  `login_throttle` (chave = HMAC do e-mail, upsert atômico); `clearLoginLockout` no
+  `onPasswordReset` zera o bloqueio na redefinição de senha. Falta a limpeza periódica da tabela.
 
 ### BR-003: Rate limit por IP
 
@@ -37,7 +37,15 @@ banco, com teste unitário); a API valida a entrada, checa escopo e permissão e
 ### BR-006: Redefinir a senha derruba as outras sessões
 
 - **Status**: `implemented`
-- **Escopo (api)**: `revokeSessionsOnPasswordReset`.
+- **Escopo (api)**: `revokeSessionsOnPasswordReset` (teste de integração com FR-004).
+
+### BR-007: E-mail verificado
+
+- **Status**: `implemented`
+- **Escopo (api)**: `requireEmailVerification`, `sendOnSignUp` e `sendOnSignIn` (o Better Auth só
+  reenvia depois da senha certa); link de 24 h montado em `authEmails`, que volta para
+  `/entrar?verificado=1` sem abrir sessão (`autoSignInAfterVerification: false`). Mensagem de
+  `EMAIL_NOT_VERIFIED` diz que o link foi reenviado.
 
 ### BR-008: Ninguém age como outra pessoa
 
@@ -91,12 +99,14 @@ banco, com teste unitário); a API valida a entrada, checa escopo e permissão e
 
 ### BR-015: Conta criada pela equipe
 
-- **Status**: `in-progress`
+- **Status**: `implemented`
 - **Escopo (api)**: plugin `platformGuards`: chamado por requisição, `create-user` aceita só
   `name`, `email` e `role` `moderator`/`support` (`CREATE_USER_FIELD_NOT_ALLOWED`,
-  `ROLE_NOT_ASSIGNABLE`); a conta nasce sem senha e com o e-mail não verificado. Chamadas do
-  servidor sem requisição (o `auth create-admin`) ficam de fora. Faltam o e-mail de primeiro
-  acesso (FR-080) e marcar o e-mail como verificado no `onPasswordReset` (FR-004).
+  `ROLE_NOT_ASSIGNABLE`); a conta nasce sem senha e com o e-mail não verificado. Plugin
+  `firstAccess` pede a redefinição de senha logo depois da criação; `authEmails` manda o texto de
+  primeiro acesso enquanto a conta não tem senha nem e-mail confirmado (também no "esqueci a
+  senha"). `onPasswordReset` marca o e-mail como verificado. Chamadas do servidor sem
+  requisição (o `auth create-admin`) ficam de fora das duas coisas.
 
 ### BR-016: A equipe não remove contas
 
@@ -198,9 +208,10 @@ banco, com teste unitário); a API valida a entrada, checa escopo e permissão e
 
 ### BR-056: Convites
 
-- **Status**: `in-progress`
+- **Status**: `implemented`
 - **Escopo (api)**: `invitationExpiresIn` de 7 dias, `requireEmailVerificationOnInvitation`,
-  `cancelPendingInvitationsOnReInvite`; falta o envio do e-mail.
+  `cancelPendingInvitationsOnReInvite`; `sendInvitationEmail` com o link `/convites/{id}` da web
+  (a tela entra com FR-023).
 
 ### BR-058: Equipe auditada
 

@@ -13,8 +13,23 @@ Item ausente = ainda sem escopo definido para a API; ao refinar, adicione-o aqui
 #### FR-002: Criar conta com e-mail e senha
 
 - **Status**: `implemented`
-- **Escopo (api)**: `POST /api/auth/sign-up/email`, com senha mínima e checagem de vazamento.
-  A exigência de e-mail verificado entra com FR-003.
+- **Escopo (api)**: `POST /api/auth/sign-up/email`, com senha mínima e checagem de vazamento;
+  não abre sessão: envia a verificação do e-mail (FR-003).
+
+#### FR-003: Verificar o e-mail
+
+- **Status**: `implemented`
+- **Escopo (api)**: Better Auth com `requireEmailVerification`, envio no cadastro e no login
+  recusado, link de 24 h para `GET /api/auth/verify-email` que volta para
+  `/entrar?verificado=1` (ou com `error`) sem abrir sessão; reenvio sob demanda em
+  `POST /api/auth/send-verification-email`.
+
+#### FR-004: Redefinir a senha
+
+- **Status**: `implemented`
+- **Escopo (api)**: `POST /api/auth/request-password-reset` (resposta igual com ou sem conta) e
+  `POST /api/auth/reset-password`; e-mail com link de 1 h para `/redefinir-senha?token=` da web;
+  `onPasswordReset` confirma o e-mail e zera o bloqueio; outras sessões derrubadas.
 
 #### FR-005: Entrar com Google
 
@@ -43,10 +58,10 @@ Item ausente = ainda sem escopo definido para a API; ao refinar, adicione-o aqui
 
 #### FR-010: Gerenciar usuários (equipe da plataforma)
 
-- **Status**: `in-progress`
+- **Status**: `implemented`
 - **Escopo (api)**: rotas `/api/auth/admin/*` do plugin `admin` com o catálogo da plataforma e os
-  plugins `platformTwoFactor` e `platformGuards` (travas de BR-008, BR-013, BR-014, BR-015 e
-  BR-016, prontas). Falta o e-mail de primeiro acesso da conta criada pela equipe (FR-080).
+  plugins `platformTwoFactor`, `platformGuards` (travas de BR-008, BR-013, BR-014, BR-015 e
+  BR-016) e `firstAccess` (e-mail de primeiro acesso da conta criada pela equipe).
 
 #### FR-011: Gerenciar superadmins pela linha de comando
 
@@ -72,9 +87,17 @@ Item ausente = ainda sem escopo definido para a API; ao refinar, adicione-o aqui
 
 - **Status**: `in-progress`
 - **Escopo (api)**: plugin `organization` configurado (papéis do catálogo, papéis próprios,
-  convite de 7 dias, sem criação por usuário nem exclusão) e auditado. Faltam: e-mail do convite
-  (FR-080), trava contra escalada (BR-054), 2FA de membros sensíveis (BR-057), traduzir os erros do
+  convite de 7 dias e enviado por e-mail, sem criação por usuário nem exclusão) e auditado.
+  Faltam: trava contra escalada (BR-054), 2FA de membros sensíveis (BR-057), traduzir os erros do
   plugin.
+
+#### FR-080: E-mails transacionais
+
+- **Status**: `in-progress`
+- **Escopo (api)**: `EmailProvider` em `src/email/` (Resend ou Mailpit por `fetch`, escolhido pela
+  configuração), `deliver` (falha só no log, sem o destinatário) e textos em pt-BR; e-mails da
+  Fase 0 em `auth/emails.ts`, enviados pelo Better Auth em segundo plano (pronto). Falta a fila
+  com novas tentativas (Fase 2).
 
 ---
 

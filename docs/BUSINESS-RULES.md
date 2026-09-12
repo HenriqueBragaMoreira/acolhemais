@@ -36,7 +36,7 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 - **Por quê**: o rate limit por IP não segura ataque distribuído contra uma conta.
 - **Nota**: quem sabe o e-mail de alguém consegue manter o login por senha dele travado. Aceito:
   o Google e a redefinição de senha continuam funcionando, e o rate limit por IP limita o
-  atacante. Falta só zerar na redefinição, que entra com FR-004.
+  atacante. Zerar na redefinição está pronto; falta a limpeza periódica da tabela (API).
 
 ### BR-003: Rate limit por IP
 
@@ -68,17 +68,17 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 - **Quando**: a senha é redefinida pelo "esqueci a senha"
 - **Então**: todas as outras sessões da conta são encerradas.
 - **Por quê**: quem redefine pode estar recuperando uma conta invadida.
-- **Nota**: já configurado; o fluxo depende de FR-004.
 
 ### BR-007: E-mail verificado
 
-- **Status**: `refined`
+- **Status**: `in-progress`
 - **Quando**: uma conta com senha entra, aceita convite ou se candidata
 - **Então**: o login por senha exige e-mail verificado; quem tenta entrar sem verificar é
   recusado e recebe de novo o e-mail de verificação. Aceitar convite também exige (pronto).
   Quem entra pelo Google já chega com o e-mail verificado pelo Google.
 - **Por quê**: o e-mail é o canal das decisões, prazos e redefinição de senha; uma regra só para
   todas as ações.
+- **Nota**: pronto na API; falta a tela de `/entrar` tratar a recusa e a volta do link (FR-003).
 
 ### BR-008: Ninguém age como outra pessoa
 
@@ -184,11 +184,10 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
   e-mail fica verificado. Se o link expirar, "esqueci a senha" envia outro, mesmo sem senha
   criada. Depois, se quiser, ativa o 2FA (obrigatório só para a equipe, BR-011). Até usar o
   link, entrar pelo Google com esse e-mail é recusado (BR-004).
-- **Nota**: a trava da criação está pronta (só nome, e-mail e papel; conta sem senha e sem login
-  por senha). A redefinição de senha cria o login quando ele não existe (Better Auth 1.7.15).
-  Faltam o e-mail de primeiro acesso (FR-080) e marcar o e-mail como verificado quando a senha é
-  redefinida (`onPasswordReset`): usar o link já prova que a pessoa recebe o e-mail. Vale para
-  toda redefinição, não só a de primeiro acesso.
+- **Nota**: pronto na API: trava da criação, e-mail de primeiro acesso (também pelo "esqueci a
+  senha" enquanto não há senha) e e-mail confirmado em toda redefinição. A redefinição cria o
+  login por senha quando ele não existe (Better Auth 1.7.15). Falta a tela `/redefinir-senha`
+  (FR-004), onde a pessoa cria a senha.
 - **Por quê**: a equipe pode abrir contas sem nunca conhecer a senha de ninguém, e quem pré-cria
   uma conta não fica com acesso a ela.
 
@@ -487,11 +486,11 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 
 ### BR-056: Convites
 
-- **Status**: `in-progress`
+- **Status**: `implemented`
 - **Quando**: alguém convida para a equipe
 - **Então**: entrada só por convite por e-mail; vale 7 dias; aceitar exige e-mail verificado e o
-  mesmo e-mail do convite; reconvidar cancela os convites pendentes da mesma pessoa (pronto). O
-  e-mail do convite depende de FR-080.
+  mesmo e-mail do convite; reconvidar cancela os convites pendentes da mesma pessoa. O e-mail do
+  convite traz o link `/convites/{id}` da web, cuja tela entra com FR-023 (Fase 1).
 
 ### BR-057: 2FA para dados sensíveis
 
