@@ -9,6 +9,9 @@ export const authMessages = {
   ...pt,
   TOO_MANY_REQUESTS: 'Muitas requisições. Aguarde um pouco e tente novamente.',
   LOGIN_TEMPORARILY_LOCKED: 'Muitas tentativas com senha errada. Tente novamente mais tarde.',
+  // O login recusado por falta de verificação reenvia o link (BR-007).
+  EMAIL_NOT_VERIFIED:
+    'Confirme seu e-mail para entrar. Enviamos um novo link de confirmação para a sua caixa de entrada.',
   PASSWORD_COMPROMISED:
     'Esta senha apareceu em vazamentos de dados de outros sites. Escolha uma senha diferente.',
 

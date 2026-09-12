@@ -86,7 +86,10 @@ describe('BR-007 / FR-003: e-mail verificado', () => {
     const { email } = await signUpUnverified()
     const res = await post('/sign-in/email', { email, password })
     expect(res.status).toBe(403)
-    expect(await res.json()).toMatchObject({ code: 'EMAIL_NOT_VERIFIED' })
+    expect(await res.json()).toMatchObject({
+      code: 'EMAIL_NOT_VERIFIED',
+      message: expect.stringContaining('Enviamos um novo link'),
+    })
     expect(await emailsTo(email)).toHaveLength(2)
   })
 
