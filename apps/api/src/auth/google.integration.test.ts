@@ -1,7 +1,7 @@
 import { createDb, schema } from '@acolhemais/db'
 import { eq } from 'drizzle-orm'
 import { afterAll, afterEach, describe, expect, inject, it, vi } from 'vitest'
-import { cookiesFrom, get, post, signUp, uniqueEmail, WEB_ORIGIN } from '../test/auth'
+import { cookiesFrom, get, post, signUpUnverified, uniqueEmail, WEB_ORIGIN } from '../test/auth'
 import { googleEnv, signInWithGoogle } from '../test/google'
 
 describe('Better Auth: login com Google', () => {
@@ -53,7 +53,7 @@ describe('Better Auth: login com Google', () => {
 
   it('não vincula o Google a uma conta com senha e e-mail não verificado', async () => {
     // Alguém cadastra o e-mail de outra pessoa com uma senha; a dona entra depois pelo Google.
-    const { email } = await signUp()
+    const { email } = await signUpUnverified()
     const callback = await signInWithGoogle({ email })
 
     expect(callback.headers.get('location')).toContain('error=account_not_linked')

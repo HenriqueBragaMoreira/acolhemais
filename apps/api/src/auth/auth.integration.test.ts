@@ -1,10 +1,23 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { cookiesFrom, env, get, password, post, randomIp, signUp, uniqueEmail } from '../test/auth'
+import {
+  cookiesFrom,
+  env,
+  get,
+  openApiLink,
+  password,
+  post,
+  randomIp,
+  signUp,
+  signUpUnverified,
+  uniqueEmail,
+  WEB_ORIGIN,
+} from '../test/auth'
+import { emailsTo, lastEmailTo, linkIn } from '../test/mailpit'
 
 const uuidv7 = /^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/
 
 describe('Better Auth: e-mail e senha', () => {
-  it('cadastra o usuário com ID UUIDv7 e cookie de sessão protegido', async () => {
+  it('cadastra, confirma o e-mail e entra com ID UUIDv7 e cookie de sessão protegido', async () => {
     const { res } = await signUp()
     const body = await res.json<{ user: { id: string } }>()
     expect(body.user.id).toMatch(uuidv7)
@@ -54,6 +67,49 @@ describe('Better Auth: e-mail e senha', () => {
   })
 })
 
+describe('BR-007 / FR-003: e-mail verificado', () => {
+  it('cadastra sem abrir sessão e envia o link, que confirma e leva para /entrar', async () => {
+    const { email, res } = await signUpUnverified()
+    expect(cookiesFrom(res)).not.toContain('session_token=')
+
+    const message = await lastEmailTo(email)
+    expect(message.Subject).toBe('Confirme seu e-mail no Acolhe+')
+    const verified = await openApiLink(linkIn(message))
+    expect(verified.status).toBe(302)
+    expect(verified.headers.get('location')).toBe(`${WEB_ORIGIN}/entrar?verificado=1`)
+    expect(cookiesFrom(verified)).not.toContain('session_token=')
+
+    expect((await post('/sign-in/email', { email, password })).status).toBe(200)
+  })
+
+  it('recusa o login sem e-mail verificado e reenvia o link', async () => {
+    const { email } = await signUpUnverified()
+    const res = await post('/sign-in/email', { email, password })
+    expect(res.status).toBe(403)
+    expect(await res.json()).toMatchObject({ code: 'EMAIL_NOT_VERIFIED' })
+    expect(await emailsTo(email)).toHaveLength(2)
+  })
+
+  it('só reenvia com a senha certa: ninguém lota a caixa de outra pessoa', async () => {
+    const { email } = await signUpUnverified()
+    await lastEmailTo(email)
+    const res = await post('/sign-in/email', { email, password: 'senha-errada-qualquer' })
+    expect(res.status).toBe(401)
+    expect(await emailsTo(email)).toHaveLength(1)
+  })
+
+  it('volta para /entrar com o erro quando o link é inválido', async () => {
+    const { email } = await signUpUnverified()
+    const link = linkIn(await lastEmailTo(email))
+    link.searchParams.set('token', 'token-adulterado')
+    const res = await openApiLink(link)
+    expect(res.status).toBe(302)
+    expect(res.headers.get('location')).toMatch(
+      new RegExp(`^${WEB_ORIGIN}/entrar\\?verificado=1&error=`),
+    )
+  })
+})
+
 async function sha1(text: string) {
   const digest = await crypto.subtle.digest('SHA-1', new TextEncoder().encode(text))
   return [...new Uint8Array(digest)]
@@ -72,6 +128,8 @@ async function mockBreachedPassword(leaked: string) {
   const realFetch = globalThis.fetch
   vi.spyOn(globalThis, 'fetch').mockImplementation(async (input, init) => {
     const url = new Request(input).url
+    // Fora de localhost os e-mails saem pelo Resend: o teste não fala com o serviço real.
+    if (url.startsWith('https://api.resend.com/')) return Response.json({ id: 'teste' })
     if (!url.startsWith('https://api.pwnedpasswords.com/range/')) return realFetch(input, init)
     requested.push(url)
     return new Response([`${hash.slice(5)}:1234`, `${'0'.repeat(34)}A:1`].join('\r\n'))

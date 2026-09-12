@@ -8,6 +8,7 @@ import { haveIBeenPwned } from 'better-auth/plugins/haveibeenpwned'
 import { organization } from 'better-auth/plugins/organization'
 import { twoFactor } from 'better-auth/plugins/two-factor'
 import type { Config } from '../config'
+import { authEmails } from './emails'
 import { auditTrail } from './plugins/audit-trail'
 import { loginLockout } from './plugins/login-lockout'
 import { authMessages } from './messages'
@@ -31,6 +32,8 @@ type AuthDeps = {
  * Opções que mudam tabelas exigem regenerar o schema com `pnpm auth:generate`.
  */
 export function createAuth({ config, db, waitUntil }: AuthDeps) {
+  const emails = authEmails(config)
+
   return betterAuth({
     appName: 'Acolhe+',
     baseURL: config.BETTER_AUTH_URL,
@@ -58,6 +61,17 @@ export function createAuth({ config, db, waitUntil }: AuthDeps) {
       minPasswordLength: 12,
       // Quem redefine a senha pode estar recuperando uma conta invadida: derruba as outras sessões.
       revokeSessionsOnPasswordReset: true,
+      // O login por senha exige e-mail verificado (BR-007); o cadastro não abre sessão.
+      requireEmailVerification: true,
+    },
+    emailVerification: {
+      sendOnSignUp: true,
+      // Login recusado por falta de verificação reenvia o link (só depois da senha certa).
+      sendOnSignIn: true,
+      // O link não abre sessão: entrar por ele pularia o 2FA. A pessoa entra em /entrar.
+      autoSignInAfterVerification: false,
+      expiresIn: 24 * 60 * 60,
+      sendVerificationEmail: emails.verification,
     },
     // Ligado também em localhost, para o comportamento local ser o de produção (só o E2E
     // desliga, ver AUTH_RATE_LIMIT em config.ts). Guardado no banco: no Workers, a memória

@@ -55,6 +55,11 @@ jobs:
           --health-interval 5s
           --health-timeout 5s
           --health-retries 10
+      # Recebe os e-mails da API; os testes leem o link de verificação pela API dele.
+      mailpit:
+        image: axllent/mailpit:v1.33.1
+        ports:
+          - 8025:8025
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -116,6 +121,10 @@ jobs:
           --health-interval 5s
           --health-timeout 5s
           --health-retries 10
+      mailpit:
+        image: axllent/mailpit:v1.33.1
+        ports:
+          - 8025:8025
     env:
       WRANGLER_SEND_METRICS: 'false'
     steps:
