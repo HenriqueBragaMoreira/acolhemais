@@ -16,6 +16,19 @@ escopo definido para a web; ao refinar, adicione-o aqui.
 - **Status**: `draft`
 - **Escopo (web)**: tela de cadastro, junto com o perfil do adotante (Fase 2).
 
+#### FR-003: Verificar o e-mail
+
+- **Status**: `refined`
+- **Escopo (web)**: em `/entrar`, a recusa `EMAIL_NOT_VERIFIED` avisa que o link foi reenviado;
+  a volta do link (`/entrar?verificado=1`, ou com `error`) mostra se o e-mail foi confirmado.
+
+#### FR-004: Redefinir a senha
+
+- **Status**: `refined`
+- **Escopo (web)**: link "Esqueci a senha" em `/entrar`; `/esqueci-a-senha` (pede o e-mail, sempre
+  responde que, se houver conta, o link foi enviado); `/redefinir-senha?token=` (nova senha com
+  as regras de BR-001; serve também ao primeiro acesso).
+
 #### FR-005: Entrar com Google
 
 - **Status**: `implemented`

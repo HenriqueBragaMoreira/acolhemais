@@ -46,17 +46,22 @@ têm o status só aqui. **Fase** é a do roadmap ([PLANO](PLANO.md) §6).
 - **Status**: `refined`
 - **Fase**: 0 (pendência antes de produção)
 - **Descrição**: E-mail com link de verificação no cadastro; reenvio sob demanda e a cada
-  tentativa de login sem e-mail verificado, que é recusada.
+  tentativa de login sem e-mail verificado, que é recusada (só depois da senha certa). O link
+  vale 24 h; depois de verificar, a pessoa vai para `/entrar` e entra normalmente (o link não
+  abre sessão, para não pular o 2FA).
 - **Regras**: BR-007
 - **Depende de**: FR-080
 
 #### FR-004: Redefinir a senha
 
-- **Status**: `draft`
+- **Status**: `refined`
 - **Fase**: 0 (pendência antes de produção)
-- **Descrição**: "Esqueci a senha" envia link por e-mail; a nova senha segue BR-001, derruba as
-  outras sessões (BR-006) e zera o bloqueio progressivo (BR-002).
-- **Regras**: BR-001, BR-002, BR-006
+- **Descrição**: "Esqueci a senha" (`/esqueci-a-senha`) envia link de uso único por e-mail, que
+  vale 1 h e abre `/redefinir-senha`; a resposta não revela se o e-mail tem conta. A nova senha
+  segue BR-001, derruba as outras sessões (BR-006), zera o bloqueio progressivo (BR-002) e marca
+  o e-mail como verificado (usar o link prova que a pessoa o recebe). Conta sem senha (criada
+  pela equipe, BR-015, ou só com o Google) usa o mesmo fluxo para criar a senha.
+- **Regras**: BR-001, BR-002, BR-006, BR-015
 - **Depende de**: FR-080
 
 #### FR-005: Entrar com Google
@@ -169,6 +174,8 @@ têm o status só aqui. **Fase** é a do roadmap ([PLANO](PLANO.md) §6).
   sair da equipe, criar e editar papéis próprios a partir do catálogo.
 - **Regras**: BR-050 a BR-058
 - **Depende de**: FR-080 (e-mail do convite)
+- **Nota**: decidido na Fase 0 — o e-mail do convite já sai com o link `/convites/{id}` da web;
+  a tela que aceita ou recusa o convite nesse endereço entra com este item.
 
 #### FR-024: Conceder permissões individuais
 
@@ -412,11 +419,14 @@ têm o status só aqui. **Fase** é a do roadmap ([PLANO](PLANO.md) §6).
 
 #### FR-080: E-mails transacionais
 
-- **Status**: `draft`
-- **Fase**: 0 (verificação, senha, convites) / 2+ (demais)
-- **Descrição**: Envio por uma interface `EmailProvider` (Resend em produção, Mailpit local),
-  com fila e novas tentativas: verificação, redefinição, convites, candidaturas, lembretes,
-  decisões e expirações.
+- **Status**: `refined`
+- **Fase**: 0 (verificação, redefinição, primeiro acesso, convites) / 2+ (demais)
+- **Descrição**: Envio por uma interface `EmailProvider` (Resend em produção, Mailpit local,
+  ambos pela API HTTP), com textos em pt-BR (HTML e texto puro). **Fase 0**: verificação,
+  redefinição, primeiro acesso e convites, enviados em segundo plano depois da resposta, sem
+  fila: uma falha vai para o log e a pessoa repete o pedido (entrar de novo, "esqueci a senha",
+  reconvidar). **Fase 2**: fila com novas tentativas, junto com os jobs agendados (PLANO §5),
+  antes dos e-mails sem reenvio pela pessoa (candidaturas, lembretes, decisões, expirações).
 - **Regras**: BR-130
 
 #### FR-081: Preferências de e-mail
