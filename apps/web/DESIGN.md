@@ -265,7 +265,12 @@ A unidade é a de 4px do Tailwind; o ritmo observado é 8 / 12 / 16 / 24 / 32 / 
 
 **Painel logado.** Fundo em névoa caramelo, faixa do topo de 64px em marrom moldura, conteúdo centralizado em 64rem com 24px de margem lateral e 48px em cima e embaixo. Blocos de conteúdo limitados a 36rem.
 
-**Vitrine** (`/dev/ui`). Coluna de 72rem, seções separadas por linha de areia e 40px.
+**Vitrine do design system** (`/dev/ui`). Coluna de 72rem, seções separadas por linha de areia e 40px.
+
+**Páginas públicas** (`/`, `/sobre`). Coluna de 90rem com 16px de margem lateral (24px a partir de 40rem, 40px a partir de 64rem), cabeçalho e rodapé públicos (ver Navigation).
+
+- **Página inicial:** o topo é a cena do caramelo das telas de acesso, em largura total sobre o marrom moldura, com o settle e o véu atrás do texto (da esquerda para a direita no computador, de cima para baixo no celular). Por cima, alinhados à esquerda: o título em branco (3rem; 1.875rem no celular) e a linha de apoio em branco a 90%, ambos em até 36rem, e a busca num painel branco de até 56rem com a sombra de painel sobre a imagem. Escolhido pelo mantenedor em 2026-11-11, depois de achar o topo branco "sem vida". Abaixo, a galeria em fundo de névoa caramelo, em 5 colunas a partir de 80rem, 4 a partir de 64rem, 3 a partir de 48rem e 2 no celular, com 16px de vão (12px no celular), 15 cartões por vez. A 1440×900, a primeira fileira de cartões já aparece abaixo do topo.
+- **Sobre:** a cena do caramelo vira uma faixa de largura total (`clamp(14rem, 40svh, 28rem)`, sem véu nem marca). No computador, o conteúdo tem três colunas: o índice "Nesta página" (13rem, fixo ao rolar), o texto de leitura (65ch) e "Como ajudar" (22rem, fixo ao rolar). No celular a ordem é título, índice num bloco com borda de areia, texto e "Como ajudar".
 
 Breakpoints usados: 40rem, 48rem, 64rem, mais uma consulta de altura (até 820px) para o slogan.
 
@@ -285,7 +290,7 @@ O sistema é plano por padrão: superfícies brancas separadas por linha de arei
 - **Superfície em repouso** (`box-shadow: 0 1px 2px rgb(31 26 23 / 0.06), 0 8px 24px -12px rgb(31 26 23 / 0.18)`): lista da conta sobre a névoa caramelo do painel.
 - **Anel de cartão** (`box-shadow: 0 0 0 1px rgb(31 26 23 / 0.1)`): o componente Card, sem sombra projetada.
 
-**Véu.** Gradiente do véu de fim de tarde só atrás da marca: no celular `linear-gradient(to bottom, rgb(26 16 10 / 0.75), rgb(26 16 10 / 0.25) 45%, transparent)`; no computador `linear-gradient(160deg, rgb(26 16 10 / 0.8), rgb(26 16 10 / 0.35) 30%, transparent 60%)`, interpolados em oklab.
+**Véu.** Gradiente do véu de fim de tarde em dois lugares só: atrás da marca sobre a ilustração e atrás da legenda dos cartões de animal (`linear-gradient` para cima, do véu a 90% ao transparente, interpolado em oklab, com 80px de subida acima do texto). Atrás da marca: no celular `linear-gradient(to bottom, rgb(26 16 10 / 0.75), rgb(26 16 10 / 0.25) 45%, transparent)`; no computador `linear-gradient(160deg, rgb(26 16 10 / 0.8), rgb(26 16 10 / 0.35) 30%, transparent 60%)`, interpolados em oklab.
 
 ### Named Rules
 
@@ -323,6 +328,7 @@ Firmes e baixos, sem sombra, com resposta tátil discreta.
 - **Senha:** grupo com o campo e um botão fantasma "Mostrar"/"Ocultar" com ícone de olho dentro da borda; o foco do campo desenha o contorno no grupo todo.
 - **Código de 6 dígitos:** seis casas de 56px de altura em barra única, dígitos em 1.5rem/600 tabulares; a casa ativa ganha borda e anel de 2px em `ring` (sem afastamento); inválido pinta todas as bordas de vermelho. Confere sozinho ao completar.
 - **Área de texto:** mesmo tratamento do campo, mínimo de 96px, cresce com o conteúdo.
+- **Seleção nativa** (`NativeSelect`): o `<select>` do navegador com a cara do campo (44px, borda de campo, foco em `ring`) e a seta Lucide `ChevronDown` de 16px em texto de apoio, a 12px da direita. Nativa de propósito, para abrir o seletor do sistema no celular. Usada na espécie da busca e na ordem da galeria.
 - **Caixa de seleção:** 20px, cantos de 6px, fundo branco e borda em contorno de campo. Marcada, fundo no âmbar de ação com o visto em texto sobre a ação (Lucide `Check`, traço 3; 11,95:1), como o botão principal; nunca no âmbar tostado, que significa foco e link. Escolhida pelo usuário em 2026-11-11, depois de comparar com a tinta quente e o âmbar tostado. Rótulo irmão à direita, a 12px, com a ajuda logo abaixo dele; a área de toque vai 8px além da caixa. Foco igual ao dos campos. Primeiro uso: "Confiar neste dispositivo por 30 dias" no código 2FA, desmarcada por padrão.
 
 ### Cards / Containers
@@ -330,6 +336,9 @@ Firmes e baixos, sem sombra, com resposta tátil discreta.
 - **Card (pacote):** fundo branco, cantos de 14px, anel de 1px na tinta a 10%, 16px de espaçamento interno (12px no tamanho pequeno), texto em 0.875rem. Título em 1rem/500; descrição em texto de apoio. Não aninhar cartões.
 - **Lista de dados (painel):** lista de definições em fundo branco, cantos de 14px, sombra de superfície em repouso, linhas de 12px × 16px separadas por linha de areia; rótulo à esquerda em texto de apoio, valor à direita em 500.
 - **Painel de acesso:** fundo branco, 32px de espaçamento interno, cantos de 16px e sombra de painel sobre a imagem no computador; no celular, superfície plana de largura total.
+- **Cartão de animal** (vitrine): quadro vertical 4:5 com cantos de 14px, sem borda nem sombra; a foto cobre o quadro inteiro (`object-fit: cover`, com o ponto de foco de cada foto) e a legenda ancora embaixo, sobre o véu: nome em branco 600 (1.125rem; 1.25rem a partir de 40rem), e "sexo · idade" e cidade em branco a 90%, 0.875rem. O cartão inteiro é o link; a foto é decorativa. No hover, a foto aproxima 4% em 700ms (`cubic-bezier(0.16, 1, 0.3, 1)`), só com `prefers-reduced-motion: no-preference`. Selo "Em processo de adoção" no canto superior esquerdo, a 12px: fundo branco, tinta quente, 0.75rem/600, cantos de 8px.
+- **Bloco de busca:** painel branco sobre a ilustração do topo, cantos de 16px, 16 a 20px de espaçamento interno e a sombra de painel sobre a imagem; dentro, rótulos visíveis, campos e o único botão âmbar da página ("Buscar"). "Mais filtros" abre no próprio bloco, abaixo de uma linha de areia, em grupos de caixas de seleção com legenda 0.875rem/600; o número de filtros ativos vai num distintivo em tinta quente dentro do botão, que tem largura fixa para o campo da cidade não pular. Os filtros valem na hora; no celular, "Ver animais" fecha o bloco e leva o foco ao título da galeria.
+- **Estado vazio e erro:** bloco branco sobre a névoa da galeria, cantos de 16px, texto centralizado com título 600, explicação em texto de apoio e uma ação em contorno ("Limpar filtros", "Tentar de novo").
 
 ### Alerts
 
@@ -338,11 +347,14 @@ Firmes e baixos, sem sombra, com resposta tátil discreta.
 
 ### Navigation
 
-- **Faixa do painel:** 64px em marrom moldura, texto branco; a marca à esquerda (link para o início, foco branco) e "Sair" em botão secundário à direita. Não há outra navegação construída ainda.
+- **Faixa do painel:** 64px em marrom moldura, texto branco; a marca à esquerda (link para o início, foco branco) e "Sair" em botão secundário à direita.
+- **Cabeçalho público:** 64px, fundo branco e linha de areia embaixo; a marca à esquerda (o "+" em âmbar tostado) e, à direita, "Sobre" em botão fantasma (na página atual, fundo em névoa e `aria-current`) e "Entrar" em botão de contorno. Abre com o link "Pular para o conteúdo", visível só no foco.
+- **Índice e títulos-link (Sobre):** cada seção tem endereço próprio (`/sobre#para-ongs`). O índice "Nesta página" lista as seções em tinta quente, sublinhando no hover, com o rótulo em texto de apoio 0.875rem/600. O título de cada seção é link para ela mesma, e o ícone Lucide `Link` de 16px em âmbar tostado aparece no hover e no foco.
+- **Rodapé público:** linha de areia em cima, 32px de espaçamento; a marca com "Plataforma gratuita e de código aberto…" em texto de apoio à esquerda e os links "Sobre" e "Ver o código" à direita (empilha no celular).
 
 ### Moldura de acesso (assinatura)
 
-A expressão atual do gesto marcante do sistema: ilustração do caramelo em tela cheia (a cena da varanda no computador, o retrato no celular, AVIF/WebP em várias larguras), véu só atrás da marca, painel branco ancorado embaixo à esquerda, e no pé do painel a linha "Plataforma gratuita e de código aberto…" com o link "Ver o código". A ilustração é decorativa (`alt=""`) e entra com a animação **settle** (escala 1.045 → 1 em 1.6s, `cubic-bezier(0.16, 1, 0.3, 1)`), o único movimento de entrada da página, só com `prefers-reduced-motion: no-preference`. Toda imagem gerada carrega a proveniência ao lado (`public/ilustracoes/PROVENIENCIA.md` e um `.json` por arquivo).
+A expressão atual do gesto marcante do sistema: ilustração do caramelo em tela cheia (a cena da varanda no computador, o retrato no celular, AVIF/WebP em várias larguras), véu só atrás da marca, painel branco ancorado embaixo à esquerda, e no pé do painel a linha "Plataforma gratuita e de código aberto…" com o link "Ver o código". A mesma cena (`CaramelIllustration`) é o fundo do topo da página inicial, com o enquadramento subido para a faixa baixa. A ilustração é decorativa (`alt=""`) e entra com a animação **settle** (escala 1.045 → 1 em 1.6s, `cubic-bezier(0.16, 1, 0.3, 1)`), o único movimento de entrada da página, só com `prefers-reduced-motion: no-preference`. Toda imagem gerada carrega a proveniência ao lado (`public/ilustracoes/PROVENIENCIA.md` e um `.json` por arquivo).
 
 ### Wordmark
 
@@ -369,7 +381,7 @@ A expressão atual do gesto marcante do sistema: ilustração do caramelo em tel
 - **Don't** escrever o hex do âmbar ou do âmbar tostado em componentes: isso quebra o tema das ONGs.
 - **Don't** montar as telas de acesso como cartão de login centralizado sobre fundo cinza.
 - **Don't** usar laranja-amarelo saturado dentro de ilustrações: é reservado à interface.
-- **Don't** usar o véu escuro fora da área da marca sobre a imagem.
+- **Don't** usar o véu escuro fora da área da marca sobre a imagem e da legenda dos cartões de animal.
 - **Don't** introduzir uma segunda família tipográfica nem fonte de sistema como display.
 - **Don't** aninhar cartões.
 - **Don't** criar tema escuro nem variantes `dark:`: o contraste por ONG é validado só sobre o tema claro.
