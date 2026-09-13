@@ -193,7 +193,7 @@ O sistema é multi-tenant por construção: a cor de ação, o texto sobre ela e
 **Key Characteristics:**
 
 - Mídia do animal preenchendo o próprio quadro; interface ancorada embaixo, à esquerda.
-- Uma única cor de ação (âmbar), só em elementos clicáveis, uma vez por tela.
+- Uma única cor de ação (âmbar), só em elementos clicáveis: o botão principal da tela e as caixas marcadas.
 - Foco e links no âmbar tostado; contorno sólido de 2px com afastamento de 2px.
 - Neutros quentes derivados do caramelo; nada de cinza frio.
 - Figtree auto-hospedada, escala curta, títulos em negrito com tracking apertado.
@@ -228,7 +228,7 @@ Paleta quente e contida: branco, tinta quase preta com fundo marrom, neutros de 
 
 ### Named Rules
 
-**A Regra do Âmbar Único.** O âmbar preenche apenas o botão principal de cada tela. As demais ações são contorno, secundário, fantasma ou link. Fora disso ele só aparece no "+" da marca sobre o marrom e, a 45%, na seleção de texto.
+**A Regra do Âmbar Único.** O âmbar preenche apenas o botão principal de cada tela e o estado marcado das caixas de seleção (a escolha que vai junto com o envio). As demais ações são contorno, secundário, fantasma ou link. Fora disso ele só aparece no "+" da marca sobre o marrom e, a 45%, na seleção de texto.
 
 **A Regra do Âmbar Tostado.** Sobre fundo claro, toda cor de marca em forma de texto, ícone, link ou foco usa `ring`, nunca `primary`. O âmbar claro é preenchimento, não tinta.
 
@@ -323,6 +323,7 @@ Firmes e baixos, sem sombra, com resposta tátil discreta.
 - **Senha:** grupo com o campo e um botão fantasma "Mostrar"/"Ocultar" com ícone de olho dentro da borda; o foco do campo desenha o contorno no grupo todo.
 - **Código de 6 dígitos:** seis casas de 56px de altura em barra única, dígitos em 1.5rem/600 tabulares; a casa ativa ganha borda e anel de 2px em `ring` (sem afastamento); inválido pinta todas as bordas de vermelho. Confere sozinho ao completar.
 - **Área de texto:** mesmo tratamento do campo, mínimo de 96px, cresce com o conteúdo.
+- **Caixa de seleção:** 20px, cantos de 6px, fundo branco e borda em contorno de campo. Marcada, fundo no âmbar de ação com o visto em texto sobre a ação (Lucide `Check`, traço 3; 11,95:1), como o botão principal; nunca no âmbar tostado, que significa foco e link. Escolhida pelo usuário em 2026-11-11, depois de comparar com a tinta quente e o âmbar tostado. Rótulo irmão à direita, a 12px, com a ajuda logo abaixo dele; a área de toque vai 8px além da caixa. Foco igual ao dos campos. Primeiro uso: "Confiar neste dispositivo por 30 dias" no código 2FA, desmarcada por padrão.
 
 ### Cards / Containers
 

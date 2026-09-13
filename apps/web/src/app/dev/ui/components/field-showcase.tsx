@@ -1,4 +1,11 @@
-import { Field, FieldDescription, FieldError, FieldLabel } from '@acolhemais/ui/components/field'
+import { Checkbox } from '@acolhemais/ui/components/checkbox'
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldError,
+  FieldLabel,
+} from '@acolhemais/ui/components/field'
 import { Input } from '@acolhemais/ui/components/input'
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@acolhemais/ui/components/input-otp'
 import { PasswordInput } from '@acolhemais/ui/components/password-input'
@@ -57,6 +64,22 @@ export function FieldShowcase({ scope }: { scope: string }) {
             </InputOTPGroup>
           </InputOTP>
         </Field>
+
+        <div className="flex flex-col gap-4">
+          <Field orientation="horizontal" className="gap-3">
+            <Checkbox id={id('trust')} aria-describedby={id('trust-hint')} />
+            <FieldContent>
+              <FieldLabel htmlFor={id('trust')}>Confiar neste dispositivo por 30 dias</FieldLabel>
+              <FieldDescription id={id('trust-hint')}>
+                Não marque em computador compartilhado ou público.
+              </FieldDescription>
+            </FieldContent>
+          </Field>
+          <Field orientation="horizontal" className="gap-3">
+            <Checkbox id={id('castrated')} defaultChecked />
+            <FieldLabel htmlFor={id('castrated')}>Castrado</FieldLabel>
+          </Field>
+        </div>
 
         <Field>
           <FieldLabel htmlFor={id('story')}>História</FieldLabel>
