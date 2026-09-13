@@ -37,3 +37,10 @@ aplicada na API; aqui ela só é explicada e antecipada ao usuário.
 - **Status**: `implemented`
 - **Escopo (web)**: `brandThemeStyle()` aplica `--primary`, `--primary-foreground` e `--ring`
   derivados pelo domínio; componentes nunca usam cor fixa de marca.
+
+### BR-120: O que aparece no portal
+
+- **Status**: `in-progress`
+- **Escopo (web)**: a vitrine mostra `Em processo` com a etiqueta "Em processo de adoção" e
+  ordena por "há mais tempo esperando", com a opção "mais recentes". Com dados fictícios até a
+  API filtrar os adotáveis.

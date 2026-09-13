@@ -322,7 +322,7 @@ têm o status só aqui. **Fase** é a do roadmap ([PLANO](PLANO.md) §6).
 
 #### FR-050: Vitrine nacional
 
-- **Status**: `refined`
+- **Status**: `in-progress`
 - **Fase**: 3
 - **Descrição**: A página inicial (`/`) é a vitrine: textos curtos no topo, a busca no centro e a
   galeria de animais adotáveis de organizações aprovadas embaixo. A busca tem a cidade como

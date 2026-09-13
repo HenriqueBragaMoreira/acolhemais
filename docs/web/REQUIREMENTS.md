@@ -71,6 +71,15 @@ escopo definido para a web; ao refinar, adicione-o aqui.
 - **Status**: `draft`
 - **Escopo (web)**: formulário dos parâmetros com limites e unidades do catálogo (Fase 1).
 
+#### FR-050: Vitrine nacional
+
+- **Status**: `in-progress`
+- **Escopo (web)**: `/` com o topo sobre a ilustração do caramelo (título e busca: cidade com
+  sugestões, espécie, "Mais filtros" com sexo, idade, porte, convive com e castrado) e a galeria
+  de cartões 4:5 em fundo areia, até 5 colunas, com "Ver mais animais".
+  Filtros e ordem ficam no endereço. Pronto com dados fictícios em `services/animals` (fotos do
+  Unsplash, para a demonstração); falta ler a API e a página do animal. E2E com axe.
+
 ---
 
 #### NFR-006: Headers de segurança

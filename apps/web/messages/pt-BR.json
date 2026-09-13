@@ -4,10 +4,87 @@
     "titleTemplate": "%s · Acolhe+",
     "description": "Plataforma gratuita e open source de adoção responsável para ONGs e protetores de animais."
   },
+  "SiteHeader": {
+    "home": "Acolhe+, página inicial",
+    "skipToContent": "Pular para o conteúdo",
+    "navigation": "Principal",
+    "about": "Sobre",
+    "signIn": "Entrar"
+  },
+  "SiteFooter": {
+    "openSource": "Plataforma gratuita e de código aberto para ONGs e protetores de animais.",
+    "about": "Sobre",
+    "sourceCode": "Ver o código"
+  },
   "Home": {
-    "title": "Acolhe+",
-    "tagline": "Encontre um amigo. Dê um lar.",
-    "underConstruction": "Estamos construindo a plataforma. Em breve, ONGs e protetores de todo o Brasil poderão divulgar seus animais aqui."
+    "title": "Encontre um animal para adotar",
+    "description": "Animais resgatados por ONGs e protetores, todos num só lugar."
+  },
+  "AnimalSearch": {
+    "label": "Buscar animais",
+    "city": "Cidade",
+    "cityPlaceholder": "Digite sua cidade",
+    "species": {
+      "label": "Espécie",
+      "all": "Todas",
+      "dog": "Cães",
+      "cat": "Gatos",
+      "other": "Outros"
+    },
+    "more": "Mais filtros",
+    "activeCount": "{count, plural, one {# filtro ativo} other {# filtros ativos}}",
+    "submit": "Buscar",
+    "sex": {
+      "label": "Sexo",
+      "male": "Macho",
+      "female": "Fêmea"
+    },
+    "ageGroup": {
+      "label": "Idade",
+      "puppy": "Filhote (até 1 ano)",
+      "young": "Jovem (1 a 3 anos)",
+      "adult": "Adulto (3 a 8 anos)",
+      "senior": "Idoso (8 anos ou mais)"
+    },
+    "size": {
+      "label": "Porte",
+      "small": "Pequeno",
+      "medium": "Médio",
+      "large": "Grande"
+    },
+    "goodWith": {
+      "label": "Convive com",
+      "children": "Crianças",
+      "dogs": "Cães",
+      "cats": "Gatos"
+    },
+    "health": "Saúde",
+    "castrated": "Castrado",
+    "clear": "Limpar filtros",
+    "showResults": "Ver animais"
+  },
+  "AnimalGallery": {
+    "title": "Esperando um lar",
+    "count": "{count, plural, =0 {# animais} one {# animal} other {# animais}}",
+    "sort": {
+      "label": "Ordenar por",
+      "longest-waiting": "Há mais tempo esperando",
+      "newest": "Mais recentes"
+    },
+    "empty": {
+      "title": "Nenhum animal com esses filtros",
+      "description": "Tente outra cidade ou tire alguns filtros.",
+      "clear": "Limpar filtros"
+    },
+    "error": "Não foi possível carregar os animais.",
+    "retry": "Tentar de novo",
+    "loadMore": "Ver mais animais",
+    "loadingMore": "Carregando…"
+  },
+  "AnimalCard": {
+    "inProcess": "Em processo de adoção",
+    "sex": "{sex, select, female {Fêmea} other {Macho}}",
+    "age": "{age, select, puppy {Filhote} young {Jovem} adult {{sex, select, female {Adulta} other {Adulto}}} other {{sex, select, female {Idosa} other {Idoso}}}}"
   },
   "AuthFrame": {
     "home": "Acolhe+, página inicial",
