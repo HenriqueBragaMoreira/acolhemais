@@ -608,6 +608,8 @@ têm o status só aqui. **Fase** é a do roadmap ([PLANO](PLANO.md) §6).
   commitadas e migrations mergeadas imutáveis, `pnpm audit`, CodeQL e título em Conventional
   Commits (pronto). Faltam: gitleaks, checagem de licenças, release-please e preview com label
   `safe-to-preview`.
+- **Nota**: checagem de licenças, release-please e preview adiados até haver colaboradores e
+  deploy (decisão do mantenedor em 2026-11-11, projeto ainda com uma pessoa e sem deploy).
 
 #### NFR-017: Ambiente local sem chaves
 
@@ -618,10 +620,11 @@ têm o status só aqui. **Fase** é a do roadmap ([PLANO](PLANO.md) §6).
 
 #### NFR-018: Proteção do `main`
 
-- **Status**: `refined`
-- **Fase**: 0
+- **Status**: `deferred`
+- **Fase**: 0 (adiado até haver colaboradores)
 - **Descrição**: Sem push direto, PR obrigatório, CI verde, squash merge, histórico linear,
   conversas resolvidas, CODEOWNERS nas áreas críticas.
+- **Nota**: adiado em 2026-11-11: com uma pessoa só no projeto, PR obrigatório só atrasa.
 
 #### NFR-019: Ambientes e releases
 
