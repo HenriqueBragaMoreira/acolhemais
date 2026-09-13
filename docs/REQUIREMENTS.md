@@ -187,7 +187,7 @@ têm o status só aqui. **Fase** é a do roadmap ([PLANO](PLANO.md) §6).
 
 #### FR-025: Personalizar a página da organização
 
-- **Status**: `draft`
+- **Status**: `refined`
 - **Fase**: 1
 - **Descrição**: Logo, cor primária e secundária (com prévia e contraste garantido), banner,
   "sobre", redes sociais, contato (WhatsApp, e-mail), chave PIX com QR e cidades de atuação.
@@ -200,7 +200,8 @@ têm o status só aqui. **Fase** é a do roadmap ([PLANO](PLANO.md) §6).
 
 - **Status**: `refined`
 - **Fase**: 1
-- **Descrição**: `/ong/{slug}` com a marca da organização e seus animais disponíveis. Slug
+- **Descrição**: `/ong/{slug}` com a marca da organização, a chave PIX (com QR e botão de copiar)
+  e seus animais, com os mesmos filtros da vitrine (FR-050). Slug
   antigo redireciona (301) para o atual. Organização suspensa sai do ar; encerrada mostra só
   "organização encerrada", sem animais.
 - **Regras**: BR-043, BR-044, BR-047, BR-062
@@ -209,7 +210,7 @@ têm o status só aqui. **Fase** é a do roadmap ([PLANO](PLANO.md) §6).
 
 #### FR-030: Cadastrar e editar animais
 
-- **Status**: `draft`
+- **Status**: `refined`
 - **Fase**: 1
 - **Descrição**: Cadastro com os campos de BR-060, rascunho antes de publicar, edição e
   arquivamento com motivo.
@@ -217,7 +218,7 @@ têm o status só aqui. **Fase** é a do roadmap ([PLANO](PLANO.md) §6).
 
 #### FR-031: Fotos e vídeo do animal
 
-- **Status**: `draft`
+- **Status**: `refined`
 - **Fase**: 1
 - **Descrição**: 1 a 10 fotos com capa, reordenáveis; fotos sensíveis desfocadas até o clique;
   link de vídeo.
@@ -240,8 +241,8 @@ têm o status só aqui. **Fase** é a do roadmap ([PLANO](PLANO.md) §6).
 - **Fase**: 2
 - **Descrição**: Perfil reutilizável com CPF e o questionário base da plataforma (moradia,
   telas, outros animais, rotina, experiência…), preenchido uma vez e usado em toda candidatura.
-- **Regras**: BR-070, BR-071, BR-085
-- **Em aberto**: Q-034, Q-039
+- **Regras**: BR-070, BR-071, BR-085, BR-131
+- **Em aberto**: Q-034
 
 #### FR-041: Candidatar-se com conta
 
@@ -279,12 +280,12 @@ têm o status só aqui. **Fase** é a do roadmap ([PLANO](PLANO.md) §6).
 
 #### FR-045: Acompanhar candidaturas (visão da organização)
 
-- **Status**: `draft`
+- **Status**: `refined`
 - **Fase**: 2
-- **Descrição**: Lista por animal e por etapa, na ordem de BR-082, com quantas outras
-  candidaturas ativas o adotante tem. Mover de etapa, pedir informação, recusar.
-- **Regras**: BR-076, BR-077, BR-082, BR-084, BR-085
-- **Em aberto**: Q-035, Q-038
+- **Descrição**: Lista por animal e por etapa (colunas no computador, lista no celular), na
+  ordem de BR-082, com os selos e quantas outras candidaturas ativas o adotante tem. Mover de
+  etapa, pedir informação, recusar.
+- **Regras**: BR-076, BR-077, BR-082, BR-084, BR-085, BR-090
 
 #### FR-046: Concluir a adoção
 
@@ -311,23 +312,32 @@ têm o status só aqui. **Fase** é a do roadmap ([PLANO](PLANO.md) §6).
 
 #### FR-049: Contato por WhatsApp
 
-- **Status**: `draft`
+- **Status**: `refined`
 - **Fase**: 2
 - **Descrição**: Botões `wa.me` com mensagem pré-preenchida entre organização e adotante, sem
   API paga.
 - **Regras**: BR-131
-- **Em aberto**: Q-039
 
 ### Portal
 
 #### FR-050: Vitrine nacional
 
-- **Status**: `draft`
+- **Status**: `refined`
 - **Fase**: 3
-- **Descrição**: Home com os animais adotáveis de organizações aprovadas. Filtros: espécie,
-  sexo, porte, idade, convive com…, castrado, cidade/UF.
-- **Regras**: BR-120
-- **Em aberto**: Q-045
+- **Descrição**: A página inicial (`/`) é a vitrine: textos curtos no topo, a busca no centro e a
+  galeria de animais adotáveis de organizações aprovadas embaixo. A busca tem a cidade como
+  campo principal, a espécie ao lado e "mais filtros" para sexo, porte, idade, convive com… e
+  castrado. Cada animal tem a sua página (`/animais/{id}`) com fotos, dados, história, cidade,
+  taxa, a organização e o botão "Quero adotar".
+- **Regras**: BR-060, BR-061, BR-062, BR-063, BR-120
+
+#### FR-053: Página "Sobre"
+
+- **Status**: `refined`
+- **Fase**: 3
+- **Descrição**: `/sobre` explica o que é o Acolhe+, como funciona para organizações e
+  adotantes, que é gratuito e de código aberto, e como ajudar o projeto (e-mail e WhatsApp do
+  mantenedor). Sem números, depoimentos ou parceiros que não existam. Link no menu e no rodapé.
 
 #### FR-051: Busca por distância a partir do CEP
 
@@ -354,7 +364,6 @@ têm o status só aqui. **Fase** é a do roadmap ([PLANO](PLANO.md) §6).
 - **Descrição**: Selos calculados a partir dos eventos de reputação e exibidos à organização na
   candidatura.
 - **Regras**: BR-090, BR-103
-- **Em aberto**: Q-050, Q-051
 
 #### FR-061: Avaliação pós-adoção
 
@@ -549,11 +558,11 @@ têm o status só aqui. **Fase** é a do roadmap ([PLANO](PLANO.md) §6).
 
 #### NFR-009: Segredos
 
-- **Status**: `in-progress`
+- **Status**: `implemented`
 - **Fase**: 0
 - **Descrição**: Segredos só em variáveis de ambiente (`wrangler secret`), validados com Zod na
-  primeira requisição; segredo de desenvolvimento só aceito em localhost (pronto). gitleaks no
-  CI (falta).
+  primeira requisição; segredo de desenvolvimento só aceito em localhost. O CI procura segredos
+  vazados com o TruffleHog.
 
 #### NFR-010: Backups
 

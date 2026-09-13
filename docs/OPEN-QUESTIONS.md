@@ -11,20 +11,6 @@ Ordem: por fase.
 
 ## Antes da Fase 2 (adotantes e candidaturas)
 
-### Q-030: O que conta como candidatura "ativa"
-
-- **Bloqueia**: Fase 2 · **Afeta**: BR-074
-- **Recomendação**: toda etapa não terminal (`Recebida`, `Em análise`, `Entrevista/Visita`,
-  `Aprovada`, `Aguardando confirmação`).
-
-### Q-031: Mais de uma candidatura ao mesmo animal
-
-- **Bloqueia**: Fase 2 · **Afeta**: BR-075
-- **Problema**: o mesmo CPF pode ter duas candidaturas ativas ao mesmo animal? E se candidatar de
-  novo depois de recusado?
-- **Recomendação**: uma ativa por CPF e animal; depois de `Recusada`, não volta ao mesmo animal;
-  depois de `Desistência`/`Expirada`/`Cancelada`, pode.
-
 ### Q-032: Sequestro do perfil sombra
 
 - **Bloqueia**: Fase 2 · **Afeta**: BR-073, FR-043
@@ -51,14 +37,6 @@ Ordem: por fase.
 - **Recomendação**: CPF editável até a primeira candidatura; depois, só pelo suporte, com
   documento e auditoria.
 
-### Q-035: Pedido de informação ao adotante
-
-- **Bloqueia**: Fase 2 · **Afeta**: BR-076, BR-081, FR-045
-- **Problema**: BR-081 depende de "a organização pede informação", mas não há etapa nem estado
-  para isso nas etapas fixas.
-- **Recomendação**: marcação "aguardando o adotante" sobre a etapa atual (não é etapa nova), com
-  prazo; a resposta do adotante tira a marcação.
-
 ### Q-036: Um parâmetro para dois prazos
 
 - **Bloqueia**: Fase 2 · **Afeta**: BR-030, BR-080, BR-081
@@ -66,39 +44,9 @@ Ordem: por fase.
   inatividade (BR-081); mudar um muda o outro.
 - **Recomendação**: dois parâmetros, ambos com padrão 7 dias.
 
-### Q-037: Candidatura aprovada que nunca é concluída
-
-- **Bloqueia**: Fase 2 · **Afeta**: BR-076
-- **Problema**: `Aprovada` ocupa uma vaga do limite e trava o animal em `Em processo` para sempre
-  se a organização não concluir nem cancelar.
-- **Recomendação**: sem expiração automática; depois de 30 dias, a organização recebe lembrete
-  para concluir ou cancelar.
-
-### Q-038: "Conta verificada" na ordenação
-
-- **Bloqueia**: Fase 2 · **Afeta**: BR-082
-- **Problema**: o nível 2 ("com conta verificada") não diz o que é verificado, e ainda não há
-  selo nem regra que o defina antes da Fase 4.
-- **Recomendação**: conta com e-mail verificado e CPF cadastrado; junto com Q-050.
-
-### Q-039: Telefone do adotante
-
-- **Bloqueia**: Fase 2 · **Afeta**: BR-131, FR-040, FR-049
-- **Problema**: o botão `wa.me` da organização para o adotante precisa do telefone, que não está
-  no perfil, e não está dito quem vê.
-- **Recomendação**: telefone opcional no perfil; a organização vê só enquanto houver candidatura
-  ativa com ela.
-
 ---
 
 ## Fase 3 (portal)
-
-### Q-045: Status que aparecem no portal
-
-- **Bloqueia**: Fase 3 · **Afeta**: BR-120, FR-050
-- **Problema**: `Em processo` aparece? Aceita novas candidaturas?
-- **Recomendação**: aparecem `Disponível` (inclusive em lar temporário) e `Em processo` com o
-  aviso "em processo de adoção"; `Em processo` ainda aceita candidaturas.
 
 ### Q-046: Desfecho da denúncia pública
 
@@ -115,22 +63,6 @@ Ordem: por fase.
 ---
 
 ## Fase 4 (reputação, pós-adoção e lar temporário)
-
-### Q-050: O que dá o selo "Verificado"
-
-- **Bloqueia**: Fase 4 · **Afeta**: BR-090, FR-060
-- **Opções**: (a) conta com e-mail verificado e CPF; (b) documento conferido em uma adoção
-  concluída; (c) remover o selo e usar só `Novo` / `Adotante aprovado`.
-- **Recomendação**: (b) — é a única verificação de identidade real; (a) vira só o critério de
-  ordenação (Q-038).
-
-### Q-051: Combinação dos selos
-
-- **Bloqueia**: Fase 4 · **Afeta**: BR-082, BR-090
-- **Problema**: não está dito se `Atenção` e `Adotante aprovado` aparecem juntos nem qual vence na
-  ordenação.
-- **Recomendação**: `Inelegível` é exclusivo; os demais coexistem; na ordenação, `Atenção` sempre
-  vai para o último nível.
 
 ### Q-052: Opções da avaliação pós-adoção
 

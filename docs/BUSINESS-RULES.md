@@ -524,30 +524,36 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 
 ### BR-060: Dados do animal
 
-- **Status**: `draft`
+- **Status**: `refined`
 - **Quando**: um animal é cadastrado ou publicado
 - **Então**: nome, espécie (cão/gato/outro), sexo, faixa etária + nascimento aproximado, porte,
   pelagem, temperamento (convive com crianças/cães/gatos), **saúde obrigatória** (castrado,
   vacinas, vermifugado, FIV/FeLV para gatos, necessidades especiais), 1–10 fotos com capa,
   link de vídeo, história, cidade, taxa de adoção opcional. Rascunho pode ficar incompleto;
-  publicar exige os obrigatórios.
+  publicar exige os obrigatórios. Valores:
+  - **Espécie**: cão, gato, outro. **Sexo**: macho, fêmea.
+  - **Faixa etária**: filhote (< 1 ano), jovem (1–3), adulto (3–8), idoso (8+).
+  - **Porte**: pequeno, médio, grande. **Pelagem**: curta, média, longa.
+  - **Convive com** crianças, cães e gatos: sim, não ou não testado (cada um).
+  - **Saúde**: castrado, vacinado e vermifugado (sim/não); FIV/FeLV só para gatos (negativo,
+    positivo, não testado); necessidades especiais em texto livre, opcional.
 
 ### BR-061: Fotos
 
-- **Status**: `draft`
+- **Status**: `refined`
 - **Quando**: alguém envia fotos
 - **Então**: 1 a 10 por animal, uma é a capa; reencodadas sem EXIF/GPS (NFR-007). Fotos
   marcadas como sensíveis (ferimentos de resgate) aparecem desfocadas até o clique.
 
 ### BR-062: Só a cidade é pública
 
-- **Status**: `draft`
+- **Status**: `refined`
 - **Quando**: um animal, organização ou lar temporário aparece publicamente
 - **Então**: só a cidade; nunca o endereço da organização nem o do lar temporário.
 
 ### BR-063: Taxa de adoção não é preço
 
-- **Status**: `draft`
+- **Status**: `refined`
 - **Quando**: a organização define uma taxa de adoção
 - **Então**: opcional; a taxa do animal nasce vazia (sem taxa). Se maior que zero, exige
   justificativa (castração, vacinas…) e não passa de `adoptionFeeCapCents` (parâmetro). O
@@ -581,12 +587,20 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 
 ### BR-070: Ficha da candidatura
 
-- **Status**: `draft`
+- **Status**: `refined`
 - **Quando**: alguém se candidata
-- **Então**: questionário base fixo da plataforma (moradia, telas, outros animais, rotina,
-  experiência…), preenchido a partir do perfil, + perguntas extras da organização (texto,
-  múltipla escolha, sim/não). As extras são versionadas; a candidatura guarda a versão
-  respondida e as respostas da época.
+- **Então**: questionário base fixo da plataforma, preenchido a partir do perfil, + perguntas
+  extras da organização (texto, múltipla escolha, sim/não). As extras são versionadas; a
+  candidatura guarda a versão respondida e as respostas da época. O questionário base:
+  - **Moradia**: tipo (casa, apartamento, outro); própria ou alugada (se alugada, o
+    proprietário permite animais?); tem quintal?; tem telas nas janelas?
+  - **Quem mora**: quantos adultos; crianças e idades; todos concordam com a adoção?
+  - **Outros animais**: tem? quais? são castrados e vacinados?
+  - **Experiência**: já teve animais? o que aconteceu com eles?
+  - **Rotina**: horas sozinho por dia; onde o animal vai ficar; quem cuida nas viagens.
+  - **Custos**: está ciente dos gastos com ração e veterinário?
+  - **Motivo**: por que quer adotar; o que faria em caso de mudança ou de problema de
+    comportamento.
 
 ### BR-071: CPF do adotante
 
@@ -612,32 +626,36 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 
 ### BR-074: Limite de candidaturas ativas
 
-- **Status**: `draft`
+- **Status**: `refined`
 - **Quando**: alguém envia uma candidatura
 - **Então**: recusa se o CPF já tem `maxActiveApplications` (parâmetro) candidaturas ativas em
-  toda a plataforma. Baixar o parâmetro não cancela candidaturas já enviadas (BR-032).
-- **Em aberto**: Q-030
+  toda a plataforma. Ativa é toda etapa não terminal (`Recebida`, `Em análise`,
+  `Entrevista/Visita`, `Aprovada`, `Aguardando confirmação`). Baixar o parâmetro não cancela
+  candidaturas já enviadas (BR-032).
 
 ### BR-075: Uma candidatura por animal
 
-- **Status**: `draft`
+- **Status**: `refined`
 - **Quando**: alguém se candidata a um animal
-- **Então**: a definir.
-- **Em aberto**: Q-031
+- **Então**: uma candidatura ativa por CPF e animal. Depois de `Recusada`, não volta ao mesmo
+  animal; depois de `Desistência`, `Expirada` ou `Cancelada`, pode.
 
 ### BR-076: Etapas da candidatura
 
-- **Status**: `draft`
+- **Status**: `refined`
 - **Quando**: a organização ou o sistema move uma candidatura
 - **Então**: `Recebida → Em análise → Entrevista/Visita → Aprovada → Concluída`, além de
   `Aguardando confirmação` (BR-080). Terminais: `Recusada`, `Desistência`, `Expirada`,
   `Cancelada`. Terminal não volta. Toda mudança vai para o histórico. Mover exige
   `application.move_stage`; aprovar, `application.approve`.
-- **Em aberto**: Q-035, Q-037
+  - **Pedido de informação**: não é etapa. É a marcação "aguardando o adotante" sobre a etapa
+    atual, com prazo (BR-081); a resposta do adotante tira a marcação.
+  - **Aprovada sem conclusão**: não expira; depois de 30 dias, a organização recebe lembrete
+    para concluir ou cancelar.
 
 ### BR-077: Recusa
 
-- **Status**: `draft`
+- **Status**: `refined`
 - **Quando**: a organização recusa
 - **Então**: motivo interno (só a organização vê) + mensagem ao adotante. Recusa é neutra para a
   reputação.
@@ -670,16 +688,17 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 
 - **Status**: `draft`
 - **Quando**: a organização pede uma informação e o adotante não responde
-- **Então**: depois de `applicationResponseDays` (parâmetro) → `Expirada`, neutra.
-- **Em aberto**: Q-035, Q-036
+- **Então**: depois de `applicationResponseDays` (parâmetro) com a marcação "aguardando o
+  adotante" (BR-076) → `Expirada`, neutra.
+- **Em aberto**: Q-036
 
 ### BR-082: Ordem na visão da organização
 
-- **Status**: `draft`
+- **Status**: `refined`
 - **Quando**: a organização lista as candidaturas
 - **Então**: por nível e, dentro dele, por data de envio: 1) histórico positivo; 2) conta
-  verificada; 3) sem conta; 4) selo "Atenção".
-- **Em aberto**: Q-038, Q-051
+  verificada (e-mail verificado e CPF cadastrado); 3) sem conta; 4) selo `Atenção`, que manda
+  para o último nível mesmo com histórico positivo.
 
 ### BR-083: Inelegível não se candidata
 
@@ -689,14 +708,14 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 
 ### BR-084: Outras candidaturas do adotante
 
-- **Status**: `draft`
+- **Status**: `refined`
 - **Quando**: a organização vê uma candidatura
 - **Então**: vê quantas outras candidaturas ativas o adotante tem, sem saber em quais
   organizações.
 
 ### BR-085: Dados sensíveis do adotante
 
-- **Status**: `draft`
+- **Status**: `refined`
 - **Quando**: alguém da organização vê os dados do adotante
 - **Então**: CPF sempre mascarado; "revelar" exige `application.view_sensitive` e vai para a
   auditoria. Sem `application.view`, não vê candidaturas.
@@ -707,13 +726,14 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 
 ### BR-090: Selos
 
-- **Status**: `draft`
+- **Status**: `refined`
 - **Quando**: a organização vê o adotante
-- **Então**: selos transparentes, nunca nota numérica: `Novo`, `Verificado`, `Adotante aprovado`
-  (≥1 adoção avaliada como bem-sucedida), `Atenção` (ocorrência leve procedente ativa),
-  `Inelegível`.
-- **Por quê**: decisão automatizada inexplicável é vedada (LGPD art. 20).
-- **Em aberto**: Q-050, Q-051
+- **Então**: selos transparentes, nunca nota numérica: `Novo`, `Verificado` (documento com foto
+  conferido numa adoção concluída, BR-079), `Adotante aprovado` (≥1 adoção avaliada como
+  bem-sucedida), `Atenção` (ocorrência leve procedente ativa), `Inelegível`. `Inelegível` é
+  exclusivo; os demais coexistem.
+- **Por quê**: decisão automatizada inexplicável é vedada (LGPD art. 20). O documento conferido
+  é a única verificação de identidade real.
 
 ### BR-091: Avaliação pós-adoção
 
@@ -836,10 +856,14 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 
 ### BR-120: O que aparece no portal
 
-- **Status**: `draft`
+- **Status**: `refined`
 - **Quando**: alguém navega no portal ou na página de uma organização
-- **Então**: só animais adotáveis de organizações aprovadas (não suspensas nem encerradas).
-- **Em aberto**: Q-045
+- **Então**: só animais adotáveis de organizações aprovadas (não suspensas nem encerradas):
+  `Disponível` (inclusive em lar temporário) e `Em processo`, este com o aviso "em processo de
+  adoção" e ainda aceitando candidaturas. Ordem padrão: há mais tempo esperando (publicação mais
+  antiga primeiro), com a opção "mais recentes".
+- **Por quê**: dar visibilidade a quem espera há mais tempo; `Em processo` pode não terminar em
+  adoção.
 
 ### BR-121: Distância sem endereço
 
@@ -868,10 +892,11 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 
 ### BR-131: WhatsApp sem API paga
 
-- **Status**: `draft`
+- **Status**: `refined`
 - **Quando**: organização e adotante querem conversar
-- **Então**: botão `wa.me` com mensagem pré-preenchida.
-- **Em aberto**: Q-039
+- **Então**: botão `wa.me` com mensagem pré-preenchida. O telefone do adotante é opcional no
+  perfil, e a organização só o vê enquanto houver candidatura ativa com ela; sem telefone, o
+  botão não aparece.
 
 ---
 
