@@ -86,6 +86,43 @@
     "sex": "{sex, select, female {Fêmea} other {Macho}}",
     "age": "{age, select, puppy {Filhote} young {Jovem} adult {{sex, select, female {Adulta} other {Adulto}}} other {{sex, select, female {Idosa} other {Idoso}}}}"
   },
+  "About": {
+    "metaTitle": "Sobre",
+    "title": "Sobre o Acolhe+",
+    "contents": "Nesta página",
+    "lead": "O Acolhe+ é uma plataforma gratuita e de código aberto para ONGs e protetores de animais divulgarem os animais resgatados e cuidarem da adoção, do primeiro contato ao acompanhamento no novo lar.",
+    "why": {
+      "title": "Por que existe",
+      "body": "Muitas ONGs e protetores não têm site nem sistema. Os animais aparecem em posts que somem do feed, as candidaturas chegam por mensagem e a triagem fica em planilhas e na memória de quem cuida. O Acolhe+ junta tudo isso num lugar só."
+    },
+    "adopters": {
+      "title": "Para quem quer adotar",
+      "body": "Você encontra animais de várias organizações numa mesma vitrine e filtra pelo que combina com a sua casa: cidade, espécie, porte, idade e com quem o animal convive. A candidatura é feita na página do animal, e as respostas sobre a sua casa e a sua rotina ficam salvas para as próximas."
+    },
+    "organizations": {
+      "title": "Para ONGs e protetores",
+      "body": "Cada organização aprovada ganha uma página com o próprio logo e as próprias cores, onde publica os animais e recebe doações por PIX direto na conta dela. As candidaturas seguem por etapas, da análise à adoção concluída, e o animal continua sendo acompanhado depois de ir para casa."
+    },
+    "responsible": {
+      "title": "Adoção responsável",
+      "body": "As organizações compartilham o histórico de quem abandonou ou maltratou animais, sempre com direito de defesa e revisão. Ninguém recebe nota: só selos, cada um com o motivo explicado. A taxa de adoção só cobre custos, como castração e vacinas; vender animais é proibido."
+    },
+    "open": {
+      "title": "Gratuito e de código aberto",
+      "body": "Não há custo para organizações nem para quem adota. O código é aberto (licença AGPL‑3.0): qualquer pessoa pode conferir como a plataforma funciona e ajudar a construí-la.",
+      "sourceCode": "Ver o código"
+    },
+    "help": {
+      "title": "Como ajudar",
+      "description": "O Acolhe+ está começando. Se você programa, desenha, escreve, conhece uma ONG que precisa disso ou quer apoiar o projeto de outro jeito, fale com a gente.",
+      "whatsapp": "Chamar no WhatsApp",
+      "whatsappMessage": "Olá! Conheci o Acolhe+ e quero ajudar o projeto.",
+      "email": "Enviar e-mail",
+      "emailLabel": "E-mail",
+      "whatsappLabel": "WhatsApp",
+      "whatsappNumber": "(11) 94299-8620"
+    }
+  },
   "AuthFrame": {
     "home": "Acolhe+, página inicial",
     "tagline": "Adoção responsável, do resgate ao lar.",

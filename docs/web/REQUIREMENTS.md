@@ -80,6 +80,14 @@ escopo definido para a web; ao refinar, adicione-o aqui.
   Filtros e ordem ficam no endereço. Pronto com dados fictícios em `services/animals` (fotos do
   Unsplash, para a demonstração); falta ler a API e a página do animal. E2E com axe.
 
+#### FR-053: Página "Sobre"
+
+- **Status**: `implemented`
+- **Escopo (web)**: `/sobre` com o projeto, como funciona para adotantes e organizações, a
+  adoção responsável, o código aberto e "Como ajudar" (WhatsApp e e-mail do mantenedor). Índice
+  "Nesta página" e títulos-link: cada seção tem endereço próprio para compartilhar
+  (`/sobre#como-ajudar`). E2E com axe.
+
 ---
 
 #### NFR-006: Headers de segurança

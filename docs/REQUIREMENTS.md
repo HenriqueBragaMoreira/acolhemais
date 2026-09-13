@@ -333,7 +333,7 @@ têm o status só aqui. **Fase** é a do roadmap ([PLANO](PLANO.md) §6).
 
 #### FR-053: Página "Sobre"
 
-- **Status**: `refined`
+- **Status**: `implemented`
 - **Fase**: 3
 - **Descrição**: `/sobre` explica o que é o Acolhe+, como funciona para organizações e
   adotantes, que é gratuito e de código aberto, e como ajudar o projeto (e-mail e WhatsApp do

@@ -93,3 +93,38 @@ test.describe('BR-120: o que aparece na vitrine', () => {
     )
   })
 })
+
+test.describe('FR-053: página Sobre', () => {
+  test('o índice e os títulos levam a cada seção pelo endereço', async ({ page }) => {
+    await page.goto('/sobre')
+    await page
+      .getByRole('navigation', { name: 'Nesta página' })
+      .getByRole('link', { name: 'Para ONGs e protetores' })
+      .click()
+    await expect(page).toHaveURL(/\/sobre#para-ongs$/)
+    await expect(page.getByRole('heading', { name: 'Para ONGs e protetores' })).toBeInViewport()
+
+    // O link copiado abre a página já rolada na seção.
+    await page.goto('/sobre#como-ajudar')
+    await expect(page.getByRole('heading', { name: 'Como ajudar' })).toBeInViewport()
+    await expect(page.getByRole('link', { name: 'Chamar no WhatsApp' })).toBeInViewport()
+  })
+
+  test('explica o projeto e leva ao contato do mantenedor', async ({ page }) => {
+    await page.goto('/')
+    await page
+      .getByRole('navigation', { name: 'Principal' })
+      .getByRole('link', { name: 'Sobre' })
+      .click()
+    await expect(page.getByRole('heading', { level: 1, name: 'Sobre o Acolhe+' })).toBeVisible()
+    await expect(page.getByRole('link', { name: 'Chamar no WhatsApp' })).toHaveAttribute(
+      'href',
+      /^https:\/\/wa\.me\/5511942998620\?text=/,
+    )
+    await expect(page.getByRole('link', { name: 'Enviar e-mail' })).toHaveAttribute(
+      'href',
+      'mailto:shenrique40moreira@gmail.com',
+    )
+    await expectAccessible(page)
+  })
+})
