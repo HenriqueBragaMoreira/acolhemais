@@ -43,13 +43,13 @@ describe('assertCanAssign', () => {
     const assignable = PERMISSIONS.filter((p) => p !== 'organization.delete')
     expect(errorCode(() => assertCanAssign(owner, assignable))).toBeUndefined()
     expect(errorCode(() => assertCanAssign(owner, ['organization.delete']))).toBe(
-      'rbac.cannot_assign_unowned_permission',
+      'CANNOT_ASSIGN_UNOWNED_PERMISSION',
     )
   })
 
   it('exige gerenciar a equipe para conceder', () => {
     expect(errorCode(() => assertCanAssign(coordinator, ['animal.create']))).toBe(
-      'rbac.team_manage_required',
+      'TEAM_MANAGE_REQUIRED',
     )
   })
 
@@ -60,16 +60,14 @@ describe('assertCanAssign', () => {
     })
     expect(errorCode(() => assertCanAssign(manager, ['animal.create']))).toBeUndefined()
     expect(errorCode(() => assertCanAssign(manager, ['application.view_sensitive']))).toBe(
-      'rbac.cannot_assign_unowned_permission',
+      'CANNOT_ASSIGN_UNOWNED_PERMISSION',
     )
   })
 })
 
 describe('assertOwnerRemains', () => {
   it('rejeita equipe sem Responsável', () => {
-    expect(errorCode(() => assertOwnerRemains(['coordinator', 'volunteer']))).toBe(
-      'rbac.owner_required',
-    )
+    expect(errorCode(() => assertOwnerRemains(['coordinator', 'volunteer']))).toBe('OWNER_REQUIRED')
     expect(errorCode(() => assertOwnerRemains(['owner', 'volunteer']))).toBeUndefined()
   })
 })

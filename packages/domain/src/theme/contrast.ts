@@ -9,7 +9,7 @@ type Rgb = readonly [number, number, number]
 
 export function parseHexColor(hex: string): Rgb {
   if (!HEX_COLOR.test(hex)) {
-    throw new DomainError('theme.invalid_color', `Invalid hex color: ${hex}`)
+    throw new DomainError('INVALID_COLOR', `Invalid hex color: ${hex}`)
   }
   const channel = (i: number) => Number.parseInt(hex.slice(1 + i * 2, 3 + i * 2), 16)
   return [channel(0), channel(1), channel(2)]

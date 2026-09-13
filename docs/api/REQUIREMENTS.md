@@ -138,11 +138,10 @@ Item ausente = ainda sem escopo definido para a API; ao refinar, adicione-o aqui
 
 #### NFR-012: Textos em português e traduzíveis
 
-- **Status**: `in-progress`
+- **Status**: `implemented`
 - **Escopo (api)**: erros no formato `{ code, message }`, com mensagens próprias e traduções dos
-  códigos do Better Auth. Falta renomear os códigos do `DomainError` que fogem do padrão
-  (`theme.invalid_color`, `rbac.team_manage_required`, `rbac.cannot_assign_unowned_permission`,
-  `rbac.owner_required`) para `MAIUSCULAS_COM_SUBLINHADO`.
+  códigos do Better Auth. Os códigos do `DomainError` seguem `MAIUSCULAS_COM_SUBLINHADO`, e o tipo
+  do construtor (`Uppercase<string>`) recusa minúsculas na compilação.
 
 #### NFR-014: Compatível com o runtime do Workers
 

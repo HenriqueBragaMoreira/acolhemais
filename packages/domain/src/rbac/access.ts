@@ -31,12 +31,12 @@ export function assertCanAssign(
   permissions: readonly Permission[],
 ): void {
   if (!actor.has('member.update')) {
-    throw new DomainError('rbac.team_manage_required', 'Actor cannot manage the team')
+    throw new DomainError('TEAM_MANAGE_REQUIRED', 'Actor cannot manage the team')
   }
   const missing = permissions.filter((p) => !actor.has(p))
   if (missing.length > 0) {
     throw new DomainError(
-      'rbac.cannot_assign_unowned_permission',
+      'CANNOT_ASSIGN_UNOWNED_PERMISSION',
       `Actor cannot assign permissions it does not hold: ${missing.join(', ')}`,
     )
   }
@@ -45,6 +45,6 @@ export function assertCanAssign(
 /** Garante que, após uma mudança na equipe, ainda exista ao menos um Responsável. */
 export function assertOwnerRemains(memberRoleKeys: readonly string[]): void {
   if (!memberRoleKeys.includes(OWNER_ROLE)) {
-    throw new DomainError('rbac.owner_required', 'Organization must keep at least one owner')
+    throw new DomainError('OWNER_REQUIRED', 'Organization must keep at least one owner')
   }
 }

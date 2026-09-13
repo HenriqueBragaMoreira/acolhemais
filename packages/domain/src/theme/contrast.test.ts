@@ -20,6 +20,7 @@ describe('parseHexColor', () => {
   it('rejeita cores fora do formato #RRGGBB', () => {
     for (const bad of ['red', '#fff', '#12345g', '123456']) {
       expect(() => parseHexColor(bad)).toThrow(DomainError)
+      expect(() => parseHexColor(bad)).toThrow(expect.objectContaining({ code: 'INVALID_COLOR' }))
     }
   })
 })

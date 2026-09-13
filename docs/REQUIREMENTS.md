@@ -571,7 +571,7 @@ têm o status só aqui. **Fase** é a do roadmap ([PLANO](PLANO.md) §6).
 
 #### NFR-012: Textos em português e traduzíveis
 
-- **Status**: `in-progress`
+- **Status**: `implemented`
 - **Fase**: 0 (contínuo)
 - **Descrição**: Textos da web em arquivos do next-intl (pt-BR) desde o início; mensagens da API
   com `code` estável em `MAIUSCULAS_COM_SUBLINHADO` (também nos erros do domínio) e `message` em
