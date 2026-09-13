@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import { AuthFooter } from './_components/auth-footer'
 import { AuthHeader } from './_components/auth-header'
-import { AuthIllustration } from './_components/auth-illustration'
+import { CaramelIllustration } from '@/components/caramel-illustration'
 
 /**
  * Moldura das telas de acesso (Entrar, código 2FA, esqueci a senha e criar nova senha): o animal ocupa o quadro e a interface
@@ -12,7 +12,7 @@ export default function AuthLayout({ children }: Readonly<{ children: ReactNode 
   return (
     <div className="relative isolate flex min-h-dvh flex-col bg-background lg:bg-shell">
       <div className="relative h-[36svh] min-h-56 overflow-hidden lg:absolute lg:inset-0 lg:-z-10 lg:h-auto">
-        <AuthIllustration />
+        <CaramelIllustration />
         <div
           aria-hidden
           className="absolute inset-0 bg-linear-to-b from-veil/75 via-veil/25 via-45% to-transparent lg:bg-linear-160 lg:from-veil/80 lg:via-veil/35 lg:via-30% lg:to-transparent lg:to-60%"

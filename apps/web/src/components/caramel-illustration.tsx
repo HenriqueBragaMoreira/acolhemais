@@ -1,3 +1,5 @@
+import { cn } from '@acolhemais/ui/lib/utils'
+
 const ILLUSTRATIONS = '/ilustracoes'
 
 const SCENE = { name: 'caramelo-varanda', widths: [960, 1280, 1672] } as const
@@ -11,11 +13,12 @@ function srcSet(
 }
 
 /**
- * Ilustração do vira-lata caramelo (origem em public/ilustracoes/PROVENIENCIA.md). No
- * computador é a cena da varanda, em tela cheia, com o cão à direita; no celular, o retrato.
- * É decorativa: nada da página depende dela.
+ * Ilustração do vira-lata caramelo (origem em public/ilustracoes/PROVENIENCIA.md), o fundo das
+ * telas de acesso e do topo da página inicial. No computador é a cena da varanda, com o cão à
+ * direita e a esquerda calma para o texto; no celular, o retrato. É decorativa: nada da página
+ * depende dela.
  */
-export function AuthIllustration() {
+export function CaramelIllustration({ className }: { className?: string }) {
   return (
     <picture>
       <source
@@ -39,7 +42,11 @@ export function AuthIllustration() {
         width={1672}
         height={941}
         fetchPriority="high"
-        className="size-full object-cover object-[38%_30%] motion-safe:animate-settle lg:object-[72%_50%]"
+        /* `className` ajusta o enquadramento a cada moldura (ex.: `lg:object-[72%_20%]`). */
+        className={cn(
+          'size-full object-cover object-[38%_30%] motion-safe:animate-settle lg:object-[72%_50%]',
+          className,
+        )}
       />
     </picture>
   )
