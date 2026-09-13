@@ -28,8 +28,9 @@ aplicada na API; aqui ela só é explicada e antecipada ao usuário.
 ### BR-009: 2FA por app autenticador
 
 - **Status**: `in-progress`
-- **Escopo (web)**: desafio no login pronto (TOTP e recuperação); falta a caixa "confiar neste
-  dispositivo" (FR-006); ativação e gestão em FR-007.
+- **Escopo (web)**: desafio no login pronto (TOTP e recuperação) com a caixa "confiar neste
+  dispositivo", desmarcada e com o alerta de computador compartilhado (FR-006); falta ativação e
+  gestão (FR-007, Fase 1).
 
 ### BR-048: Cores da organização
 

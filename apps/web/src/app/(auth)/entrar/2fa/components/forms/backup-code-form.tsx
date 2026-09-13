@@ -14,6 +14,7 @@ import { z } from 'zod'
 import { AFTER_SIGN_IN_PAGE, authClient } from '@/lib/auth-client'
 import { twoFactorMessageFor } from '../../../../_components/auth-errors'
 import { FieldMessage } from '../../../../_components/field-message'
+import { TrustDeviceField } from '../trust-device-field'
 
 /** As mensagens são chaves do namespace `TwoFactor` (traduzidas na tela). */
 const backupCodeSchema = z.object({
@@ -23,7 +24,13 @@ const backupCodeSchema = z.object({
 type BackupCodeFormType = z.infer<typeof backupCodeSchema>
 
 /** Um dos códigos de recuperação (cada um vale uma vez), para quem perdeu o app autenticador. */
-export function BackupCodeForm() {
+export function BackupCodeForm({
+  trustDevice,
+  onTrustDeviceChange,
+}: {
+  trustDevice: boolean
+  onTrustDeviceChange: (checked: boolean) => void
+}) {
   const t = useTranslations('TwoFactor')
   const tRoot = useTranslations()
   const router = useRouter()
@@ -39,7 +46,7 @@ export function BackupCodeForm() {
   const { mutate, isPending } = useMutation({
     mutationKey: ['verify-backup-code'],
     mutationFn: async ({ code }: BackupCodeFormType) => {
-      const response = await authClient.twoFactor.verifyBackupCode({ code })
+      const response = await authClient.twoFactor.verifyBackupCode({ code, trustDevice })
       if (response.error) throw response.error
     },
     onSuccess: () => router.replace(AFTER_SIGN_IN_PAGE),
@@ -81,6 +88,8 @@ export function BackupCodeForm() {
           </Field>
         )}
       />
+
+      <TrustDeviceField checked={trustDevice} onCheckedChange={onTrustDeviceChange} />
 
       <Button type="submit" size="lg" className="w-full" disabled={isPending} aria-busy={isPending}>
         {isPending && <Spinner />}

@@ -88,6 +88,8 @@
     "submitting": "Confirmando…",
     "useBackupCode": "Perdi acesso ao aplicativo",
     "useTotp": "Usar o aplicativo autenticador",
+    "trustDevice": "Confiar neste dispositivo por 30 dias",
+    "trustDeviceHint": "Não marque em computador compartilhado ou público.",
     "invalidCode": "Código incorreto. Confira o aplicativo e digite o código atual.",
     "invalidBackupCode": "Código de recuperação incorreto ou já usado.",
     "locked": "Muitas tentativas com código errado. A conta foi bloqueada por alguns minutos.",

@@ -38,10 +38,11 @@ escopo definido para a web; ao refinar, adicione-o aqui.
 
 #### FR-006: Código 2FA no login
 
-- **Status**: `in-progress`
-- **Escopo (web)**: `/entrar/2fa` com código de 6 dígitos (envia ao completar) e alternativa por
-  código de recuperação. Falta a caixa "confiar neste dispositivo por 30 dias", desmarcada por
-  padrão (a API já aceita).
+- **Status**: `implemented`
+- **Escopo (web)**: `/entrar/2fa` com código de 6 dígitos e alternativa por código de
+  recuperação, os dois com a caixa "confiar neste dispositivo por 30 dias", desmarcada por padrão
+  e mantida ao trocar de método. O código confere no "Confirmar" (sem envio ao completar os
+  dígitos, para a caixa ficar ao alcance). E2E com axe.
 
 #### FR-007: Gerenciar a própria conta
 

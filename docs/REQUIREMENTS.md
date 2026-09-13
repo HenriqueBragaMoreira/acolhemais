@@ -74,7 +74,7 @@ têm o status só aqui. **Fase** é a do roadmap ([PLANO](PLANO.md) §6).
 
 #### FR-006: Código 2FA no login
 
-- **Status**: `in-progress`
+- **Status**: `implemented`
 - **Fase**: 0
 - **Descrição**: Quem tem 2FA ativo informa o código TOTP (ou um código de recuperação) depois
   da senha ou do Google; a sessão só abre com ele. Caixa "confiar neste dispositivo por 30

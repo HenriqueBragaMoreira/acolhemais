@@ -14,6 +14,7 @@ import { z } from 'zod'
 import { AFTER_SIGN_IN_PAGE, authClient } from '@/lib/auth-client'
 import { twoFactorMessageFor } from '../../../../_components/auth-errors'
 import { FieldMessage } from '../../../../_components/field-message'
+import { TrustDeviceField } from '../trust-device-field'
 
 /** As mensagens são chaves do namespace `TwoFactor` (traduzidas na tela). */
 const totpSchema = z.object({
@@ -24,8 +25,17 @@ type TotpFormType = z.infer<typeof totpSchema>
 
 const SLOTS = [0, 1, 2, 3, 4, 5]
 
-/** Código de 6 dígitos do app autenticador. Ao completar os dígitos, confere sozinho. */
-export function TotpForm() {
+/**
+ * Código de 6 dígitos do app autenticador. Só confere no "Confirmar": com a caixa de confiar no
+ * dispositivo depois do campo, o envio ao completar os dígitos a deixaria fora de alcance.
+ */
+export function TotpForm({
+  trustDevice,
+  onTrustDeviceChange,
+}: {
+  trustDevice: boolean
+  onTrustDeviceChange: (checked: boolean) => void
+}) {
   const t = useTranslations('TwoFactor')
   const tRoot = useTranslations()
   const router = useRouter()
@@ -41,7 +51,7 @@ export function TotpForm() {
   const { mutate, isPending } = useMutation({
     mutationKey: ['verify-totp'],
     mutationFn: async ({ code }: TotpFormType) => {
-      const response = await authClient.twoFactor.verifyTotp({ code })
+      const response = await authClient.twoFactor.verifyTotp({ code, trustDevice })
       if (response.error) throw response.error
     },
     onSuccess: () => router.replace(AFTER_SIGN_IN_PAGE),
@@ -70,9 +80,6 @@ export function TotpForm() {
               value={field.value}
               onChange={field.onChange}
               onBlur={field.onBlur}
-              onComplete={() => {
-                if (!isPending) void submit()
-              }}
               maxLength={6}
               containerClassName="w-full"
               pattern="^\d+$"
@@ -95,6 +102,8 @@ export function TotpForm() {
           </Field>
         )}
       />
+
+      <TrustDeviceField checked={trustDevice} onCheckedChange={onTrustDeviceChange} />
 
       <Button type="submit" size="lg" className="w-full" disabled={isPending} aria-busy={isPending}>
         {isPending && <Spinner />}

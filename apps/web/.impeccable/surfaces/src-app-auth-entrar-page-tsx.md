@@ -21,8 +21,12 @@ vitrine dos componentes (`/dev/ui`, só desenvolvimento e E2E). Primeiras telas 
 - Estados: foco, carregando, credencial errada com tentativas restantes, bloqueio temporário,
   conta suspensa, muitas requisições, código inválido, código de recuperação, verificação
   expirada. Mensagens em espaço reservado: mudar de estado não empurra o layout.
-- Só o que funciona: sem "esqueci a senha" e sem "criar conta"; botão do Google só quando a
-  API informa que está ligado (`GET /auth/providers`).
+- Só o que funciona: "Esqueci a senha" abaixo do botão Entrar (fora da ordem de Tab entre e-mail
+  e senha), sem "criar conta"; botão do Google só quando a API informa que está ligado
+  (`GET /auth/providers`).
+- Código 2FA: confere só no "Confirmar" (sem envio ao completar os dígitos), porque a caixa
+  "Confiar neste dispositivo por 30 dias", desmarcada, fica entre o campo e o botão; a escolha
+  continua ao trocar para o código de recuperação (decidido pelo usuário em 2026-11-11).
 - WCAG 2.1 AA (axe no E2E), uso completo por leitor de tela e teclado, pt-BR, ícones Lucide.
 
 ## Direction contract

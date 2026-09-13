@@ -9,10 +9,15 @@ import { TotpForm } from './forms/totp-form'
 
 type Method = 'totp' | 'backup'
 
-/** Escolha entre o código do app (padrão) e um código de recuperação. */
+/**
+ * Escolha entre o código do app (padrão) e um código de recuperação. A escolha de confiar no
+ * dispositivo é sobre o aparelho, não sobre o método: continua ao trocar de um para o outro.
+ */
 export function TwoFactorChallenge() {
   const t = useTranslations('TwoFactor')
   const [method, setMethod] = useState<Method>('totp')
+  const [trustDevice, setTrustDevice] = useState(false)
+  const trust = { trustDevice, onTrustDeviceChange: setTrustDevice }
 
   return (
     <>
@@ -20,7 +25,9 @@ export function TwoFactorChallenge() {
         {method === 'totp' ? t('totpDescription') : t('backupDescription')}
       </p>
 
-      <div className="mt-8">{method === 'totp' ? <TotpForm /> : <BackupCodeForm />}</div>
+      <div className="mt-8">
+        {method === 'totp' ? <TotpForm {...trust} /> : <BackupCodeForm {...trust} />}
+      </div>
 
       <div className="mt-6 flex flex-col items-start gap-3">
         <Button variant="link" onClick={() => setMethod(method === 'totp' ? 'backup' : 'totp')}>
