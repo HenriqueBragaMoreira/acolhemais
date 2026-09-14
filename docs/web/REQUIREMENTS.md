@@ -77,8 +77,18 @@ escopo definido para a web; ao refinar, adicione-o aqui.
 - **Escopo (web)**: `/` com o topo sobre a ilustração do caramelo (título e busca: cidade com
   sugestões, espécie, "Mais filtros" com sexo, idade, porte, convive com e castrado) e a galeria
   de cartões 4:5 em fundo areia, até 5 colunas, com "Ver mais animais".
-  Filtros e ordem ficam no endereço. Pronto com dados fictícios em `services/animals` (fotos do
-  Unsplash, para a demonstração); falta ler a API e a página do animal. E2E com axe.
+  Filtros e ordem ficam no endereço. `/animais/{id}`: fotos com miniaturas, dados, taxa,
+  organização, história, convivência e saúde, "Quero adotar" (barra fixa no celular),
+  compartilhar (WhatsApp e copiar link), mais animais da organização e parecidos de outras.
+  Pronto com dados fictícios em `services/animals` (fotos do Unsplash, para a demonstração);
+  falta ler a API. E2E com axe.
+
+#### FR-031: Fotos e vídeo do animal
+
+- **Status**: `in-progress`
+- **Escopo (web)**: na página do animal, a capa e as demais fotos com miniaturas e setas, a
+  sensível desfocada até o clique (BR-061) e o link do vídeo quando houver. Falta o envio e a
+  ordenação das fotos no cadastro (painel da organização).
 
 #### FR-053: Página "Sobre"
 

@@ -44,3 +44,20 @@ aplicada na API; aqui ela só é explicada e antecipada ao usuário.
 - **Escopo (web)**: a vitrine mostra `Em processo` com a etiqueta "Em processo de adoção" e
   ordena por "há mais tempo esperando", com a opção "mais recentes". Com dados fictícios até a
   API filtrar os adotáveis.
+
+### BR-061: Fotos
+
+- **Status**: `in-progress`
+- **Escopo (web)**: a foto sensível aparece desfocada, na grande e na miniatura, com o aviso
+  "Foto sensível" e o botão "Ver a foto". Falta o cadastro (marcar como sensível ao enviar).
+
+### BR-062: Só a cidade é pública
+
+- **Status**: `in-progress`
+- **Escopo (web)**: vitrine e página do animal mostram só a cidade do animal e da organização.
+
+### BR-063: Taxa de adoção não é preço
+
+- **Status**: `in-progress`
+- **Escopo (web)**: a página do animal mostra a taxa com o que ela cobre, ou "Sem taxa". Falta o
+  cadastro com o teto do parâmetro.

@@ -218,7 +218,7 @@ têm o status só aqui. **Fase** é a do roadmap ([PLANO](PLANO.md) §6).
 
 #### FR-031: Fotos e vídeo do animal
 
-- **Status**: `refined`
+- **Status**: `in-progress`
 - **Fase**: 1
 - **Descrição**: 1 a 10 fotos com capa, reordenáveis; fotos sensíveis desfocadas até o clique;
   link de vídeo.

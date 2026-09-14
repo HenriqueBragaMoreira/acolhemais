@@ -540,20 +540,20 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 
 ### BR-061: Fotos
 
-- **Status**: `refined`
+- **Status**: `in-progress`
 - **Quando**: alguém envia fotos
 - **Então**: 1 a 10 por animal, uma é a capa; reencodadas sem EXIF/GPS (NFR-007). Fotos
   marcadas como sensíveis (ferimentos de resgate) aparecem desfocadas até o clique.
 
 ### BR-062: Só a cidade é pública
 
-- **Status**: `refined`
+- **Status**: `in-progress`
 - **Quando**: um animal, organização ou lar temporário aparece publicamente
 - **Então**: só a cidade; nunca o endereço da organização nem o do lar temporário.
 
 ### BR-063: Taxa de adoção não é preço
 
-- **Status**: `refined`
+- **Status**: `in-progress`
 - **Quando**: a organização define uma taxa de adoção
 - **Então**: opcional; a taxa do animal nasce vazia (sem taxa). Se maior que zero, exige
   justificativa (castração, vacinas…) e não passa de `adoptionFeeCapCents` (parâmetro). O
