@@ -91,6 +91,77 @@
     "sex": "{sex, select, female {Fêmea} other {Macho}}",
     "age": "{age, select, puppy {Filhote} young {Jovem} adult {{sex, select, female {Adulta} other {Adulto}}} other {{sex, select, female {Idosa} other {Idoso}}}}"
   },
+  "AnimalProfile": {
+    "metaTitle": "{name}, para adoção em {city}",
+    "back": "Voltar para a galeria",
+    "sex": "{sex, select, female {Fêmea} other {Macho}}",
+    "age": "{age, select, puppy {Filhote} young {Jovem} adult {{sex, select, female {Adulta} other {Adulto}}} other {{sex, select, female {Idosa} other {Idoso}}}}",
+    "size": "{size, select, small {porte pequeno} medium {porte médio} other {porte grande}}",
+    "inProcess": {
+      "title": "Em processo de adoção.",
+      "description": "Alguém já está sendo avaliado, mas a organização ainda recebe candidaturas."
+    },
+    "adopt": "Quero adotar",
+    "fee": {
+      "label": "Taxa de adoção",
+      "covers": "Cobre: {what}",
+      "none": "Sem taxa"
+    },
+    "organization": "Organização",
+    "story": "História",
+    "video": "Ver o vídeo",
+    "fromOrganization": "Mais animais do {organization}",
+    "similar": "Parecidos com {name}",
+    "photos": {
+      "alt": "Foto {position} de {total} de {name}",
+      "previous": "Foto anterior",
+      "next": "Próxima foto",
+      "choose": "Ver a foto {position} de {total}",
+      "enlarge": "Ampliar a foto",
+      "close": "Fechar a foto ampliada",
+      "counter": "Foto {position} de {total}",
+      "sensitive": {
+        "title": "Foto sensível",
+        "description": "Mostra o animal em tratamento ou recuperação.",
+        "show": "Ver a foto",
+        "hide": "Esconder a foto de novo"
+      }
+    },
+    "share": {
+      "label": "Compartilhar:",
+      "whatsapp": "WhatsApp",
+      "copy": {
+        "idle": "Copiar link",
+        "copied": "Link copiado",
+        "failed": "Não deu para copiar; copie da barra de endereço"
+      },
+      "message": "Conheça {name}, para adoção no Acolhe+: {url}"
+    },
+    "facts": {
+      "title": "Ficha",
+      "species": "Espécie",
+      "speciesValue": "{species, select, dog {Cão} cat {Gato} other {Outro}}",
+      "age": "Idade",
+      "ageValue": "{age, select, puppy {Filhote (até 1 ano)} young {Jovem (1 a 3 anos)} adult {{sex, select, female {Adulta} other {Adulto}} (3 a 8 anos)} other {{sex, select, female {Idosa} other {Idoso}} (8 anos ou mais)}}",
+      "bornAround": "Nasceu por volta de {date}",
+      "size": "Porte",
+      "sizeValue": "{size, select, small {Pequeno} medium {Médio} other {Grande}}",
+      "coat": "Pelagem",
+      "coatValue": "{coat, select, short {Curta} medium {Média} other {Longa}}",
+      "goodWith": "Convive com",
+      "companion": "{companion, select, children {Crianças} dogs {Cães} other {Gatos}}",
+      "answer": "{answer, select, yes {Sim} no {Não} other {Não testado}}",
+      "health": "Saúde",
+      "castration": "Castração",
+      "done": "{done, select, true {Feita} other {Ainda não}}",
+      "vaccines": "Vacinas",
+      "deworming": "Vermífugo",
+      "upToDate": "{ok, select, true {Em dia} other {Pendente}}",
+      "fivFelv": "FIV/FeLV",
+      "fivFelvValue": "{result, select, negative {Negativo} positive {Positivo} other {Não testado}}",
+      "specialNeeds": "Cuidados especiais:"
+    }
+  },
   "About": {
     "metaTitle": "Sobre",
     "title": "Sobre o Acolhe+",
