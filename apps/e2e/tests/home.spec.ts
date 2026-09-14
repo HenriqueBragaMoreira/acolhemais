@@ -14,13 +14,13 @@ test.describe('FR-050: vitrine de animais', () => {
     await expect(
       page.getByRole('heading', { level: 1, name: 'Encontre um animal para adotar' }),
     ).toBeVisible()
-    await expect(gallery(page).getByText('17 animais')).toBeVisible()
+    await expect(gallery(page).getByText('19 animais')).toBeVisible()
     await expect(gallery(page).getByRole('link').first()).toContainText('Seu Chico')
     await expectAccessible(page)
 
     await page.getByRole('combobox', { name: 'Ordenar por' }).selectOption('Mais recentes')
     await expect(page).toHaveURL(/sort=newest/)
-    await expect(gallery(page).getByRole('link').first()).toContainText('Paçoca')
+    await expect(gallery(page).getByRole('link').first()).toContainText('Frajola')
   })
 
   test('carrega o resto com "Ver mais animais"', async ({ page }) => {
@@ -28,7 +28,7 @@ test.describe('FR-050: vitrine de animais', () => {
     await expect(gallery(page).getByRole('link')).toHaveCount(15)
 
     await page.getByRole('button', { name: 'Ver mais animais' }).click()
-    await expect(gallery(page).getByRole('link')).toHaveCount(17)
+    await expect(gallery(page).getByRole('link')).toHaveCount(19)
     await expect(page.getByRole('button', { name: 'Ver mais animais' })).toBeHidden()
   })
 
@@ -55,7 +55,7 @@ test.describe('FR-050: vitrine de animais', () => {
     await expectAccessible(page)
 
     await page.getByRole('button', { name: 'Limpar filtros' }).click()
-    await expect(gallery(page).getByText('17 animais')).toBeVisible()
+    await expect(gallery(page).getByText('19 animais')).toBeVisible()
   })
 
   test('no celular, "Ver animais" fecha os filtros e leva à galeria', async ({
@@ -71,7 +71,7 @@ test.describe('FR-050: vitrine de animais', () => {
     await page.getByRole('button', { name: 'Ver animais' }).click()
     await expect(page.getByRole('heading', { name: 'Esperando um lar' })).toBeFocused()
     await expect(page.getByRole('checkbox', { name: 'Castrado' })).toBeHidden()
-    await expect(gallery(page).getByText('14 animais')).toBeInViewport()
+    await expect(gallery(page).getByText('15 animais')).toBeInViewport()
   })
 
   test('sem resultado, explica e oferece limpar os filtros', async ({ page }) => {
@@ -81,7 +81,7 @@ test.describe('FR-050: vitrine de animais', () => {
 
     await gallery(page).getByRole('button', { name: 'Limpar filtros' }).click()
     await expect(page).toHaveURL(/\/$/)
-    await expect(gallery(page).getByText('17 animais')).toBeVisible()
+    await expect(gallery(page).getByText('19 animais')).toBeVisible()
   })
 })
 

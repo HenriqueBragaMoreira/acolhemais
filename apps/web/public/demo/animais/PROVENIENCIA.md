@@ -27,3 +27,10 @@ tabela e o `.json` ao lado do arquivo.
 | `foto-16.jpg` | [IFxjDdqK_0U](https://unsplash.com/photos/white-and-gray-cat-IFxjDdqK_0U)                                             | [Mikhail Vasilyev](https://unsplash.com/@miklevasilyev)     |
 | `foto-17.jpg` | [9Dt4Rh0NF7E](https://unsplash.com/photos/an-old-ginger-cat-with-a-weathered-face-9Dt4Rh0NF7E)                        | [Mochamad Arief](https://unsplash.com/@mochawalk)           |
 | `foto-18.jpg` | [TSuq-9UW5n0](https://unsplash.com/photos/brown-rabbit-on-green-grass-during-daytime-TSuq-9UW5n0)                     | [Jeremy Hynes](https://unsplash.com/@hynesight)             |
+| `foto-19.jpg` | [6ieV7yNKcQc](https://unsplash.com/photos/a-brown-dog-laying-on-top-of-a-bed-6ieV7yNKcQc)                             | [Fabian Gieske](https://unsplash.com/@fbngsk)               |
+| `foto-20.jpg` | [Kj37iJmaquc](https://unsplash.com/photos/a-dog-laying-on-a-bed-with-his-mouth-open-Kj37iJmaquc)                      | [Fabian Gieske](https://unsplash.com/@fbngsk)               |
+| `foto-21.jpg` | [L2dEef3W5ZY](https://unsplash.com/photos/a-brown-and-white-dog-laying-on-top-of-a-bed-L2dEef3W5ZY)                   | [Fabian Gieske](https://unsplash.com/@fbngsk)               |
+| `foto-22.jpg` | [bIwhaPaK2Lk](https://unsplash.com/photos/a-cute-black-and-white-kitten-looks-at-the-camera-bIwhaPaK2Lk)              | [The Lucky Neko](https://unsplash.com/@theluckyneko)        |
+| `foto-23.jpg` | [dSjFzRNZd34](https://unsplash.com/photos/a-cute-black-and-white-kitten-is-walking-dSjFzRNZd34)                       | [The Lucky Neko](https://unsplash.com/@theluckyneko)        |
+| `foto-24.jpg` | [wTyRx9mcuU8](https://unsplash.com/photos/a-playful-kitten-reaches-for-a-toy-wTyRx9mcuU8)                             | [The Lucky Neko](https://unsplash.com/@theluckyneko)        |
+| `foto-25.jpg` | [JmnPFAHMgSA](https://unsplash.com/photos/a-cat-with-a-cone-around-its-neck-JmnPFAHMgSA)                              | [Fira Dhani](https://unsplash.com/@safiraeong)              |

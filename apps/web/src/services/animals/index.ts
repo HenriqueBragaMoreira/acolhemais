@@ -14,7 +14,15 @@ export type Size = (typeof SIZES)[number]
 export type Companion = (typeof COMPANIONS)[number]
 export type Sort = (typeof SORTS)[number]
 
-export type Organization = { slug: string; name: string }
+export type Organization = { slug: string; name: string; city: string }
+
+export type AnimalPhoto = {
+  src: string
+  /** O `object-position` que mantém o animal nos recortes (cartão vertical, miniatura). */
+  focus: string
+  /** Ferimento ou recuperação: aparece desfocada até o clique (BR-061). */
+  sensitive?: boolean
+}
 
 /** Um animal como a vitrine o mostra (BR-060): só a cidade é pública (BR-062). */
 export type Animal = {
@@ -23,6 +31,8 @@ export type Animal = {
   species: Species
   sex: Sex
   ageGroup: AgeGroup
+  /** Mês aproximado de nascimento, `AAAA-MM`. */
+  bornAround: string
   size: Size
   coat: 'short' | 'medium' | 'long'
   /** Só os adotáveis aparecem na vitrine (BR-120). */
@@ -30,10 +40,21 @@ export type Animal = {
   city: string
   organization: Organization
   publishedAt: string
-  castrated: boolean
   goodWith: Record<Companion, 'yes' | 'no' | 'untested'>
-  /** `focus` é o `object-position` que mantém o animal no recorte vertical do cartão. */
-  photo: { src: string; focus: string }
+  health: {
+    castrated: boolean
+    vaccinated: boolean
+    dewormed: boolean
+    /** Só para gatos. */
+    fivFelv?: 'negative' | 'positive' | 'untested'
+    specialNeeds?: string
+  }
+  /** De 1 a 10; a primeira é a capa e nunca é sensível (BR-061). */
+  photos: [AnimalPhoto, ...AnimalPhoto[]]
+  videoUrl?: string
+  story: string
+  /** Sem taxa quando `null`; com taxa, sempre com o que ela cobre (BR-063). */
+  fee: { cents: number; covers: string } | null
 }
 
 export type AnimalFilters = {
@@ -72,9 +93,17 @@ function matches(animal: Animal, filters: AnimalFilters) {
     anyOf(filters.ageGroup, animal.ageGroup) &&
     anyOf(filters.size, animal.size) &&
     filters.goodWith.every((companion) => animal.goodWith[companion] === 'yes') &&
-    (!filters.castrated || animal.castrated)
+    (!filters.castrated || animal.health.castrated)
   )
 }
+
+/** Quanto um animal lembra outro: mesmo porte pesa mais que a mesma faixa de idade. */
+function likeness(animal: Animal, other: Animal) {
+  return Number(animal.size === other.size) * 2 + Number(animal.ageGroup === other.ageGroup)
+}
+
+/** Uma fileira de cartões na tela larga. */
+const ROW = 5
 
 function wait(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms))
@@ -97,6 +126,33 @@ export const animalsServices = {
       total: found.length,
       nextPage: end < found.length ? page + 1 : null,
     }
+  },
+
+  /** Um animal adotável, ou `null` se não existe ou saiu da vitrine. */
+  async get(id: string) {
+    await wait(150)
+    return DEMO_ANIMALS.find((animal) => animal.id === id) ?? null
+  },
+
+  /** Outros animais da mesma organização, quem espera há mais tempo primeiro. */
+  async fromOrganization(animal: Animal) {
+    await wait(150)
+    return DEMO_ANIMALS.filter(
+      (other) => other.organization.slug === animal.organization.slug && other.id !== animal.id,
+    )
+      .toSorted((a, b) => a.publishedAt.localeCompare(b.publishedAt))
+      .slice(0, ROW)
+  },
+
+  /** Animais da mesma espécie em outras organizações, os mais parecidos primeiro. */
+  async similar(animal: Animal) {
+    await wait(150)
+    return DEMO_ANIMALS.filter(
+      (other) =>
+        other.species === animal.species && other.organization.slug !== animal.organization.slug,
+    )
+      .toSorted((a, b) => likeness(animal, b) - likeness(animal, a))
+      .slice(0, ROW)
   },
 
   /** Cidades com animais, para as sugestões da busca. */

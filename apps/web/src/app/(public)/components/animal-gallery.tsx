@@ -7,7 +7,7 @@ import { cn } from '@acolhemais/ui/lib/utils'
 import { keepPreviousData, useInfiniteQuery } from '@tanstack/react-query'
 import { useTranslations } from 'next-intl'
 import { type AnimalFilters, animalsServices, type Sort, SORTS } from '@/services/animals'
-import { AnimalCard } from './animal-card'
+import { AnimalCard } from '../_components/animal-card'
 import { AnimalGridSkeleton } from './animal-grid-skeleton'
 
 type AnimalGalleryProps = {

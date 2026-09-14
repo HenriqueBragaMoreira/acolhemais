@@ -9,6 +9,7 @@ import type { Animal } from '@/services/animals'
  */
 export function AnimalCard({ animal, priority = false }: { animal: Animal; priority?: boolean }) {
   const t = useTranslations('AnimalCard')
+  const [cover] = animal.photos
 
   return (
     <Link
@@ -16,13 +17,13 @@ export function AnimalCard({ animal, priority = false }: { animal: Animal; prior
       className="group relative block aspect-[4/5] overflow-hidden rounded-xl bg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
     >
       <Image
-        src={animal.photo.src}
+        src={cover.src}
         alt=""
         fill
         priority={priority}
         sizes="(min-width: 90rem) 17rem, (min-width: 80rem) 19vw, (min-width: 64rem) 23vw, (min-width: 48rem) 31vw, 48vw"
         className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] motion-safe:group-hover:scale-[1.04]"
-        style={{ objectPosition: animal.photo.focus }}
+        style={{ objectPosition: cover.focus }}
       />
       {animal.status === 'in-process' && (
         <span className="absolute top-3 left-3 rounded-md bg-background px-2 py-1 text-xs font-semibold text-foreground">
