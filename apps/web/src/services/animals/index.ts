@@ -112,13 +112,17 @@ function wait(ms: number) {
 // shortcut: a vitrine lê dados fictícios (demo-data.ts) até existir a rota da API; com ela,
 // estas funções passam a chamar `api.animals` e o filtro e a ordem vão para o servidor.
 export const animalsServices = {
-  /** Animais adotáveis, filtrados e na ordem pedida (BR-120), uma página por vez. */
-  async list(filters: AnimalFilters, page: number) {
+  /**
+   * Animais adotáveis, filtrados e na ordem pedida (BR-120), uma página por vez; com
+   * `organization` (slug), só os dela (FR-026).
+   */
+  async list(filters: AnimalFilters, page: number, organization?: string) {
     await wait(250)
     const direction = filters.sort === 'newest' ? -1 : 1
-    const found = DEMO_ANIMALS.filter((animal) => matches(animal, filters)).toSorted(
-      (a, b) => direction * a.publishedAt.localeCompare(b.publishedAt),
-    )
+    const found = DEMO_ANIMALS.filter(
+      (animal) =>
+        (!organization || animal.organization.slug === organization) && matches(animal, filters),
+    ).toSorted((a, b) => direction * a.publishedAt.localeCompare(b.publishedAt))
     const end = (page + 1) * PAGE_SIZE
 
     return {

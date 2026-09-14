@@ -1,28 +1,19 @@
+import { DEMO_ORGANIZATIONS } from '../organizations/demo-data'
 import type { Animal, Organization } from './index'
 
 /*
- * Dados fictícios da vitrine, para a demonstração antes da API (FR-050). Organizações e animais
+ * Dados fictícios da galeria, para a demonstração antes da API (FR-050). Organizações e animais
  * são inventados; as fotos são do Unsplash (public/demo/animais/PROVENIENCIA.md).
  */
 
+const summary = ({ slug, name, city }: Organization): Organization => ({ slug, name, city })
+
 const ORGANIZATIONS = {
-  cida: { slug: 'lar-da-cida', name: 'Lar da Cida', city: 'Goiânia, GO' },
-  focinho: {
-    slug: 'coletivo-focinho-gelado',
-    name: 'Coletivo Focinho Gelado',
-    city: 'Belo Horizonte, MG',
-  },
-  bigode: {
-    slug: 'abrigo-cantinho-do-bigode',
-    name: 'Abrigo Cantinho do Bigode',
-    city: 'Campinas, SP',
-  },
-  ilha: {
-    slug: 'projeto-patinhas-da-ilha',
-    name: 'Projeto Patinhas da Ilha',
-    city: 'Florianópolis, SC',
-  },
-} satisfies Record<string, Organization>
+  cida: summary(DEMO_ORGANIZATIONS.cida),
+  focinho: summary(DEMO_ORGANIZATIONS.focinho),
+  bigode: summary(DEMO_ORGANIZATIONS.bigode),
+  ilha: summary(DEMO_ORGANIZATIONS.ilha),
+}
 
 /** Taxa de cada organização (BR-063): o Lar da Cida não cobra. */
 const FEES = {
