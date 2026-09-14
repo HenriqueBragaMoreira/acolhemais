@@ -83,6 +83,11 @@
     -webkit-text-size-adjust: 100%;
   }
 
+  /* Com um <dialog> modal aberto, a página atrás não rola. */
+  html:has(dialog:modal) {
+    overflow: hidden;
+  }
+
   body {
     @apply bg-background text-foreground font-sans antialiased;
   }
