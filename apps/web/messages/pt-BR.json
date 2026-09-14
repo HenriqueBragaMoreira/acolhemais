@@ -4,6 +4,11 @@
     "titleTemplate": "%s · Acolhe+",
     "description": "Plataforma gratuita e open source de adoção responsável para ONGs e protetores de animais."
   },
+  "NotFound": {
+    "title": "Página não encontrada",
+    "description": "O endereço pode estar errado, ou o animal já foi adotado e saiu da galeria.",
+    "home": "Ver os animais para adoção"
+  },
   "SiteHeader": {
     "home": "Acolhe+, página inicial",
     "skipToContent": "Pular para o conteúdo",
