@@ -1,5 +1,6 @@
 export * from './audit'
 export * from './errors'
+export * from './pix/br-code'
 export * from './platform'
 export * from './rbac'
 export * from './security'
