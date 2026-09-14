@@ -1,16 +1,14 @@
-'use client'
-
 import { buttonVariants } from '@acolhemais/ui/components/button'
 import { cn } from '@acolhemais/ui/lib/utils'
-import { useTranslations } from 'next-intl'
+import { getTranslations } from 'next-intl/server'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { Suspense } from 'react'
 import { Wordmark } from '@/components/wordmark'
+import { AboutNavLink, StaticAboutNavLink } from './about-nav-link'
 
 /** Cabeçalho branco das páginas públicas: a marca e, à direita, "Sobre" e "Entrar". */
-export function SiteHeader() {
-  const t = useTranslations('SiteHeader')
-  const pathname = usePathname()
+export async function SiteHeader() {
+  const t = await getTranslations('SiteHeader')
 
   return (
     <header className="border-b border-border bg-background">
@@ -27,13 +25,10 @@ export function SiteHeader() {
         <nav aria-label={t('navigation')}>
           <ul className="flex items-center gap-1 sm:gap-2">
             <li>
-              <Link
-                href="/sobre"
-                aria-current={pathname === '/sobre' ? 'page' : undefined}
-                className={cn(buttonVariants({ variant: 'ghost' }), 'aria-[current=page]:bg-muted')}
-              >
-                {t('about')}
-              </Link>
+              {/* O endereço só se conhece na requisição em rotas como /animais/[id]. */}
+              <Suspense fallback={<StaticAboutNavLink label={t('about')} />}>
+                <AboutNavLink label={t('about')} />
+              </Suspense>
             </li>
             <li>
               <Link href="/entrar" className={cn(buttonVariants({ variant: 'outline' }))}>
