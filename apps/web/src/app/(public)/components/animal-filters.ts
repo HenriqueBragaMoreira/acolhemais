@@ -42,8 +42,8 @@ export function filtersFromParams(params: URLSearchParams): AnimalFilters {
   }
 }
 
-/** Endereço da vitrine com estes filtros, sem os que estão no padrão. */
-export function hrefFor(filters: AnimalFilters) {
+/** Endereço da galeria (`/` ou a página da ONG) com estes filtros, sem os que estão no padrão. */
+export function hrefFor(filters: AnimalFilters, pathname = '/') {
   const params = new URLSearchParams()
   const city = filters.city.trim()
   if (city) params.set('city', city)
@@ -56,7 +56,7 @@ export function hrefFor(filters: AnimalFilters) {
   if (filters.sort !== NO_FILTERS.sort) params.set('sort', filters.sort)
 
   const query = params.toString()
-  return query ? `/?${query}` : '/'
+  return query ? `${pathname}?${query}` : pathname
 }
 
 /** Quantos filtros de "Mais filtros" estão ligados, para o número no botão. */

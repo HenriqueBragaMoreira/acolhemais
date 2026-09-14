@@ -12,6 +12,8 @@ import { AnimalGridSkeleton } from './animal-grid-skeleton'
 
 type AnimalGalleryProps = {
   filters: AnimalFilters
+  /** Slug da organização: só os animais dela (FR-026). */
+  organization?: string | undefined
   onSortChange: (sort: Sort) => void
   onClear: () => void
 }
@@ -19,8 +21,13 @@ type AnimalGalleryProps = {
 /** O título da galeria recebe o foco quando "Ver animais" fecha os filtros no celular. */
 export const GALLERY_HEADING_ID = 'galeria-titulo'
 
-/** Galeria da vitrine (FR-050, BR-120), com a contagem, a ordem e o "Ver mais animais". */
-export function AnimalGallery({ filters, onSortChange, onClear }: AnimalGalleryProps) {
+/** Galeria (FR-050, FR-026, BR-120), com a contagem, a ordem e o "Ver mais animais". */
+export function AnimalGallery({
+  filters,
+  organization,
+  onSortChange,
+  onClear,
+}: AnimalGalleryProps) {
   const t = useTranslations('AnimalGallery')
 
   const {
@@ -33,8 +40,8 @@ export function AnimalGallery({ filters, onSortChange, onClear }: AnimalGalleryP
     fetchNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ['animals', filters],
-    queryFn: ({ pageParam }) => animalsServices.list(filters, pageParam),
+    queryKey: ['animals', organization, filters],
+    queryFn: ({ pageParam }) => animalsServices.list(filters, pageParam, organization),
     initialPageParam: 0,
     getNextPageParam: (last) => last.nextPage,
     // Ao trocar um filtro, a galeria anterior fica na tela até a nova chegar.
