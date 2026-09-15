@@ -587,7 +587,7 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 
 ### BR-070: Ficha da candidatura
 
-- **Status**: `refined`
+- **Status**: `in-progress`
 - **Quando**: alguém se candidata
 - **Então**: questionário base fixo da plataforma, preenchido a partir do perfil, + perguntas
   extras da organização (texto, múltipla escolha, sim/não). As extras são versionadas; a
@@ -626,7 +626,7 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 
 ### BR-074: Limite de candidaturas ativas
 
-- **Status**: `refined`
+- **Status**: `in-progress`
 - **Quando**: alguém envia uma candidatura
 - **Então**: recusa se o CPF já tem `maxActiveApplications` (parâmetro) candidaturas ativas em
   toda a plataforma. Ativa é toda etapa não terminal (`Recebida`, `Em análise`,
@@ -635,7 +635,7 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 
 ### BR-075: Uma candidatura por animal
 
-- **Status**: `refined`
+- **Status**: `in-progress`
 - **Quando**: alguém se candidata a um animal
 - **Então**: uma candidatura ativa por CPF e animal. Depois de `Recusada`, não volta ao mesmo
   animal; depois de `Desistência`, `Expirada` ou `Cancelada`, pode.

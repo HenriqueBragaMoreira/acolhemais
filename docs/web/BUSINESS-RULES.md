@@ -73,6 +73,32 @@ aplicada na API; aqui ela só é explicada e antecipada ao usuário.
   ordena por "há mais tempo esperando", com a opção "mais recentes". Com dados fictícios até a
   API filtrar os adotáveis.
 
+### BR-070: Ficha da candidatura
+
+- **Status**: `in-progress`
+- **Escopo (web)**: o questionário base em quatro etapas (casa e quem mora, outros animais e
+  experiência, rotina e custos, motivo), com as perguntas que dependem de outra (proprietário
+  permite?, idades das crianças, quais animais) aparecendo só quando se aplicam, mais as
+  perguntas da organização.
+
+### BR-071: CPF do adotante
+
+- **Status**: `draft`
+- **Escopo (web)**: o CPF é obrigatório e conferido pelos dígitos (`isValidCpf` no domínio). As
+  questões Q-033 e Q-034 continuam com o mantenedor.
+
+### BR-074: Limite de candidaturas ativas
+
+- **Status**: `in-progress`
+- **Escopo (web)**: ao informar o CPF (ou entrar na conta), a candidatura para com o aviso "Você
+  chegou ao limite de candidaturas" e o máximo. Limite fixo em 3 na demonstração.
+
+### BR-075: Uma candidatura por animal
+
+- **Status**: `in-progress`
+- **Escopo (web)**: quem já tem candidatura ativa para o animal vê "Você já se candidatou para
+  {animal}" e o link para outros animais.
+
 ### BR-061: Fotos
 
 - **Status**: `in-progress`

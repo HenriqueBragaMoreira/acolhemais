@@ -246,7 +246,7 @@ têm o status só aqui. **Fase** é a do roadmap ([PLANO](PLANO.md) §6).
 
 #### FR-041: Candidatar-se com conta
 
-- **Status**: `draft`
+- **Status**: `in-progress`
 - **Fase**: 2
 - **Descrição**: Com o perfil completo, o adotante responde às perguntas extras da organização
   e envia a candidatura.
@@ -271,7 +271,7 @@ têm o status só aqui. **Fase** é a do roadmap ([PLANO](PLANO.md) §6).
 
 #### FR-044: Perguntas extras da organização
 
-- **Status**: `draft`
+- **Status**: `in-progress`
 - **Fase**: 2
 - **Descrição**: A organização cria perguntas (texto, múltipla escolha, sim/não) somadas ao
   questionário base. Toda alteração gera uma nova versão; a candidatura guarda a versão

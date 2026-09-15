@@ -95,6 +95,32 @@ escopo definido para a web; ao refinar, adicione-o aqui.
   Pronto com dados fictícios em `services/animals` (fotos do Unsplash, para a demonstração);
   falta ler a API. E2E com axe.
 
+#### FR-041: Candidatar-se com conta
+
+- **Status**: `in-progress`
+- **Escopo (web)**: `/animais/{id}/candidatura` em etapas (Stepperize, react-hook-form e zod):
+  quem é você, seus dados, sua casa, outros animais, rotina e custos, por que adotar, perguntas
+  da organização e revisão com "Editar" por parte. Com conta, o perfil salvo preenche o
+  questionário e a pessoa segue direto para as perguntas da organização. Depois de enviar: o
+  caminho da candidatura (BR-076), o WhatsApp da organização e "como aumentar as suas chances".
+  Pronto com dados fictícios em `services/applications` (qualquer e-mail e senha entram na conta
+  de exemplo); falta a API e a sessão real. E2E com axe.
+
+#### FR-042: Candidatar-se sem conta
+
+- **Status**: `in-progress`
+- **Escopo (web)**: na primeira etapa, "Primeira vez no Acolhe+" confirma o e-mail com um código
+  de 6 dígitos e segue para nome, CPF (BR-071) e telefone opcional. Na demonstração qualquer
+  código vale e não há Turnstile. A união com a conta (FR-043, Q-032) e as dúvidas do CPF
+  (Q-033, Q-034) seguem em aberto e não mudam a tela.
+
+#### FR-044: Perguntas extras da organização
+
+- **Status**: `in-progress`
+- **Escopo (web)**: a etapa "Perguntas da organização" mostra as perguntas dela (sim/não,
+  múltipla escolha, texto), todas obrigatórias; sem perguntas, avisa e segue. Falta o cadastro e
+  o versionamento no painel da organização.
+
 #### FR-031: Fotos e vídeo do animal
 
 - **Status**: `in-progress`
