@@ -1,3 +1,4 @@
+export * from './adopter/cpf'
 export * from './audit'
 export * from './errors'
 export * from './pix/br-code'
