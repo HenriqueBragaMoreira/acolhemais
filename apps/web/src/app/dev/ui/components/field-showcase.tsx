@@ -9,6 +9,7 @@ import {
 import { Input } from '@acolhemais/ui/components/input'
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@acolhemais/ui/components/input-otp'
 import { PasswordInput } from '@acolhemais/ui/components/password-input'
+import { RadioGroup, RadioGroupItem } from '@acolhemais/ui/components/radio-group'
 import { Textarea } from '@acolhemais/ui/components/textarea'
 import { CircleAlertIcon } from 'lucide-react'
 import { ShowcaseSection } from './showcase-section'
@@ -80,6 +81,24 @@ export function FieldShowcase({ scope }: { scope: string }) {
             <FieldLabel htmlFor={id('castrated')}>Castrado</FieldLabel>
           </Field>
         </div>
+
+        <fieldset>
+          <legend className="mb-3 text-sm font-semibold">Tipo de moradia</legend>
+          <RadioGroup defaultValue="apartment">
+            {[
+              { value: 'house', label: 'Casa' },
+              { value: 'apartment', label: 'Apartamento' },
+              { value: 'other', label: 'Outro' },
+            ].map(({ value, label }) => (
+              <Field key={value} orientation="horizontal" className="gap-3">
+                <RadioGroupItem id={id(`housing-${value}`)} value={value} />
+                <FieldLabel htmlFor={id(`housing-${value}`)} className="font-normal">
+                  {label}
+                </FieldLabel>
+              </Field>
+            ))}
+          </RadioGroup>
+        </fieldset>
 
         <Field>
           <FieldLabel htmlFor={id('story')}>História</FieldLabel>
