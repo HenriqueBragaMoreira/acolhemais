@@ -36,7 +36,35 @@ aplicada na API; aqui ela só é explicada e antecipada ao usuário.
 
 - **Status**: `implemented`
 - **Escopo (web)**: `brandThemeStyle()` aplica `--primary`, `--primary-foreground` e `--ring`
-  derivados pelo domínio; componentes nunca usam cor fixa de marca.
+  derivados pelo domínio; componentes nunca usam cor fixa de marca. A secundária vai para
+  `--brand-secondary` (o `--secondary` do design system é a areia) e, na página da organização,
+  só pinta a faixa sob a capa, o fundo da capa sem foto e o círculo das iniciais.
+
+### BR-043: Suspensão
+
+- **Status**: `in-progress`
+- **Escopo (web)**: a página de organização suspensa responde "Página não encontrada", como a de
+  uma que não existe. Com dados fictícios até a API.
+
+### BR-044: Encerramento
+
+- **Status**: `in-progress`
+- **Escopo (web)**: a página da organização encerrada mostra só "Organização encerrada" e o
+  botão para a galeria, sem animais, contato nem doação. Com dados fictícios até a API.
+
+### BR-047: Slug
+
+- **Status**: `in-progress`
+- **Escopo (web)**: o slug antigo leva ao atual. Por ora o redirecionamento acontece dentro da
+  página (sem o status 301); com a API, ele vai para o proxy do Next, antes da página.
+
+### BR-049: Doações só para a organização
+
+- **Status**: `in-progress`
+- **Escopo (web)**: a página da organização mostra a chave PIX com o tipo, "Copiar chave" e,
+  do tablet para cima, o QR do PIX copia e cola (BR Code estático, sem valor, montado por
+  `pixBrCode` no domínio), com o aviso de que a doação vai direto para a organização. Falta o
+  cadastro da chave com o aviso de que fica pública (FR-025).
 
 ### BR-120: O que aparece no portal
 
@@ -49,12 +77,14 @@ aplicada na API; aqui ela só é explicada e antecipada ao usuário.
 
 - **Status**: `in-progress`
 - **Escopo (web)**: a foto sensível aparece desfocada, na grande e na miniatura, com o aviso
-  "Foto sensível" e o botão "Ver a foto". Falta o cadastro (marcar como sensível ao enviar).
+  "Foto sensível" e o botão "Ver a foto"; o botão com o olho riscado a esconde de novo. Falta o
+  cadastro (marcar como sensível ao enviar).
 
 ### BR-062: Só a cidade é pública
 
 - **Status**: `in-progress`
-- **Escopo (web)**: vitrine e página do animal mostram só a cidade do animal e da organização.
+- **Escopo (web)**: galeria, página do animal e página da organização mostram só a cidade (e as
+  cidades de atuação), nunca o endereço.
 
 ### BR-063: Taxa de adoção não é preço
 

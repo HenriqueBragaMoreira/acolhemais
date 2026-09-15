@@ -198,7 +198,7 @@ têm o status só aqui. **Fase** é a do roadmap ([PLANO](PLANO.md) §6).
 
 #### FR-026: Página pública da organização
 
-- **Status**: `refined`
+- **Status**: `in-progress`
 - **Fase**: 1
 - **Descrição**: `/ong/{slug}` com a marca da organização, a chave PIX (com QR e botão de copiar)
   e seus animais, com os mesmos filtros da vitrine (FR-050). Slug

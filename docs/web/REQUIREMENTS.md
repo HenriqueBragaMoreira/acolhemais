@@ -71,6 +71,18 @@ escopo definido para a web; ao refinar, adicione-o aqui.
 - **Status**: `draft`
 - **Escopo (web)**: formulário dos parâmetros com limites e unidades do catálogo (Fase 1).
 
+#### FR-026: Página pública da organização
+
+- **Status**: `in-progress`
+- **Escopo (web)**: `/ong/{slug}` com a capa a toda a largura (sem foto, uma faixa na cor
+  secundária) e, ancorados na borda dela, o painel de identidade na cor primária da organização
+  (iniciais, nome, cidade, sobre, cidades de atuação, WhatsApp, e-mail e Instagram) e o painel
+  "Doe por PIX" (BR-049). Abaixo, a mesma busca e galeria da página inicial, só com os animais
+  dela, com os filtros no endereço da página. Slug antigo leva ao atual (BR-047); encerrada
+  mostra só o aviso (BR-044); suspensa e inexistente, "não encontrada" (BR-043). Pronto com
+  dados fictícios em `services/organizations` (capas do Unsplash); falta ler a API e o logo
+  enviado (hoje, as iniciais). E2E com axe.
+
 #### FR-050: Vitrine nacional
 
 - **Status**: `in-progress`
@@ -86,8 +98,9 @@ escopo definido para a web; ao refinar, adicione-o aqui.
 #### FR-031: Fotos e vídeo do animal
 
 - **Status**: `in-progress`
-- **Escopo (web)**: na página do animal, a capa e as demais fotos com miniaturas e setas, a
-  sensível desfocada até o clique (BR-061) e o link do vídeo quando houver. Falta o envio e a
+- **Escopo (web)**: na página do animal, a capa e as demais fotos com miniaturas e setas,
+  "Ampliar a foto" na tela inteira (setas do teclado, Esc fecha), a sensível desfocada até o
+  clique (BR-061) e o link do vídeo quando houver. Falta o envio e a
   ordenação das fotos no cadastro (painel da organização).
 
 #### FR-053: Página "Sobre"

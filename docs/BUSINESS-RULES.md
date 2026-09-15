@@ -342,7 +342,7 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 
 ### BR-043: Suspensão
 
-- **Status**: `refined`
+- **Status**: `in-progress`
 - **Quando**: a moderação suspende (ex.: indício de venda de animais)
 - **Então**: tudo congela até a reativação:
   - a página e os animais saem do portal e voltam na reativação;
@@ -355,7 +355,7 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 
 ### BR-044: Encerramento
 
-- **Status**: `refined`
+- **Status**: `in-progress`
 - **Quando**: a organização é encerrada
 - **Então**: animais arquivados, candidaturas abertas canceladas com aviso aos adotantes,
   histórico de adoções mantido (alimenta a reputação). A página pública mostra só "organização
@@ -378,7 +378,7 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 
 ### BR-047: Slug
 
-- **Status**: `refined`
+- **Status**: `in-progress`
 - **Quando**: uma organização escolhe ou troca o slug
 - **Então**: único, minúsculo, fora da lista de reservados (`admin`, `api`, `ong`, `portal`, …).
   Troca permitida; o antigo vai para o histórico e redireciona (301) para o atual. Slug usado
@@ -399,7 +399,7 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 
 ### BR-049: Doações só para a organização
 
-- **Status**: `refined`
+- **Status**: `in-progress`
 - **Quando**: a página mostra como doar
 - **Então**: só a chave PIX (e QR) da própria organização. A plataforma nunca recebe, guarda ou
   intermedia dinheiro. Qualquer tipo de chave é aceito; antes de salvar, um aviso explica que a
