@@ -162,6 +162,33 @@
       "specialNeeds": "Cuidados especiais:"
     }
   },
+  "Organization": {
+    "metaDescription": "Animais para adoção de {name} no Acolhe+.",
+    "serves": "Atua em {cities}.",
+    "contact": {
+      "label": "Contato",
+      "whatsapp": "WhatsApp",
+      "email": "E-mail",
+      "instagram": "Instagram",
+      "whatsappMessage": "Olá! Vi a página de vocês no Acolhe+."
+    },
+    "pix": {
+      "title": "Doe por PIX",
+      "description": "A doação vai direto para a organização. O Acolhe+ não recebe nem repassa dinheiro.",
+      "qrAlt": "QR Code do PIX de {name}",
+      "keyLabel": "Chave PIX ({type, select, email {e-mail} phone {telefone} cpf {CPF} cnpj {CNPJ} other {aleatória}})",
+      "copy": {
+        "idle": "Copiar chave",
+        "copied": "Chave copiada",
+        "failed": "Não deu para copiar; selecione a chave"
+      }
+    },
+    "closed": {
+      "title": "Organização encerrada",
+      "description": "{name} encerrou as atividades no Acolhe+. Os animais de outras organizações continuam na galeria.",
+      "home": "Ver os animais para adoção"
+    }
+  },
   "About": {
     "metaTitle": "Sobre",
     "title": "Sobre o Acolhe+",
