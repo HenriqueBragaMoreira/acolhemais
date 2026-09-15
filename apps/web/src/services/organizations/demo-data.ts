@@ -26,6 +26,19 @@ export const DEMO_ORGANIZATIONS = {
       instagram: 'coletivofocinhogelado.demo',
     },
     pix: { key: 'doacoes@focinhogelado.example.org', type: 'email' },
+    questions: [
+      {
+        id: 'visita',
+        type: 'yes-no',
+        label: 'Você aceita uma visita de um voluntário antes da adoção?',
+      },
+      {
+        id: 'conheceu',
+        type: 'choice',
+        label: 'Como conheceu o Coletivo?',
+        options: ['Instagram', 'Indicação de alguém', 'Feira de adoção', 'Outro'],
+      },
+    ],
   },
   bigode: {
     slug: 'abrigo-cantinho-do-bigode',
@@ -44,6 +57,19 @@ export const DEMO_ORGANIZATIONS = {
       instagram: 'cantinhodobigode.demo',
     },
     pix: { key: 'doacoes@cantinhodobigode.example.org', type: 'email' },
+    questions: [
+      {
+        id: 'janelas',
+        type: 'yes-no',
+        label: 'Se adotar um gato, você instala telas em todas as janelas antes de ele chegar?',
+      },
+      { id: 'idosos', type: 'yes-no', label: 'Você consideraria adotar um animal idoso?' },
+      {
+        id: 'veterinario',
+        type: 'text',
+        label: 'Já tem um veterinário de confiança perto de casa? Qual?',
+      },
+    ],
   },
   ilha: {
     slug: 'projeto-patinhas-da-ilha',
@@ -58,6 +84,19 @@ export const DEMO_ORGANIZATIONS = {
       'Resgatamos animais abandonados nas praias e nos bairros da ilha. Os resgatados ficam em lares temporários até a adoção, e as feiras de adoção acontecem no último sábado do mês.',
     contact: { whatsapp: '5548987650303', email: 'ola@patinhasdailha.example.org' },
     pix: { key: '7d2f4c1a-9b3e-4f6a-8c5d-2e1b0a9f8c7d', type: 'random' },
+    questions: [
+      {
+        id: 'feira',
+        type: 'choice',
+        label: 'Consegue ir a uma feira de adoção para conhecer o animal antes?',
+        options: ['Sim', 'Prefiro uma visita do projeto', 'Não consigo'],
+      },
+      {
+        id: 'acompanhamento',
+        type: 'yes-no',
+        label: 'Topa mandar fotos do animal nos primeiros meses?',
+      },
+    ],
   },
   cida: {
     slug: 'lar-da-cida',
@@ -72,6 +111,14 @@ export const DEMO_ORGANIZATIONS = {
       'Sou a Cida, protetora independente. Cuido dos animais na minha casa até cada um encontrar uma família, com a ajuda dos vizinhos para a ração e o veterinário.',
     contact: { whatsapp: '5562987650404' },
     pix: { key: '3b9e6a2d-5c71-4e08-a4f2-9d6c1b7e0a53', type: 'random' },
+    questions: [
+      {
+        id: 'busca',
+        type: 'yes-no',
+        label: 'Você consegue buscar o animal aqui em casa, em Goiânia?',
+      },
+      { id: 'conte', type: 'text', label: 'Conte um pouco da sua casa para a Cida.' },
+    ],
   },
   suspensa: {
     slug: 'protetores-do-vale',
@@ -85,6 +132,7 @@ export const DEMO_ORGANIZATIONS = {
     about: '',
     contact: {},
     pix: null,
+    questions: [],
   },
   amigos: {
     slug: 'grupo-amigos-de-pata',
@@ -98,5 +146,6 @@ export const DEMO_ORGANIZATIONS = {
     about: '',
     contact: {},
     pix: null,
+    questions: [],
   },
 } satisfies Record<string, OrganizationProfile>

@@ -26,7 +26,13 @@ export type OrganizationProfile = {
   contact: { whatsapp?: string; email?: string; instagram?: string }
   /** Só a chave da própria organização: a plataforma não toca no dinheiro (BR-049). */
   pix: { key: string; type: PixKeyType } | null
+  /** Perguntas próprias da candidatura, somadas ao questionário da plataforma (FR-044). */
+  questions: OrganizationQuestion[]
 }
+
+export type OrganizationQuestion =
+  | { id: string; type: 'yes-no' | 'text'; label: string }
+  | { id: string; type: 'choice'; label: string; options: string[] }
 
 function wait(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms))
