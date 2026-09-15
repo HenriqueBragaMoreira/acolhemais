@@ -13,7 +13,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { AFTER_SIGN_IN_PAGE, authClient } from '@/lib/auth-client'
 import { twoFactorMessageFor } from '../../../../_components/auth-errors'
-import { FieldMessage } from '../../../../_components/field-message'
+import { FieldMessage } from '@/components/field-message'
 import { TrustDeviceField } from '../trust-device-field'
 
 /** As mensagens são chaves do namespace `TwoFactor` (traduzidas na tela). */

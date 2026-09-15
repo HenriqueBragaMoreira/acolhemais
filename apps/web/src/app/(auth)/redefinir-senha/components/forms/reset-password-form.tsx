@@ -12,7 +12,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { authClient } from '@/lib/auth-client'
 import { resetPasswordMessageFor } from '../../../_components/auth-errors'
-import { FieldMessage } from '../../../_components/field-message'
+import { FieldMessage } from '@/components/field-message'
 
 /** As mensagens são chaves do namespace `ResetPassword`. O mínimo é o da API (BR-001). */
 const resetPasswordSchema = z.object({
