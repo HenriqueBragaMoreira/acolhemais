@@ -25,3 +25,12 @@ export function isValidCpf(cpf: string) {
     checkDigit(digits.slice(0, 10)) === Number(digits[10])
   )
 }
+
+/**
+ * CPF como a organização o vê (BR-085): só os seis dígitos do meio, "•••.444.777-••". O inteiro
+ * só aparece no "revelar", que vai para a auditoria.
+ */
+export function maskCpf(cpf: string) {
+  const digits = cpfDigits(cpf)
+  return `•••.${digits.slice(3, 6)}.${digits.slice(6, 9)}-••`
+}

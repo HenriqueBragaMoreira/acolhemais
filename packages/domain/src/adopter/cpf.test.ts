@@ -1,5 +1,12 @@
 import { describe, expect, it } from 'vitest'
-import { isValidCpf } from './cpf'
+import { isValidCpf, maskCpf } from './cpf'
+
+describe('BR-085: CPF mascarado para a organização', () => {
+  it('mostra só os seis dígitos do meio, com ou sem pontuação na entrada', () => {
+    expect(maskCpf('111.444.777-35')).toBe('•••.444.777-••')
+    expect(maskCpf('52998224725')).toBe('•••.982.247-••')
+  })
+})
 
 describe('BR-071: CPF do adotante', () => {
   it('aceita CPF com os dígitos verificadores certos, com ou sem pontuação', () => {

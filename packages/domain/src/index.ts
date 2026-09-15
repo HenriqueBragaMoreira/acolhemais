@@ -1,4 +1,7 @@
 export * from './adopter/cpf'
+export * from './animal/status'
+export * from './application/priority'
+export * from './application/stages'
 export * from './audit'
 export * from './errors'
 export * from './pix/br-code'
