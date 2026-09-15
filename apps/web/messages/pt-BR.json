@@ -189,6 +189,200 @@
       "home": "Ver os animais para adoção"
     }
   },
+  "Application": {
+    "title": "Candidatura para {name}",
+    "backToAnimal": "Voltar para {name}",
+    "progress": "Etapa {step} de {total}",
+    "yes": "Sim",
+    "no": "Não",
+    "back": "Voltar",
+    "continue": "Continuar",
+    "steps": {
+      "account": "Quem é você",
+      "applicant": "Seus dados",
+      "home": "Sua casa",
+      "pets": "Outros animais",
+      "routine": "Rotina e custos",
+      "reasons": "Por que adotar",
+      "organization": "Perguntas da organização",
+      "review": "Revise e envie"
+    },
+    "intro": {
+      "account": "Diga se é a sua primeira vez aqui ou se já tem conta no Acolhe+.",
+      "applicant": "A organização usa estes dados para falar com você.",
+      "home": "Conte como é a sua casa e quem mora nela.",
+      "pets": "Sobre os animais que você tem hoje e os que já teve.",
+      "routine": "Como vai ser o dia a dia do animal com você.",
+      "reasons": "Não existe resposta certa: a organização quer conhecer você.",
+      "organization": "Perguntas que {organization} faz a todos que se candidatam.",
+      "review": "Confira as respostas. Você pode editar qualquer parte antes de enviar."
+    },
+    "account": {
+      "choose": "Como você quer continuar?",
+      "new": {
+        "title": "Primeira vez no Acolhe+",
+        "description": "Confirme o seu e-mail com um código e responda o questionário."
+      },
+      "account": {
+        "title": "Já tenho conta",
+        "description": "Entre e as respostas que você já deu vêm preenchidas: é só conferir."
+      },
+      "email": "E-mail",
+      "emailHint": "Mandamos um código para confirmar que o e-mail é seu.",
+      "sendCode": "Enviar código",
+      "codeSent": "Mandamos um código de 6 dígitos para {email}.",
+      "code": "Código",
+      "changeEmail": "Usar outro e-mail",
+      "password": "Senha",
+      "showPassword": "Mostrar",
+      "hidePassword": "Ocultar",
+      "passwordRequired": "Informe a senha.",
+      "signIn": "Entrar e continuar",
+      "signedInAs": "Você entrou como {email}.",
+      "confirmedAs": "E-mail confirmado: {email}.",
+      "changeAccount": "Entrar com outra conta"
+    },
+    "applicant": {
+      "email": "E-mail confirmado: {email}",
+      "emailLabel": "E-mail",
+      "name": "Nome completo",
+      "cpf": "CPF",
+      "cpfHint": "Obrigatório para se candidatar.",
+      "phone": "Telefone (opcional)",
+      "phoneHint": "Com ele, a organização pode falar com você pelo WhatsApp."
+    },
+    "home": {
+      "housing": "Você mora em",
+      "housingValue": {
+        "house": "Casa",
+        "apartment": "Apartamento",
+        "other": "Outro"
+      },
+      "ownership": "O imóvel é",
+      "ownershipValue": {
+        "own": "Próprio",
+        "rent": "Alugado"
+      },
+      "landlordAllows": "O proprietário permite animais?",
+      "yard": "Tem quintal?",
+      "screens": "As janelas têm telas?",
+      "screensHint": "Telas de proteção evitam quedas, principalmente de gatos.",
+      "household": "Quem mora com você",
+      "adults": "Quantos adultos moram na casa?",
+      "children": "Moram crianças na casa?",
+      "childrenAges": "Quais as idades das crianças?",
+      "everyoneAgrees": "Todos na casa concordam com a adoção?"
+    },
+    "pets": {
+      "hasPets": "Você tem outros animais hoje?",
+      "pets": "Quais? Conte a espécie e a idade.",
+      "petsCared": "Eles são castrados e vacinados?",
+      "hadPets": "Você já teve animais antes?",
+      "pastPets": "O que aconteceu com eles?"
+    },
+    "routine": {
+      "hoursAlone": "Quantas horas por dia o animal vai ficar sozinho?",
+      "hoursAloneValue": {
+        "up-to-2": "Até 2 horas",
+        "2-to-4": "De 2 a 4 horas",
+        "4-to-8": "De 4 a 8 horas",
+        "over-8": "Mais de 8 horas"
+      },
+      "whereStays": "Onde o animal vai ficar em casa?",
+      "travelCare": "Quem cuida dele quando você viajar?",
+      "awareOfCosts": "Você está ciente dos gastos com ração e veterinário?",
+      "awareOfCostsHint": "Inclui vacinas todo ano, vermífugo e consultas."
+    },
+    "reasons": {
+      "why": "Por que você quer adotar {name}?",
+      "ifMoving": "Se você precisar se mudar, o que acontece com o animal?",
+      "ifBehavior": "E se ele tiver algum problema de comportamento?"
+    },
+    "organization": {
+      "none": "{organization} não tem perguntas próprias. É só continuar.",
+      "fromProfile": "Você entrou como {email}. As respostas das etapas anteriores vieram do seu perfil; confira tudo na revisão antes de enviar."
+    },
+    "review": {
+      "empty": "Não informado",
+      "edit": "Editar {section}",
+      "editShort": "Editar",
+      "consent": "Ao enviar, você confirma que as respostas são verdadeiras e que {organization} pode ver estes dados para avaliar a candidatura.",
+      "error": "Não deu para enviar. Tente de novo.",
+      "submit": "Enviar candidatura"
+    },
+    "errors": {
+      "required": "Responda esta pergunta.",
+      "tooLong": "Use até 1000 caracteres.",
+      "emailRequired": "Informe o e-mail.",
+      "emailInvalid": "Confira o e-mail: falta algo, como o @.",
+      "codeRequired": "Digite os 6 dígitos do código.",
+      "codeWrong": "Código errado. Confira o e-mail e tente de novo.",
+      "nameRequired": "Informe o nome completo.",
+      "cpfInvalid": "Confira o CPF: os números não batem.",
+      "phoneInvalid": "Confira o telefone, com o DDD.",
+      "adultsInvalid": "Informe um número de 1 a 20.",
+      "cpfRequired": "Informe o CPF."
+    },
+    "blocked": {
+      "gallery": "Ver outros animais",
+      "duplicate": {
+        "title": "Você já se candidatou para {name}.",
+        "description": "É uma candidatura por animal, e a sua ainda está com a organização."
+      },
+      "limit": {
+        "title": "Você chegou ao limite de candidaturas.",
+        "description": "São até {max} ativas ao mesmo tempo, somando todas as organizações. Quando uma terminar, você pode se candidatar de novo."
+      }
+    },
+    "animal": {
+      "label": "Animal da candidatura: {name}",
+      "fee": "Taxa de adoção: {value}",
+      "noFee": "Sem taxa de adoção"
+    },
+    "sent": {
+      "title": "Pronto! {organization} recebeu a sua candidatura",
+      "description": "Agora é com ela: a organização lê as suas respostas e fala com você por e-mail ou WhatsApp.",
+      "next": {
+        "title": "O que acontece agora",
+        "current": "(você está aqui)",
+        "received": {
+          "title": "Recebida",
+          "description": "A candidatura chegou para {organization}."
+        },
+        "review": {
+          "title": "Em análise",
+          "description": "A organização lê as respostas. Se pedir alguma informação, responda em até {days} dias."
+        },
+        "visit": {
+          "title": "Entrevista ou visita",
+          "description": "Uma conversa, e às vezes uma visita, para vocês se conhecerem."
+        },
+        "approved": {
+          "title": "Aprovada",
+          "description": "Vocês combinam o dia de buscar o animal."
+        },
+        "completed": {
+          "title": "Adoção concluída",
+          "description": "Na entrega, a organização confere um documento com foto."
+        }
+      },
+      "tips": {
+        "title": "Como aumentar as suas chances",
+        "account": "Crie uma conta com este e-mail: você acompanha a candidatura e não responde tudo de novo na próxima.",
+        "phone": "Mande uma mensagem pelo WhatsApp da organização: sem telefone na candidatura, é o jeito mais rápido de ela falar com você.",
+        "respond": "Fique de olho no e-mail e responda rápido: um pedido de informação sem resposta em {days} dias encerra a candidatura.",
+        "homeCat": "Deixe a casa pronta antes da visita: telas nas janelas e um cantinho tranquilo.",
+        "homeDog": "Deixe a casa pronta antes da visita: portão e muros sem fuga e um cantinho para ele.",
+        "document": "Tenha um documento com foto à mão: a adoção só é concluída com ele conferido."
+      },
+      "whatsapp": "Falar com {organization}",
+      "whatsappMessage": "Olá! Acabei de me candidatar para adotar {name} pelo Acolhe+.",
+      "gallery": "Ver outros animais",
+      "limit": "Você pode ter até {max} candidaturas ativas ao mesmo tempo."
+    },
+    "backToReview": "Voltar à revisão",
+    "saveAndReview": "Salvar e voltar à revisão"
+  },
   "About": {
     "metaTitle": "Sobre",
     "title": "Sobre o Acolhe+",
