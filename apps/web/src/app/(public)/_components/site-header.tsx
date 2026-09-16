@@ -1,13 +1,12 @@
-import { buttonVariants } from '@acolhemais/ui/components/button'
-import { cn } from '@acolhemais/ui/lib/utils'
 import { getTranslations } from 'next-intl/server'
 import Link from 'next/link'
 import { Suspense } from 'react'
 import { Wordmark } from '@/components/wordmark'
 import { AboutNavLink } from './about-nav-link'
 import { StaticAboutNavLink } from './static-about-nav-link'
+import { AccountNavLink } from './account-nav-link'
 
-/** Cabeçalho branco das páginas públicas: a marca e, à direita, "Sobre" e "Entrar". */
+/** Cabeçalho branco das páginas públicas: a marca e, à direita, "Sobre" e "Entrar" (ou "Painel"). */
 export async function SiteHeader() {
   const t = await getTranslations('SiteHeader')
 
@@ -32,9 +31,7 @@ export async function SiteHeader() {
               </Suspense>
             </li>
             <li>
-              <Link href="/entrar" className={cn(buttonVariants({ variant: 'outline' }))}>
-                {t('signIn')}
-              </Link>
+              <AccountNavLink signIn={t('signIn')} panel={t('panel')} />
             </li>
           </ul>
         </nav>

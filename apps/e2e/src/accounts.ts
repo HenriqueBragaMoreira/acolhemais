@@ -24,6 +24,24 @@ async function apiContext(): Promise<APIRequestContext> {
   })
 }
 
+/**
+ * Entra pela API (com IP aleatório) e devolve os cookies da sessão, para o navegador já começar
+ * logado. Para testes de telas da área logada: o login pela tela tem limite por IP (BR-002) e
+ * uma suíte grande, toda do mesmo IP, esbarra nele.
+ */
+export async function sessionCookies(account: Account) {
+  const api = await apiContext()
+  try {
+    const signIn = await api.post('sign-in/email', {
+      data: { email: account.email, password: account.password },
+    })
+    if (!signIn.ok()) throw new Error(`login falhou: ${signIn.status()}`)
+    return (await api.storageState()).cookies
+  } finally {
+    await api.dispose()
+  }
+}
+
 /** Mailpit do docker compose, que recebe os e-mails da API local. */
 const MAILPIT_URL = 'http://localhost:8025'
 

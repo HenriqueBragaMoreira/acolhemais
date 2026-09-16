@@ -9,7 +9,13 @@ export default function ApplicationLayout({ children }: Readonly<{ children: Rea
   return (
     <div className="min-h-dvh bg-secondary">
       <AppHeader />
-      <main className="mx-auto max-w-5xl px-6 py-12">{children}</main>
+      <main
+        id="conteudo"
+        tabIndex={-1}
+        className="mx-auto max-w-7xl px-4 py-8 outline-none sm:px-6 sm:py-10 lg:px-10"
+      >
+        {children}
+      </main>
     </div>
   )
 }

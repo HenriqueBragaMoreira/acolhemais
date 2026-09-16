@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
-import { AccountSummary } from './components/account-summary'
+import { PanelHome } from './components/panel-home'
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('Panel')
@@ -8,5 +8,5 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function PanelPage() {
-  return <AccountSummary />
+  return <PanelHome />
 }

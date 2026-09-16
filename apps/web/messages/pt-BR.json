@@ -14,7 +14,8 @@
     "skipToContent": "Pular para o conteúdo",
     "navigation": "Principal",
     "about": "Sobre",
-    "signIn": "Entrar"
+    "signIn": "Entrar",
+    "panel": "Painel"
   },
   "SiteFooter": {
     "openSource": "Plataforma gratuita e de código aberto para ONGs e protetores de animais.",
@@ -381,7 +382,21 @@
     "cpfInvalid": "Confira o CPF: os números não batem.",
     "phoneInvalid": "Confira o telefone, com o DDD.",
     "adultsInvalid": "Informe um número de 1 a 20.",
-    "cpfRequired": "Informe o CPF."
+    "cpfRequired": "Informe o CPF.",
+    "messageRequired": "Escreva a mensagem.",
+    "reasonRequired": "Informe o motivo.",
+    "dateRequired": "Informe a data.",
+    "dateFuture": "A data não pode ser no futuro.",
+    "documentRequired": "Confirme que conferiu o documento com foto.",
+    "animalNameRequired": "Informe o nome do animal.",
+    "bornAroundRequired": "Informe o mês e o ano, mesmo que aproximados.",
+    "photosRequired": "Adicione pelo menos uma foto.",
+    "photosTooMany": "São no máximo 10 fotos.",
+    "coverSensitive": "A capa não pode ser uma foto sensível. Escolha outra como capa.",
+    "videoInvalid": "Confira o link: ele começa com https://.",
+    "storyRequired": "Conte a história do animal.",
+    "feeInvalid": "Informe o valor, como 60,00.",
+    "feeAboveCap": "O valor passa do teto da plataforma."
   },
   "About": {
     "metaTitle": "Sobre",
@@ -511,16 +526,392 @@
     "metaTitle": "Painel",
     "loading": "Carregando sua conta…",
     "greeting": "Olá, {name}!",
-    "intro": "Você entrou no Acolhe+. O painel da sua organização chega nas próximas versões.",
+    "intro": "Veja como andam as candidaturas e os animais da sua organização.",
     "account": "Sua conta",
     "email": "E-mail",
     "twoFactor": "Verificação em duas etapas",
     "twoFactorOn": "Ativa",
-    "twoFactorOff": "Desativada"
+    "twoFactorOff": "Desativada",
+    "track": "Caminho da candidatura",
+    "stages": {
+      "received": "Recebida",
+      "reviewing": "Em análise",
+      "interview": "Entrevista ou visita",
+      "approved": "Aprovada",
+      "awaiting-confirmation": "Aguardando confirmação",
+      "completed": "Concluída",
+      "refused": "Recusada",
+      "withdrawn": "Desistência",
+      "expired": "Expirada",
+      "cancelled": "Cancelada"
+    },
+    "badges": {
+      "label": "Selos do adotante",
+      "new": "Novo",
+      "verified": "Verificado",
+      "approved-adopter": "Adotante aprovado",
+      "attention": "Atenção",
+      "ineligible": "Inelegível",
+      "open": "O que é o selo {badge}",
+      "explain": {
+        "new": "Ainda não concluiu nenhuma adoção pelo Acolhe+. Não é bom nem ruim: é só o começo.",
+        "verified": "Uma organização conferiu um documento com foto desta pessoa ao concluir uma adoção.",
+        "approved-adopter": "Já adotou pelo Acolhe+ e a organização avaliou a adoção como bem-sucedida.",
+        "attention": "Tem uma ocorrência leve confirmada pela moderação, depois do direito de defesa. O selo sai sozinho quando o prazo acaba.",
+        "ineligible": "Tem uma ocorrência grave confirmada pela moderação. Não pode enviar candidaturas até uma revisão."
+      },
+      "incidents": {
+        "return-without-notice": "Devolução sem aviso",
+        "neglect": "Descuido com o animal",
+        "abandonment": "Abandono"
+      },
+      "incidentMinor": "Decidida em {decided} · vale até {until}",
+      "incidentSevere": "Decidida em {decided} · vale até uma revisão",
+      "privacy": "Por privacidade, não mostramos qual organização reportou nem os detalhes do caso."
+    },
+    "animalStatus": {
+      "draft": "Rascunho",
+      "available": "Disponível",
+      "in-process": "Em processo",
+      "unavailable": "Indisponível",
+      "adopted": "Adotado",
+      "archived": "Arquivado",
+      "title": "Situação",
+      "explain": {
+        "draft": "Só a equipe vê. Publique pela revisão do cadastro, com tudo preenchido.",
+        "available": "Na galeria, recebendo candidaturas.",
+        "in-process": "Uma candidatura foi aprovada. Continua na galeria e ainda recebe candidaturas.",
+        "unavailable": "Fora da galeria por enquanto, como durante um tratamento. As candidaturas ativas continuam.",
+        "adopted": "Adotado. Saiu da galeria.",
+        "archived": "Saiu da galeria, e as candidaturas ativas foram canceladas."
+      },
+      "change": {
+        "available": "Voltar para a galeria",
+        "unavailable": "Pausar (indisponível)",
+        "archived": "Arquivar"
+      },
+      "history": "Histórico",
+      "created": "{by} cadastrou como rascunho",
+      "moved": "{by} mudou para {to}",
+      "reason": "Motivo: {reason}",
+      "archive": {
+        "title": "Arquivar {name}?",
+        "description": "Arquivar tira o animal da galeria e cancela as candidaturas ativas, com uma mensagem gentil para cada adotante. Não dá para desfazer.",
+        "reason": "Motivo",
+        "reasonHint": "Por exemplo: transferido para outra organização.",
+        "cancel": "Cancelar",
+        "submit": "Arquivar"
+      }
+    },
+    "home": {
+      "error": "Não deu para carregar o resumo.",
+      "retry": "Tentar de novo",
+      "applications": "Candidaturas",
+      "seeAll": "Ver todas",
+      "awaiting": "{count, plural, one {# candidatura aguarda resposta do adotante} other {# candidaturas aguardam resposta do adotante}}",
+      "recent": "Chegaram agora",
+      "noRecent": "Nenhuma candidatura nova. Quando chegar, ela aparece aqui.",
+      "recentFor": "para {animal}",
+      "animals": "Animais",
+      "animalCounts": {
+        "available": "Disponíveis",
+        "inProcess": "Em processo",
+        "draft": "Rascunhos",
+        "unavailable": "Indisponíveis"
+      },
+      "newAnimal": "Cadastrar animal"
+    },
+    "board": {
+      "title": "Candidaturas",
+      "intro": "Em cada etapa, primeiro quem tem histórico positivo, depois conta verificada, depois sem conta e, por último, quem tem o selo Atenção.",
+      "animal": "Animal",
+      "allAnimals": "Todos os animais",
+      "error": "Não deu para carregar as candidaturas.",
+      "retry": "Tentar de novo",
+      "count": "{count, plural, =0 {nenhuma candidatura} one {# candidatura} other {# candidaturas}}",
+      "empty": "Nenhuma candidatura nesta etapa.",
+      "closed": "Encerradas ({count})",
+      "for": "para {animal}",
+      "otherActive": "{count, plural, one {Tem mais # candidatura ativa no Acolhe+} other {Tem mais # candidaturas ativas no Acolhe+}}",
+      "awaiting": "Aguardando o adotante",
+      "movedNow": "Movida agora",
+      "clearAnimal": "Limpar o filtro de animal",
+      "noAnimal": "Nenhum animal com esse nome.",
+      "more": "Ver mais ({count})"
+    },
+    "file": {
+      "metaTitle": "Candidatura",
+      "loading": "Carregando a candidatura…",
+      "notFound": "Candidatura não encontrada",
+      "notFoundHint": "Ela pode ter sido apagada, ou o endereço está errado.",
+      "back": "Voltar para as candidaturas",
+      "subtitle": "Para {animal} · enviada em {date}",
+      "otherActive": "{count, plural, =0 {Nenhuma outra candidatura ativa no Acolhe+.} one {Tem mais # candidatura ativa no Acolhe+, em outro animal.} other {Tem mais # candidaturas ativas no Acolhe+, em outros animais.}}",
+      "awaiting": "Aguardando a resposta de {name} desde {date}",
+      "answers": "Respostas",
+      "parts": {
+        "applicant": "Quem é",
+        "home": "Casa e família",
+        "pets": "Outros animais",
+        "routine": "Rotina",
+        "reasons": "Por que adotar",
+        "organization": "Perguntas do {organization}"
+      },
+      "outcome": {
+        "completed": "Adoção de {animal} concluída em {date}.",
+        "refused": "Recusada em {date}.",
+        "closed": "{stage, select, withdrawn {O adotante desistiu} expired {Expirou} cancelled {Cancelada automaticamente} other {Encerrada}} em {date}."
+      },
+      "actions": {
+        "title": "Próximo passo",
+        "current": "Etapa atual: {stage}",
+        "next": {
+          "reviewing": "Começar a análise",
+          "interview": "Marcar entrevista ou visita",
+          "approved": "Aprovar"
+        },
+        "complete": "Concluir adoção",
+        "moveTo": "Mover para outra etapa",
+        "requestInfo": "Pedir informação",
+        "refuse": "Recusar",
+        "error": "Não deu para mudar a etapa. Tente de novo."
+      },
+      "requestInfo": {
+        "title": "Pedir uma informação a {name}",
+        "description": "{name} recebe o pedido por e-mail. A candidatura continua na mesma etapa, marcada como aguardando a resposta.",
+        "message": "Mensagem para {name}",
+        "messageHint": "Diga o que a equipe precisa saber para seguir.",
+        "cancel": "Cancelar",
+        "submit": "Enviar pedido",
+        "sending": "Enviando…"
+      },
+      "refuse": {
+        "title": "Recusar a candidatura de {name}",
+        "description": "A recusa não pesa na reputação de {name}. O motivo fica só com a organização; a mensagem vai por e-mail.",
+        "reason": "Motivo (só a organização vê)",
+        "reasonHint": "Ajuda a equipe a lembrar por que recusou.",
+        "message": "Mensagem para {name}",
+        "messageHint": "Ela chega por e-mail. Gentil e direta.",
+        "defaultMessage": "Olá, {name}! Obrigado pelo carinho com {animal}. Lemos a sua candidatura com atenção e, desta vez, não vamos seguir com ela. Os outros animais do {organization} estão na galeria do Acolhe+.",
+        "cancel": "Cancelar",
+        "submit": "Recusar candidatura",
+        "refusing": "Recusando…"
+      },
+      "complete": {
+        "title": "Concluir a adoção de {animal}",
+        "description": "Registre o dia em que {animal} foi para a casa nova.",
+        "date": "Data da adoção",
+        "datePlaceholder": "Escolha a data",
+        "document": "Conferi um documento com foto de {name}",
+        "documentHint": "RG, CNH ou outro documento oficial com foto, com o mesmo nome e CPF da candidatura.",
+        "effects": "{animal} passa para Adotado, e as outras candidaturas para ele são canceladas com uma mensagem gentil.",
+        "cancel": "Cancelar",
+        "submit": "Concluir adoção",
+        "completing": "Concluindo…"
+      },
+      "contact": {
+        "title": "Contato",
+        "email": "E-mail",
+        "phone": "Telefone",
+        "noPhone": "Não informado",
+        "cpf": "CPF",
+        "reveal": "Revelar",
+        "hide": "Esconder",
+        "copyEmail": "Copiar o e-mail",
+        "copyPhone": "Copiar o telefone",
+        "copied": "Copiado.",
+        "copyFailed": "Não deu para copiar. Selecione e copie à mão.",
+        "revealHint": "Mascarado por padrão. Revelar fica registrado no histórico.",
+        "revealed": "Revelado por você; ficou registrado no histórico. Esconder não registra nada.",
+        "whatsapp": "Conversar com {name} no WhatsApp",
+        "whatsappMessage": "Olá, {name}! Aqui é do {organization}, sobre a sua candidatura para adotar {animal}."
+      },
+      "history": {
+        "title": "Histórico",
+        "sent": "{name} enviou a candidatura",
+        "moved": "{by} moveu para {stage}",
+        "infoRequested": "{by} pediu uma informação",
+        "infoAnswered": "{name} respondeu",
+        "refused": "{by} recusou a candidatura",
+        "reason": "Motivo interno: {reason}",
+        "message": "Mensagem enviada: {message}",
+        "completed": "{by} concluiu a adoção, com documento conferido, em {date}",
+        "cancelled": "Cancelada automaticamente: o animal foi adotado por outra pessoa ou arquivado",
+        "withdrawn": "{name} desistiu da candidatura",
+        "cpfRevealed": "{by} revelou o CPF"
+      }
+    },
+    "animals": {
+      "title": "Animais",
+      "intro": "Os animais da sua organização em qualquer situação, do rascunho ao adotado.",
+      "new": "Cadastrar animal",
+      "filter": "Filtrar por situação",
+      "filters": {
+        "all": "Todos",
+        "disponiveis": "Disponíveis",
+        "em-processo": "Em processo",
+        "rascunhos": "Rascunhos",
+        "indisponiveis": "Indisponíveis",
+        "adotados": "Adotados",
+        "arquivados": "Arquivados"
+      },
+      "error": "Não deu para carregar os animais.",
+      "retry": "Tentar de novo",
+      "empty": "Nenhum animal nesta situação.",
+      "showAll": "Ver todos",
+      "applications": "{count, plural, =0 {Nenhuma candidatura} one {# candidatura ativa} other {# candidaturas ativas}}",
+      "updated": "Atualizado",
+      "search": "Buscar pelo nome",
+      "searchPlaceholder": "Nome do animal",
+      "noMatch": "Nenhum animal com “{search}” nesta situação.",
+      "results": "{count, plural, one {# animal} other {# animais}} nesta página, página {page} de {pages}."
+    },
+    "animalForm": {
+      "newTitle": "Cadastrar animal",
+      "editTitle": "Editar animal",
+      "loading": "Carregando…",
+      "notFound": "Animal não encontrado",
+      "backToAnimals": "Voltar para os animais",
+      "progress": "Etapa {step} de {total}",
+      "steps": {
+        "about": "Quem é",
+        "health": "Saúde e convivência",
+        "photos": "Fotos e vídeo",
+        "story": "História e taxa",
+        "review": "Revisão"
+      },
+      "intro": {
+        "about": "O básico para a galeria e para a busca. Dá para salvar como rascunho a qualquer momento.",
+        "health": "Quem adota precisa saber como o animal está. Tudo aqui é obrigatório para publicar.",
+        "photos": "De 1 a 10 fotos. A primeira é a capa da galeria.",
+        "story": "Conte quem ele é, do jeito que vocês contariam numa feira de adoção.",
+        "review": "Confira tudo. Só dá para publicar com as etapas completas."
+      },
+      "back": "Voltar",
+      "continue": "Continuar",
+      "saveDraft": "Salvar rascunho",
+      "saveChanges": "Salvar alterações",
+      "publish": "Publicar na galeria",
+      "savedDraft": "Rascunho salvo.",
+      "saved": "Alterações salvas.",
+      "saveError": "Não deu para salvar. Tente de novo.",
+      "fields": {
+        "name": "Nome",
+        "species": "Espécie",
+        "sex": "Sexo",
+        "ageGroup": "Faixa etária",
+        "bornAround": "Nascimento aproximado",
+        "bornAroundHint": "Mesmo que estimados.",
+        "bornMonth": "Mês",
+        "bornYear": "Ano",
+        "choose": "Escolha",
+        "size": "Porte",
+        "coat": "Pelagem",
+        "city": "Cidade",
+        "cityHint": "Só a cidade aparece na galeria, nunca o endereço.",
+        "castrated": "Castrado?",
+        "vaccinated": "Vacinado?",
+        "dewormed": "Vermifugado?",
+        "fivFelv": "FIV/FeLV",
+        "specialNeeds": "Cuidados especiais (opcional)",
+        "specialNeedsHint": "Remédio contínuo, dieta, alguma limitação.",
+        "goodWith": "Convivência",
+        "goodWithValue": {
+          "children": "Convive com crianças?",
+          "dogs": "Convive com cães?",
+          "cats": "Convive com gatos?"
+        },
+        "videoUrl": "Link do vídeo (opcional)",
+        "videoUrlHint": "YouTube, Instagram ou outro endereço público.",
+        "story": "História",
+        "storyHint": "Até 2000 caracteres.",
+        "fee": "Taxa de adoção",
+        "feeHint": "A taxa só cobre custos: adoção não é venda.",
+        "feeValue": "Valor (R$)",
+        "feeValueHint": "Até {cap}, o teto da plataforma.",
+        "feeCovers": "O que a taxa cobre",
+        "feeCoversHint": "Por exemplo: castração e vacinas."
+      },
+      "options": {
+        "species": {
+          "dog": "Cão",
+          "cat": "Gato",
+          "other": "Outro"
+        },
+        "sex": {
+          "male": "Macho",
+          "female": "Fêmea"
+        },
+        "ageGroup": {
+          "puppy": "Filhote (menos de 1 ano)",
+          "young": "Jovem (1 a 3 anos)",
+          "adult": "Adulto (3 a 8 anos)",
+          "senior": "Idoso (mais de 8 anos)"
+        },
+        "size": {
+          "small": "Pequeno",
+          "medium": "Médio",
+          "large": "Grande"
+        },
+        "coat": {
+          "short": "Curta",
+          "medium": "Média",
+          "long": "Longa"
+        },
+        "yesNo": {
+          "yes": "Sim",
+          "no": "Não"
+        },
+        "companion": {
+          "yes": "Sim",
+          "no": "Não",
+          "untested": "Não testado"
+        },
+        "fivFelv": {
+          "negative": "Negativo",
+          "positive": "Positivo",
+          "untested": "Não testado"
+        },
+        "feeMode": {
+          "none": "Sem taxa",
+          "fee": "Com taxa"
+        }
+      },
+      "photos": {
+        "label": "Fotos ({count} de {max})",
+        "add": "Adicionar fotos",
+        "hint": "JPG, PNG ou WebP. Marque como sensível a foto de ferimento: ela aparece desfocada até o clique.",
+        "empty": "Nenhuma foto ainda.",
+        "cover": "Capa",
+        "makeCover": "Tornar a foto {number} a capa",
+        "remove": "Remover a foto {number}",
+        "sensitive": "Sensível"
+      },
+      "review": {
+        "empty": "Não preenchido",
+        "photos": "Fotos",
+        "photoCount": "{count, plural, =0 {Nenhuma} one {# foto} other {# fotos}}",
+        "edit": "Editar {section}",
+        "editShort": "Editar"
+      }
+    }
   },
   "AppHeader": {
     "home": "Acolhe+, página inicial",
+    "skip": "Pular para o conteúdo",
+    "nav": "Painel",
+    "sections": {
+      "home": "Início",
+      "animals": "Animais",
+      "applications": "Candidaturas"
+    },
     "signOut": "Sair",
     "signingOut": "Saindo…"
+  },
+  "Pagination": {
+    "label": "Páginas",
+    "previous": "Anterior",
+    "next": "Próxima",
+    "page": "Página {page}"
   }
 }

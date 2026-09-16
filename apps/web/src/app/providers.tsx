@@ -1,6 +1,7 @@
 'use client'
 
 import { NextIntlClientProvider, type AbstractIntlMessages } from 'next-intl'
+import { NuqsAdapter } from 'nuqs/adapters/next/app'
 import type { ReactNode } from 'react'
 import { QueryClientProvider } from '@/lib/tanstack-query'
 
@@ -15,7 +16,10 @@ type ProvidersProps = {
 export function Providers({ children, locale, messages, timeZone }: ProvidersProps) {
   return (
     <NextIntlClientProvider locale={locale} messages={messages} timeZone={timeZone}>
-      <QueryClientProvider>{children}</QueryClientProvider>
+      <QueryClientProvider>
+        {/* Estado na URL (filtros, página, busca) sempre pelo nuqs. */}
+        <NuqsAdapter>{children}</NuqsAdapter>
+      </QueryClientProvider>
     </NextIntlClientProvider>
   )
 }

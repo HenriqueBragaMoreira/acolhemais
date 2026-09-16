@@ -1,18 +1,23 @@
 'use client'
 
 import { Spinner } from '@acolhemais/ui/components/spinner'
+import { cn } from '@acolhemais/ui/lib/utils'
 import { useQuery } from '@tanstack/react-query'
 import { ShieldCheckIcon, ShieldOffIcon } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { authClient } from '@/lib/auth-client'
+import { PANEL } from '../../_components/panel-surface'
+import { PanelSummary } from './panel-summary'
 
-/** Saudação e dados da conta. Sem sessão, volta para /entrar. */
-export function AccountSummary() {
+/**
+ * O Início do painel: o caminho das candidaturas, os animais e quem chegou agora. Sem sessão
+ * (cookie vencido), volta para /entrar.
+ */
+export function PanelHome() {
   const t = useTranslations('Panel')
   const router = useRouter()
-
   const { data: session, isPending } = useQuery({
     queryKey: ['session'],
     queryFn: async () => {
@@ -46,11 +51,13 @@ export function AccountSummary() {
       </h1>
       <p className="mt-2 max-w-prose text-muted-foreground">{t('intro')}</p>
 
-      <section aria-labelledby="account-title" className="mt-10 max-w-xl">
+      <PanelSummary />
+
+      <section aria-labelledby="account-title" className="mt-12 max-w-xl">
         <h2 id="account-title" className="text-lg font-semibold">
           {t('account')}
         </h2>
-        <dl className="mt-4 divide-y divide-border rounded-xl bg-card shadow-[0_1px_2px_rgb(31_26_23/0.06),0_8px_24px_-12px_rgb(31_26_23/0.18)]">
+        <dl className={cn('mt-4 divide-y divide-border', PANEL, 'rounded-xl')}>
           <div className="flex flex-wrap items-center justify-between gap-2 px-4 py-3">
             <dt className="text-sm text-muted-foreground">{t('email')}</dt>
             <dd className="font-medium break-all">{user.email}</dd>
