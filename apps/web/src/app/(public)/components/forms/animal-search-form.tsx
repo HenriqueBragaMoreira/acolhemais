@@ -15,7 +15,7 @@ import { z } from 'zod'
 import { AGE_GROUPS, COMPANIONS, SEXES, SIZES, SPECIES } from '@/constants/animal-options'
 import { animalsServices } from '@/services/animals'
 import type { AnimalFilters } from '@/services/animals/types'
-import { moreFiltersCount } from '../animal-filters'
+import { moreFiltersCount } from '../more-filters-count'
 import { GALLERY_HEADING_ID } from '../animal-gallery'
 import { FilterCheckboxGroup } from '../filter-checkbox-group'
 
