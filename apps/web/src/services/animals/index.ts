@@ -5,6 +5,7 @@ export const SEXES = ['male', 'female'] as const
 export const AGE_GROUPS = ['puppy', 'young', 'adult', 'senior'] as const
 export const SIZES = ['small', 'medium', 'large'] as const
 export const COMPANIONS = ['children', 'dogs', 'cats'] as const
+export const COATS = ['short', 'medium', 'long'] as const
 export const SORTS = ['longest-waiting', 'newest'] as const
 
 export type Species = (typeof SPECIES)[number]
@@ -21,7 +22,7 @@ export type AnimalPhoto = {
   /** O `object-position` que mantém o animal nos recortes (cartão vertical, miniatura). */
   focus: string
   /** Ferimento ou recuperação: aparece desfocada até o clique (BR-061). */
-  sensitive?: boolean
+  sensitive?: boolean | undefined
 }
 
 /** Um animal como a vitrine o mostra (BR-060): só a cidade é pública (BR-062). */
@@ -34,7 +35,7 @@ export type Animal = {
   /** Mês aproximado de nascimento, `AAAA-MM`. */
   bornAround: string
   size: Size
-  coat: 'short' | 'medium' | 'long'
+  coat: (typeof COATS)[number]
   /** Só os adotáveis aparecem na vitrine (BR-120). */
   status: 'available' | 'in-process'
   city: string
