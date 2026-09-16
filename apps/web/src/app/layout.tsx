@@ -3,7 +3,7 @@ import '@/styles/globals.css'
 import type { Metadata } from 'next'
 import { getLocale, getMessages, getTimeZone, getTranslations } from 'next-intl/server'
 import type { ReactNode } from 'react'
-import { brandThemeStyle, PLATFORM_COLORS } from '@/lib/brand-theme'
+import { brandThemeStyle, PLATFORM_COLORS } from '@/utils/brand-theme'
 import { Providers } from './providers'
 
 export async function generateMetadata(): Promise<Metadata> {

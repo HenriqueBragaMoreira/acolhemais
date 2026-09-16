@@ -2,8 +2,8 @@
 
 import { cn } from '@acolhemais/ui/lib/utils'
 import { useFormatter, useTranslations } from 'next-intl'
-import { type ApplicationEvent, type ApplicationWithAnimal } from '@/services/panel'
-import { PANEL } from '../../../../_components/panel-surface'
+import type { ApplicationEvent, ApplicationWithAnimal } from '@/services/panel/types'
+import { PANEL_SURFACE } from '@/app/(application)/_components/panel-surface'
 
 /** Tudo o que aconteceu, em ordem (BR-076): quem, quando e o quê. */
 export function ApplicationHistory({ application }: { application: ApplicationWithAnimal }) {
@@ -44,7 +44,10 @@ export function ApplicationHistory({ application }: { application: ApplicationWi
   }
 
   return (
-    <section className={cn(PANEL, 'p-5 sm:p-8 lg:col-start-1')} aria-labelledby="historico-titulo">
+    <section
+      className={cn(PANEL_SURFACE, 'p-5 sm:p-8 lg:col-start-1')}
+      aria-labelledby="historico-titulo"
+    >
       <h2 id="historico-titulo" className="text-xl font-bold tracking-tight">
         {t('title')}
       </h2>

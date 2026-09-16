@@ -4,15 +4,19 @@ import { useTranslations } from 'next-intl'
 import { type Control, useWatch } from 'react-hook-form'
 import { ChoiceField } from '@/components/choice-field'
 import { TextField } from '@/components/text-field'
-import { useOptions } from './use-options'
+import { useAnimalFormOptions } from './use-animal-form-options'
 import type { AnimalFormValues } from '../forms/animal-form'
 
 export function HealthStep({ control }: { control: Control<AnimalFormValues> }) {
   const t = useTranslations('Panel.animalForm.fields')
   const species = useWatch({ control, name: 'species' })
-  const yesNoOptions = useOptions('yesNo', ['yes', 'no'] as const)
-  const companions = useOptions('companion', ['yes', 'no', 'untested'] as const)
-  const fivFelvOptions = useOptions('fivFelv', ['negative', 'positive', 'untested'] as const)
+  const yesNoOptions = useAnimalFormOptions('yesNo', ['yes', 'no'] as const)
+  const companions = useAnimalFormOptions('companion', ['yes', 'no', 'untested'] as const)
+  const fivFelvOptions = useAnimalFormOptions('fivFelv', [
+    'negative',
+    'positive',
+    'untested',
+  ] as const)
 
   return (
     <div className="flex flex-col gap-5">

@@ -4,13 +4,15 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useTranslations } from 'next-intl'
 import { useForm, useWatch } from 'react-hook-form'
 import { z } from 'zod'
-import { HOUSING_TYPES, type Home, OWNERSHIPS } from '@/services/applications'
+import { HOUSING_TYPES, OWNERSHIPS } from '@/constants/application'
+import type { Home } from '@/services/applications/types'
 import { ChoiceField } from '@/components/choice-field'
 import { TextField } from '@/components/text-field'
 import { StepActions } from '../step-actions'
 import { useYesNo } from '../use-yes-no'
-import { useStepData, useAdvance } from '../application-stepper'
-import { choice, optionalText, requireWhen, yesNo } from '@/lib/form-answers'
+import { useStepData } from '../use-step-data'
+import { useAdvance } from '../use-advance'
+import { choice, optionalText, requireWhen, yesNo } from '@/utils/form-schema-fields'
 
 const homeSchema = z
   .object({

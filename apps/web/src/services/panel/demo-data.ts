@@ -1,8 +1,8 @@
 import { DEMO_ANIMALS } from '../animals/demo-data'
-import type { AdopterProfile } from '../applications'
+import type { AdopterProfile } from '../applications/types'
 import { DEMO_ACCOUNT_PROFILE } from '../applications/demo-data'
 import { DEMO_ORGANIZATIONS } from '../organizations/demo-data'
-import type { ManagedAnimal, ManagedApplication } from './index'
+import type { ManagedAnimal, ManagedApplication } from './types'
 
 /*
  * O painel de demonstração antes da API: quem entra vê o Coletivo Focinho Gelado (FR-045,

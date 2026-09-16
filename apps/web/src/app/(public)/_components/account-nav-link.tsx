@@ -4,7 +4,7 @@ import { buttonVariants } from '@acolhemais/ui/components/button'
 import { cn } from '@acolhemais/ui/lib/utils'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
-import { authClient } from '@/lib/auth-client'
+import { authServices } from '@/services/auth'
 
 /**
  * "Entrar" para quem está fora; "Painel" para quem já entrou. A sessão se confere no navegador
@@ -13,12 +13,7 @@ import { authClient } from '@/lib/auth-client'
 export function AccountNavLink({ signIn, panel }: { signIn: string; panel: string }) {
   const { data: session } = useQuery({
     queryKey: ['session'],
-    queryFn: async () => {
-      const response = await authClient.getSession()
-      if (response.error) throw response.error
-
-      return response.data
-    },
+    queryFn: () => authServices.session(),
   })
 
   return (

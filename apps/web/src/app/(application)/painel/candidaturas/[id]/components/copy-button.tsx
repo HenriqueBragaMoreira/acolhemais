@@ -3,7 +3,7 @@
 import { Button } from '@acolhemais/ui/components/button'
 import { CheckIcon, CopyIcon } from 'lucide-react'
 import { useTranslations } from 'next-intl'
-import { useClipboard } from '@/lib/use-clipboard'
+import { useClipboard } from '@/hooks/use-clipboard'
 
 /** Botão pequeno de copiar, que vira um visto por 3 segundos e anuncia o resultado. */
 export function CopyButton({ text, label }: { text: string; label: string }) {

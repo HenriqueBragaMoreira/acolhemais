@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 import { Suspense } from 'react'
-import { AnimalPage } from '../components/animal-page'
+import { EditAnimal } from '../components/edit-animal'
 
 type AnimalPageProps = { params: Promise<{ id: string }> }
 
@@ -13,7 +13,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function ManagedAnimalPage({ params }: AnimalPageProps) {
   return (
     <Suspense>
-      <AnimalPage id={params.then(({ id }) => id)} />
+      <EditAnimal id={params.then(({ id }) => id)} />
     </Suspense>
   )
 }

@@ -12,7 +12,7 @@ import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { authClient } from '@/lib/auth-client'
+import { authServices } from '@/services/auth'
 import { FieldMessage } from '@/components/field-message'
 import { panelServices } from '@/services/panel'
 
@@ -48,12 +48,7 @@ export function CompleteForm({
   const tErrors = useTranslations('FormErrors')
   const { data: session } = useQuery({
     queryKey: ['session'],
-    queryFn: async () => {
-      const response = await authClient.getSession()
-      if (response.error) throw response.error
-
-      return response.data
-    },
+    queryFn: () => authServices.session(),
   })
   const by = session?.user.name ?? ''
   // Hoje, na abertura do diálogo: o último dia que o calendário deixa escolher.

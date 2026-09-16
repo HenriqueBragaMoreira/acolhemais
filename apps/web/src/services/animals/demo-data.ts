@@ -1,5 +1,5 @@
 import { DEMO_ORGANIZATIONS } from '../organizations/demo-data'
-import type { Animal, Organization } from './index'
+import type { Animal, Organization } from './types'
 
 /*
  * Dados fictícios da galeria, para a demonstração antes da API (FR-050). Organizações e animais

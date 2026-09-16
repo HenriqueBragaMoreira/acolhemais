@@ -4,8 +4,8 @@ import { useFormatter, useTranslations } from 'next-intl'
 import { type Control, useWatch } from 'react-hook-form'
 import { ChoiceField } from '@/components/choice-field'
 import { TextField } from '@/components/text-field'
-import { DEMO_FEE_CAP_CENTS } from '@/services/panel'
-import { useOptions } from './use-options'
+import { DEMO_FEE_CAP_CENTS } from '@/constants/panel'
+import { useAnimalFormOptions } from './use-animal-form-options'
 import type { AnimalFormValues } from '../forms/animal-form'
 
 export function StoryStep({ control }: { control: Control<AnimalFormValues> }) {
@@ -28,7 +28,7 @@ export function StoryStep({ control }: { control: Control<AnimalFormValues> }) {
         name="feeMode"
         label={t('fee')}
         description={t('feeHint')}
-        options={useOptions('feeMode', ['none', 'fee'] as const)}
+        options={useAnimalFormOptions('feeMode', ['none', 'fee'] as const)}
         inline
       />
       {feeMode === 'fee' && (

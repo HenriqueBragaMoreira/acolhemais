@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
-import { REPOSITORY_URL } from '@/lib/project'
+import { REPOSITORY_URL } from '@/constants/project'
 import { AboutIllustration } from './components/about-illustration'
 import { HELP_SECTION_ID, HelpProject } from './components/help-project'
 import { SectionHeading } from './components/section-heading'

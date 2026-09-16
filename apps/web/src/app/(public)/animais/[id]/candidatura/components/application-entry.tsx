@@ -4,12 +4,11 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { animalsServices } from '@/services/animals'
 import { organizationsServices } from '@/services/organizations'
+import { APPLICATION_CONTAINER } from './application-container'
 import { ApplicationWizard } from './application-wizard'
 
-export const CONTAINER = 'mx-auto max-w-6xl px-4 sm:px-6 lg:px-10'
-
 /** A candidatura para um animal: só existe para animal adotável de organização ativa. */
-export async function Application({ id }: { id: Promise<string> }) {
+export async function ApplicationEntry({ id }: { id: Promise<string> }) {
   const animal = await animalsServices.get(await id)
   if (!animal) notFound()
   const [organization, t] = await Promise.all([
@@ -20,7 +19,7 @@ export async function Application({ id }: { id: Promise<string> }) {
 
   return (
     <div className="bg-secondary">
-      <div className={`${CONTAINER} pt-6 pb-16 sm:pt-8`}>
+      <div className={`${APPLICATION_CONTAINER} pt-6 pb-16 sm:pt-8`}>
         <Link
           href={`/animais/${animal.id}`}
           className="inline-flex items-center gap-1.5 rounded-sm text-sm font-medium underline decoration-1 underline-offset-4 hover:decoration-2"

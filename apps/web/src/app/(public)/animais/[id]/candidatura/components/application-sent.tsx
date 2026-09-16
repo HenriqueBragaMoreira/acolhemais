@@ -6,9 +6,9 @@ import { CircleCheckIcon, MessageCircleIcon } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { useEffect, useRef } from 'react'
-import { MAX_ACTIVE_APPLICATIONS } from '@/services/applications'
+import { MAX_ACTIVE_APPLICATIONS } from '@/constants/application'
 import type { SentApplication } from './application-review'
-import { useApplicationTarget } from './application-stepper'
+import { useApplicationTarget } from './use-application-target'
 
 /** O caminho da candidatura (BR-076), da enviada à adoção concluída. */
 const STAGES = ['received', 'review', 'visit', 'approved', 'completed'] as const

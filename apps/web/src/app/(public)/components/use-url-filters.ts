@@ -1,7 +1,7 @@
 'use client'
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import type { AnimalFilters } from '@/services/animals'
+import type { AnimalFilters } from '@/services/animals/types'
 import { filtersFromParams, hrefFor } from './animal-filters'
 
 /** Os filtros da galeria vêm do endereço, e aplicá-los é trocar o endereço da mesma página. */

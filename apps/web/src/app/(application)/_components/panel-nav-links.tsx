@@ -10,7 +10,7 @@ const SECTIONS = [
   { href: '/painel/candidaturas', key: 'applications' },
 ] as const
 
-export function Sections({ pathname }: { pathname: string | null }) {
+export function PanelNavLinks({ pathname }: { pathname: string | null }) {
   const t = useTranslations('AppHeader')
   return SECTIONS.map(({ href, key }) => {
     const current = href === '/painel' ? pathname === href : Boolean(pathname?.startsWith(href))

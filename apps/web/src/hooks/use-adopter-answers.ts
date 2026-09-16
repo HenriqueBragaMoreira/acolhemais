@@ -1,6 +1,6 @@
 import { useTranslations } from 'next-intl'
-import type { AdopterProfile } from '@/services/applications'
-import type { OrganizationQuestion } from '@/services/organizations'
+import type { AdopterProfile } from '@/services/applications/types'
+import type { OrganizationQuestion } from '@/services/organizations/types'
 
 export type AnswerRow = [label: string, value: string | null | undefined]
 

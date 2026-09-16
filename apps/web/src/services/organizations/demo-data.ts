@@ -1,4 +1,4 @@
-import type { OrganizationProfile } from './index'
+import type { OrganizationProfile } from './types'
 
 /*
  * Organizações fictícias da demonstração antes da API (FR-026). Nomes, textos e contatos são

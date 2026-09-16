@@ -1,6 +1,7 @@
 'use client'
 
-import { type AccountData, useStepData } from './application-stepper'
+import { type AccountData } from './application-stepper'
+import { useStepData } from './use-step-data'
 import { ReviewAnswers } from './review-answers'
 
 export type ReviewProps = { onSent: (sent: SentApplication) => void }

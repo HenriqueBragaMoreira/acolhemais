@@ -2,34 +2,19 @@
 
 import { isActiveStage, nextStage, stageMoves } from '@acolhemais/domain'
 import { Button } from '@acolhemais/ui/components/button'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogTitle,
-} from '@acolhemais/ui/components/dialog'
-import { Menu, MenuContent, MenuItem, MenuTrigger } from '@acolhemais/ui/components/menu'
 import { Spinner } from '@acolhemais/ui/components/spinner'
 import { cn } from '@acolhemais/ui/lib/utils'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import {
-  ArrowRightIcon,
-  ChevronDownIcon,
-  HeartHandshakeIcon,
-  MessageSquareTextIcon,
-  XIcon,
-} from 'lucide-react'
+import { ArrowRightIcon, HeartHandshakeIcon, MessageSquareTextIcon, XIcon } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useState } from 'react'
-import { authClient } from '@/lib/auth-client'
-import type { OrganizationProfile } from '@/services/organizations'
-import { type ApplicationWithAnimal, panelServices } from '@/services/panel'
-import { PANEL } from '../../../../_components/panel-surface'
-import { CompleteForm } from './forms/complete-form'
-import { RefuseForm } from './forms/refuse-form'
-import { RequestInfoForm } from './forms/request-info-form'
-
-type DialogKind = 'request-info' | 'refuse' | 'complete'
+import { authServices } from '@/services/auth'
+import type { OrganizationProfile } from '@/services/organizations/types'
+import { panelServices } from '@/services/panel'
+import type { ApplicationWithAnimal } from '@/services/panel/types'
+import { PANEL_SURFACE } from '@/app/(application)/_components/panel-surface'
+import { ApplicationActionDialog, type ApplicationDialogKind } from './application-action-dialog'
+import { MoveStageMenu } from './move-stage-menu'
 
 /** O que a organização pode fazer agora: a próxima etapa em destaque, as outras num menu. */
 export function ApplicationActions({
@@ -43,17 +28,11 @@ export function ApplicationActions({
   const tStages = useTranslations('Panel.stages')
   const { data: session } = useQuery({
     queryKey: ['session'],
-    queryFn: async () => {
-      const response = await authClient.getSession()
-      if (response.error) throw response.error
-
-      return response.data
-    },
+    queryFn: () => authServices.session(),
   })
   const by = session?.user.name ?? ''
   const queryClient = useQueryClient()
-  const [dialog, setDialog] = useState<DialogKind | null>(null)
-  const { applicant } = application.profile
+  const [dialog, setDialog] = useState<ApplicationDialogKind | null>(null)
 
   const move = useMutation({
     mutationFn: (to: Parameters<typeof panelServices.moveApplication>[1]) =>
@@ -65,10 +44,9 @@ export function ApplicationActions({
 
   const next = nextStage(application.stage)
   const others = stageMoves(application.stage).filter((stage) => stage !== next)
-  const close = () => setDialog(null)
 
   return (
-    <section className={cn(PANEL, 'p-5 sm:p-6')} aria-labelledby="acoes-titulo">
+    <section className={cn(PANEL_SURFACE, 'p-5 sm:p-6')} aria-labelledby="acoes-titulo">
       <h2 id="acoes-titulo" className="text-lg font-bold tracking-tight">
         {t('actions.title')}
       </h2>
@@ -98,21 +76,11 @@ export function ApplicationActions({
         )}
 
         {others.length > 0 && (
-          <Menu>
-            <MenuTrigger
-              render={<Button variant="outline" className="w-full" disabled={move.isPending} />}
-            >
-              {t('actions.moveTo')}
-              <ChevronDownIcon aria-hidden />
-            </MenuTrigger>
-            <MenuContent>
-              {others.map((stage) => (
-                <MenuItem key={stage} onClick={() => move.mutate(stage)}>
-                  {tStages(stage)}
-                </MenuItem>
-              ))}
-            </MenuContent>
-          </Menu>
+          <MoveStageMenu
+            stages={others}
+            disabled={move.isPending}
+            onMove={(stage) => move.mutate(stage)}
+          />
         )}
 
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
@@ -136,50 +104,12 @@ export function ApplicationActions({
         </p>
       )}
 
-      <Dialog open={dialog !== null} onOpenChange={(open) => !open && close()}>
-        <DialogContent>
-          {dialog && (
-            <>
-              <DialogTitle>
-                {t(`${dialog === 'request-info' ? 'requestInfo' : dialog}.title`, {
-                  name: applicant.name,
-                  animal: application.animal.name,
-                })}
-              </DialogTitle>
-              <DialogDescription>
-                {t(`${dialog === 'request-info' ? 'requestInfo' : dialog}.description`, {
-                  name: applicant.name.split(' ')[0] ?? applicant.name,
-                  animal: application.animal.name,
-                })}
-              </DialogDescription>
-              {dialog === 'request-info' && (
-                <RequestInfoForm
-                  applicationId={application.id}
-                  applicantName={applicant.name}
-                  onDone={close}
-                />
-              )}
-              {dialog === 'refuse' && (
-                <RefuseForm
-                  applicationId={application.id}
-                  applicantName={applicant.name}
-                  animalName={application.animal.name}
-                  organizationName={organization.name}
-                  onDone={close}
-                />
-              )}
-              {dialog === 'complete' && (
-                <CompleteForm
-                  applicationId={application.id}
-                  applicantName={applicant.name}
-                  animalName={application.animal.name}
-                  onDone={close}
-                />
-              )}
-            </>
-          )}
-        </DialogContent>
-      </Dialog>
+      <ApplicationActionDialog
+        kind={dialog}
+        application={application}
+        organizationName={organization.name}
+        onClose={() => setDialog(null)}
+      />
     </section>
   )
 }

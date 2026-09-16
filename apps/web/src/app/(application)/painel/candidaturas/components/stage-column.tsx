@@ -6,8 +6,9 @@ import { Spinner } from '@acolhemais/ui/components/spinner'
 import { cn } from '@acolhemais/ui/lib/utils'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useTranslations } from 'next-intl'
+import { QueryError } from '@/components/query-error'
 import { panelServices } from '@/services/panel'
-import { PANEL } from '../../../_components/panel-surface'
+import { PANEL_SURFACE } from '@/app/(application)/_components/panel-surface'
 import { ApplicationCard } from './application-card'
 
 export function StageColumn({
@@ -49,21 +50,17 @@ export function StageColumn({
       </h2>
       {column.isPending ? (
         <div aria-hidden className="mt-3 flex flex-col gap-3">
-          <div className={cn(PANEL, 'h-32 animate-pulse rounded-xl')} />
-          <div className={cn(PANEL, 'h-32 animate-pulse rounded-xl')} />
+          <div className={cn(PANEL_SURFACE, 'h-32 animate-pulse rounded-xl')} />
+          <div className={cn(PANEL_SURFACE, 'h-32 animate-pulse rounded-xl')} />
         </div>
       ) : column.isError ? (
-        <div className="mt-3 text-sm">
-          <p className="font-semibold">{t('error')}</p>
-          <Button
-            variant="outline"
-            size="sm"
-            className="mt-2"
-            onClick={() => void column.refetch()}
-          >
-            {t('retry')}
-          </Button>
-        </div>
+        <QueryError
+          message={t('error')}
+          retryLabel={t('retry')}
+          onRetry={() => void column.refetch()}
+          size="sm"
+          className="mt-3 text-sm"
+        />
       ) : applications.length === 0 ? (
         <p className="mt-3 text-sm text-muted-foreground">{t('empty')}</p>
       ) : (

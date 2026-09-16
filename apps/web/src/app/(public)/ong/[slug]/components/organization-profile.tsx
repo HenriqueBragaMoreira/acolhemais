@@ -2,14 +2,14 @@ import { cn } from '@acolhemais/ui/lib/utils'
 import Image from 'next/image'
 import { notFound, permanentRedirect } from 'next/navigation'
 import { Suspense } from 'react'
-import { brandThemeStyle, PLATFORM_COLORS } from '@/lib/brand-theme'
+import { brandThemeStyle, PLATFORM_COLORS } from '@/utils/brand-theme'
 import { organizationsServices } from '@/services/organizations'
-import { AnimalResults } from '../../../components/animal-results'
-import { AnimalSearch } from '../../../components/animal-search'
-import { AnimalResultsSkeleton } from '../../../components/animal-results-skeleton'
-import { AnimalSearchSkeleton } from '../../../components/animal-search-skeleton'
+import { AnimalResults } from '@/app/(public)/components/animal-results'
+import { AnimalSearch } from '@/app/(public)/components/animal-search'
+import { AnimalResultsSkeleton } from '@/app/(public)/components/animal-results-skeleton'
+import { AnimalSearchSkeleton } from '@/app/(public)/components/animal-search-skeleton'
 import { PixDonation } from './pix-donation'
-import { CONTAINER } from './organization-container'
+import { PAGE_CONTAINER } from '@/app/(public)/_components/page-container'
 import { OrganizationIdentity } from './organization-identity'
 import { ClosedOrganization } from './closed-organization'
 
@@ -57,7 +57,7 @@ export async function OrganizationProfile({ slug }: { slug: Promise<string> }) {
       {/* A busca usa a mesma coluna do painel de identidade, para as bordas baterem. */}
       <div
         className={cn(
-          CONTAINER,
+          PAGE_CONTAINER,
           'relative -mt-20 grid gap-4 sm:-mt-28 lg:-mt-36 lg:gap-6',
           organization.pix && 'lg:grid-cols-[minmax(0,1fr)_27rem]',
         )}
@@ -73,7 +73,7 @@ export async function OrganizationProfile({ slug }: { slug: Promise<string> }) {
         </div>
       </div>
 
-      <div className={`${CONTAINER} pt-10 pb-20 sm:pt-14`}>
+      <div className={`${PAGE_CONTAINER} pt-10 pb-20 sm:pt-14`}>
         <div>
           <Suspense fallback={<AnimalResultsSkeleton />}>
             <AnimalResults organization={organization.slug} />

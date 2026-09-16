@@ -2,7 +2,7 @@ import { pixBrCode } from '@acolhemais/domain'
 import { getTranslations } from 'next-intl/server'
 import Image from 'next/image'
 import QRCode from 'qrcode'
-import type { OrganizationProfile } from '@/services/organizations'
+import type { OrganizationProfile } from '@/services/organizations/types'
 import { CopyPixKey } from './copy-pix-key'
 
 type PixDonationProps = {

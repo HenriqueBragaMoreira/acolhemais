@@ -3,7 +3,7 @@
 import { cn } from '@acolhemais/ui/lib/utils'
 import { PawPrintIcon } from 'lucide-react'
 import Image from 'next/image'
-import type { AnimalPhoto } from '@/services/animals'
+import type { AnimalPhoto } from '@/services/animals/types'
 
 /**
  * A foto do animal recortada 4:5, preenchendo o próprio quadro (a Regra do Quadro do Animal).

@@ -4,7 +4,8 @@ import { Button } from '@acolhemais/ui/components/button'
 import { Spinner } from '@acolhemais/ui/components/spinner'
 import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react'
 import { useTranslations } from 'next-intl'
-import { applicationStepper, useAdvance } from './application-stepper'
+import { applicationStepper } from './application-stepper'
+import { useAdvance } from './use-advance'
 
 /**
  * Voltar e Continuar no pé de cada etapa; Continuar envia o formulário da etapa. Aberta pelo

@@ -1,5 +1,5 @@
 import type { BrandColors } from '@acolhemais/domain'
-import { brandThemeStyle } from '@/lib/brand-theme'
+import { brandThemeStyle } from '@/utils/brand-theme'
 import { ButtonShowcase } from './button-showcase'
 import { FeedbackShowcase } from './feedback-showcase'
 import { FieldShowcase } from './field-showcase'

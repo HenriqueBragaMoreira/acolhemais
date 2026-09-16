@@ -8,7 +8,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useTranslations } from 'next-intl'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { authClient } from '@/lib/auth-client'
+import { authServices } from '@/services/auth'
 import { TextField } from '@/components/text-field'
 import { panelServices } from '@/services/panel'
 
@@ -21,12 +21,7 @@ export function ArchiveForm({ animalId, onDone }: { animalId: string; onDone: ()
   const t = useTranslations('Panel.animalStatus.archive')
   const { data: session } = useQuery({
     queryKey: ['session'],
-    queryFn: async () => {
-      const response = await authClient.getSession()
-      if (response.error) throw response.error
-
-      return response.data
-    },
+    queryFn: () => authServices.session(),
   })
   const by = session?.user.name ?? ''
   const queryClient = useQueryClient()

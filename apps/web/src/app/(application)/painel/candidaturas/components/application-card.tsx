@@ -5,11 +5,11 @@ import { ClockIcon, SparkleIcon } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { useState } from 'react'
-import { type ApplicationWithAnimal } from '@/services/panel'
-import { AdopterBadges } from '../../../_components/adopter-badges'
-import { AnimalThumb } from '../../../_components/animal-thumb'
-import { PANEL } from '../../../_components/panel-surface'
-import { TimeAgo } from '../../../_components/time-ago'
+import type { ApplicationWithAnimal } from '@/services/panel/types'
+import { AdopterBadges } from '@/app/(application)/_components/adopter-badges'
+import { AnimalThumb } from '@/app/(application)/_components/animal-thumb'
+import { PANEL_SURFACE } from '@/app/(application)/_components/panel-surface'
+import { TimeAgo } from '@/app/(application)/_components/time-ago'
 
 /** Quanto tempo a candidatura movida continua marcada "Movida agora". */
 const MOVED_HIGHLIGHT_MS = 10 * 60 * 1000
@@ -24,7 +24,7 @@ export function ApplicationCard({ application }: { application: ApplicationWithA
   return (
     <div
       className={cn(
-        PANEL,
+        PANEL_SURFACE,
         'relative rounded-xl p-3 transition-shadow duration-150 has-[a:hover]:shadow-[0_1px_2px_rgb(31_26_23/0.08),0_12px_28px_-12px_rgb(31_26_23/0.3)]',
         movedNow && 'ring-2 ring-ring',
       )}

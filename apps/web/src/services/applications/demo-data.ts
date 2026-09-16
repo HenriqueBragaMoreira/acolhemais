@@ -1,4 +1,4 @@
-import type { AdopterProfile } from './index'
+import type { AdopterProfile } from './types'
 
 /*
  * Dados fictícios da candidatura, para a demonstração antes da API (FR-041, FR-042). A pessoa e o

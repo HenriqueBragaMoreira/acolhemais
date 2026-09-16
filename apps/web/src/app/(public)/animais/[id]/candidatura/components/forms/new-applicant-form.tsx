@@ -9,12 +9,13 @@ import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { emailField } from '@/lib/form-answers'
+import { emailField } from '@/utils/form-schema-fields'
 import { FieldMessage } from '@/components/field-message'
 import { applicationsServices } from '@/services/applications'
 import { TextField } from '@/components/text-field'
 import { StepActions } from '../step-actions'
-import { type AccountData, applicationStepper, useStepData } from '../application-stepper'
+import { type AccountData, applicationStepper } from '../application-stepper'
+import { useStepData } from '../use-step-data'
 
 const emailSchema = z.object({ email: emailField })
 

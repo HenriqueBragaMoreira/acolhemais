@@ -8,10 +8,11 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { EyeIcon, EyeOffIcon, MessageCircleIcon } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useState } from 'react'
-import { authClient } from '@/lib/auth-client'
-import type { OrganizationProfile } from '@/services/organizations'
-import { type ApplicationWithAnimal, panelServices } from '@/services/panel'
-import { PANEL } from '../../../../_components/panel-surface'
+import { authServices } from '@/services/auth'
+import type { OrganizationProfile } from '@/services/organizations/types'
+import { panelServices } from '@/services/panel'
+import type { ApplicationWithAnimal } from '@/services/panel/types'
+import { PANEL_SURFACE } from '@/app/(application)/_components/panel-surface'
 import { CopyButton } from './copy-button'
 
 /** Contato e CPF: mascarado por padrão, inteiro só no "Revelar", que vai para o histórico. */
@@ -25,12 +26,7 @@ export function ApplicantContact({
   const t = useTranslations('Panel.file.contact')
   const { data: session } = useQuery({
     queryKey: ['session'],
-    queryFn: async () => {
-      const response = await authClient.getSession()
-      if (response.error) throw response.error
-
-      return response.data
-    },
+    queryFn: () => authServices.session(),
   })
   const by = session?.user.name ?? ''
   const queryClient = useQueryClient()
@@ -55,7 +51,7 @@ export function ApplicantContact({
   )}`
 
   return (
-    <section className={cn(PANEL, 'p-5 sm:p-6')} aria-labelledby="contato-titulo">
+    <section className={cn(PANEL_SURFACE, 'p-5 sm:p-6')} aria-labelledby="contato-titulo">
       <h2 id="contato-titulo" className="text-lg font-bold tracking-tight">
         {t('title')}
       </h2>

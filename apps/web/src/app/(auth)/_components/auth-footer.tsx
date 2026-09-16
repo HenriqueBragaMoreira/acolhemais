@@ -1,5 +1,5 @@
 import { getTranslations } from 'next-intl/server'
-import { REPOSITORY_URL } from '@/lib/project'
+import { REPOSITORY_URL } from '@/constants/project'
 
 export async function AuthFooter() {
   const t = await getTranslations('AuthFrame')

@@ -8,15 +8,15 @@ import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { use } from 'react'
 import { panelServices } from '@/services/panel'
-import { AnimalStatusLabel } from '../../../_components/animal-status-label'
-import { AnimalThumb } from '../../../_components/animal-thumb'
+import { AnimalStatusLabel } from '@/app/(application)/_components/animal-status-label'
+import { AnimalThumb } from '@/app/(application)/_components/animal-thumb'
 import { AnimalStatusPanel } from './animal-status-panel'
 import { animalStepper } from './animal-stepper'
 import { BackToAnimals } from './back-to-animals'
 import { AnimalForm } from './forms/animal-form'
 
 /** Um animal da organização: a edição em etapas e, ao lado, a situação e o histórico. */
-export function AnimalPage({ id }: { id: Promise<string> }) {
+export function EditAnimal({ id }: { id: Promise<string> }) {
   const animalId = use(id)
   const t = useTranslations('Panel.animalForm')
   const { data: animal, isPending } = useQuery({

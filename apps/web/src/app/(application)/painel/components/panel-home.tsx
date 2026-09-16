@@ -7,8 +7,8 @@ import { ShieldCheckIcon, ShieldOffIcon } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
-import { authClient } from '@/lib/auth-client'
-import { PANEL } from '../../_components/panel-surface'
+import { authServices } from '@/services/auth'
+import { PANEL_SURFACE } from '@/app/(application)/_components/panel-surface'
 import { PanelSummary } from './panel-summary'
 
 /**
@@ -20,12 +20,7 @@ export function PanelHome() {
   const router = useRouter()
   const { data: session, isPending } = useQuery({
     queryKey: ['session'],
-    queryFn: async () => {
-      const response = await authClient.getSession()
-      if (response.error) throw response.error
-
-      return response.data
-    },
+    queryFn: () => authServices.session(),
   })
 
   useEffect(() => {
@@ -57,7 +52,7 @@ export function PanelHome() {
         <h2 id="account-title" className="text-lg font-semibold">
           {t('account')}
         </h2>
-        <dl className={cn('mt-4 divide-y divide-border', PANEL, 'rounded-xl')}>
+        <dl className={cn('mt-4 divide-y divide-border', PANEL_SURFACE, 'rounded-xl')}>
           <div className="flex flex-wrap items-center justify-between gap-2 px-4 py-3">
             <dt className="text-sm text-muted-foreground">{t('email')}</dt>
             <dd className="font-medium break-all">{user.email}</dd>

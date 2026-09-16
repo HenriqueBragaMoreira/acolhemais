@@ -8,17 +8,15 @@ import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { emailField } from '@/lib/form-answers'
+import { emailField } from '@/utils/form-schema-fields'
 import { FieldMessage } from '@/components/field-message'
-import { type ApplicationBlock, applicationsServices } from '@/services/applications'
+import { applicationsServices } from '@/services/applications'
+import type { ApplicationBlock } from '@/services/applications/types'
 import { TextField } from '@/components/text-field'
 import { StepActions } from '../step-actions'
-import {
-  type AccountData,
-  applicationStepper,
-  useApplicationTarget,
-  useStepData,
-} from '../application-stepper'
+import { type AccountData, applicationStepper } from '../application-stepper'
+import { useApplicationTarget } from '../use-application-target'
+import { useStepData } from '../use-step-data'
 import { BlockedNotice } from '../blocked-notice'
 
 const signInSchema = z.object({

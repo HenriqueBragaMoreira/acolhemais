@@ -4,8 +4,8 @@ import { useTranslations } from 'next-intl'
 import { type Control } from 'react-hook-form'
 import { ChoiceField } from '@/components/choice-field'
 import { TextField } from '@/components/text-field'
-import { AGE_GROUPS, COATS, SEXES, SIZES, SPECIES } from '@/services/animals'
-import { useOptions } from './use-options'
+import { AGE_GROUPS, COATS, SEXES, SIZES, SPECIES } from '@/constants/animal-options'
+import { useAnimalFormOptions } from './use-animal-form-options'
 import { BornAroundField } from './born-around-field'
 import type { AnimalFormValues } from '../forms/animal-form'
 
@@ -18,35 +18,35 @@ export function AboutStep({ control }: { control: Control<AnimalFormValues> }) {
         control={control}
         name="species"
         label={t('species')}
-        options={useOptions('species', SPECIES)}
+        options={useAnimalFormOptions('species', SPECIES)}
         inline
       />
       <ChoiceField
         control={control}
         name="sex"
         label={t('sex')}
-        options={useOptions('sex', SEXES)}
+        options={useAnimalFormOptions('sex', SEXES)}
         inline
       />
       <ChoiceField
         control={control}
         name="ageGroup"
         label={t('ageGroup')}
-        options={useOptions('ageGroup', AGE_GROUPS)}
+        options={useAnimalFormOptions('ageGroup', AGE_GROUPS)}
       />
       <BornAroundField control={control} />
       <ChoiceField
         control={control}
         name="size"
         label={t('size')}
-        options={useOptions('size', SIZES)}
+        options={useAnimalFormOptions('size', SIZES)}
         inline
       />
       <ChoiceField
         control={control}
         name="coat"
         label={t('coat')}
-        options={useOptions('coat', COATS)}
+        options={useAnimalFormOptions('coat', COATS)}
         inline
       />
       <TextField control={control} name="city" label={t('city')} description={t('cityHint')} />

@@ -4,13 +4,14 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useTranslations } from 'next-intl'
 import { useForm, useWatch } from 'react-hook-form'
 import { z } from 'zod'
-import type { Pets } from '@/services/applications'
+import type { Pets } from '@/services/applications/types'
 import { ChoiceField } from '@/components/choice-field'
 import { TextField } from '@/components/text-field'
 import { StepActions } from '../step-actions'
 import { useYesNo } from '../use-yes-no'
-import { useStepData, useAdvance } from '../application-stepper'
-import { optionalText, requireWhen, yesNo } from '@/lib/form-answers'
+import { useStepData } from '../use-step-data'
+import { useAdvance } from '../use-advance'
+import { optionalText, requireWhen, yesNo } from '@/utils/form-schema-fields'
 
 const petsSchema = z
   .object({

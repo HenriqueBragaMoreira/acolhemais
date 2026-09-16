@@ -6,14 +6,12 @@ import { PencilIcon } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { AnswerList } from '@/components/answer-list'
 import { useAdopterAnswers } from '@/hooks/use-adopter-answers'
-import { type AdopterProfile, applicationsServices } from '@/services/applications'
+import { applicationsServices } from '@/services/applications'
+import type { AdopterProfile } from '@/services/applications/types'
 import { StepActions } from './step-actions'
-import {
-  type AccountData,
-  applicationStepper,
-  useAdvance,
-  useApplicationTarget,
-} from './application-stepper'
+import { type AccountData, applicationStepper } from './application-stepper'
+import { useAdvance } from './use-advance'
+import { useApplicationTarget } from './use-application-target'
 import type { ReviewProps } from './application-review'
 
 export function ReviewAnswers({

@@ -4,13 +4,15 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useTranslations } from 'next-intl'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { HOURS_ALONE, type Routine } from '@/services/applications'
+import { HOURS_ALONE } from '@/constants/application'
+import type { Routine } from '@/services/applications/types'
 import { ChoiceField } from '@/components/choice-field'
 import { TextField } from '@/components/text-field'
 import { StepActions } from '../step-actions'
 import { useYesNo } from '../use-yes-no'
-import { useStepData, useAdvance } from '../application-stepper'
-import { choice, text, yesNo } from '@/lib/form-answers'
+import { useStepData } from '../use-step-data'
+import { useAdvance } from '../use-advance'
+import { choice, text, yesNo } from '@/utils/form-schema-fields'
 
 const routineSchema = z.object({
   hoursAlone: choice(HOURS_ALONE),

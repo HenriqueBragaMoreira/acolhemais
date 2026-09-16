@@ -12,7 +12,7 @@ import { useTranslations } from 'next-intl'
 import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { authClient } from '@/lib/auth-client'
-import { requestMessageFor } from '../../../_components/auth-errors'
+import { requestMessageFor } from '@/app/(auth)/_components/auth-errors'
 import { FieldMessage } from '@/components/field-message'
 
 /** As mensagens são chaves do namespace `ForgotPassword` (traduzidas na tela). */

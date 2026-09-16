@@ -1,12 +1,5 @@
-import {
-  AGE_GROUPS,
-  type AnimalFilters,
-  COMPANIONS,
-  SEXES,
-  SIZES,
-  SORTS,
-  SPECIES,
-} from '@/services/animals'
+import { AGE_GROUPS, COMPANIONS, SEXES, SIZES, SORTS, SPECIES } from '@/constants/animal-options'
+import type { AnimalFilters } from '@/services/animals/types'
 
 /*
  * Os filtros da vitrine vivem no endereço (`/?city=…&species=cat`): o link compartilhado abre a

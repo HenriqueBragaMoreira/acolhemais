@@ -11,7 +11,7 @@ import {
 import { cn } from '@acolhemais/ui/lib/utils'
 import { BadgeCheckIcon, TriangleAlertIcon } from 'lucide-react'
 import { useFormatter, useTranslations } from 'next-intl'
-import type { AdopterIncident } from '@/services/panel'
+import type { AdopterIncident } from '@/services/panel/types'
 
 /**
  * Os selos do adotante, sempre em palavras (BR-090): nunca uma nota. Cada um abre o que quer

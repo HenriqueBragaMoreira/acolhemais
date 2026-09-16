@@ -11,16 +11,15 @@ import { useRouter } from 'next/navigation'
 import { type ReactNode, useCallback, useRef, useState } from 'react'
 import { type FieldPath, useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { authClient } from '@/lib/auth-client'
-import { choice, optionalText, requireWhen, yesNo } from '@/lib/form-answers'
-import { AGE_GROUPS, COATS, SEXES, SIZES, SPECIES } from '@/services/animals'
-import {
-  type AnimalInput,
-  DEMO_FEE_CAP_CENTS,
-  type ManagedAnimal,
-  panelServices,
-} from '@/services/panel'
-import { PANEL } from '../../../../_components/panel-surface'
+import { authServices } from '@/services/auth'
+import { parseCurrencyToCents } from '@/utils/currency'
+import { choice, optionalText, requireWhen, yesNo } from '@/utils/form-schema-fields'
+import { AGE_GROUPS, COATS, SEXES, SIZES, SPECIES } from '@/constants/animal-options'
+import { DEMO_FEE_CAP_CENTS } from '@/constants/panel'
+import { panelServices } from '@/services/panel'
+import type { AnimalInput, ManagedAnimal } from '@/services/panel/types'
+import { PANEL_SURFACE } from '@/app/(application)/_components/panel-surface'
+import { AnimalFormProgress } from '../animal-form-progress'
 import { type Step, animalStepper } from '../animal-stepper'
 import { AboutStep } from '../steps/about-step'
 import { HealthStep } from '../steps/health-step'
@@ -29,13 +28,6 @@ import { ReviewStep } from '../steps/review-step'
 import { StoryStep } from '../steps/story-step'
 
 const companion = choice(['yes', 'no', 'untested'])
-
-/** "60", "60,00" ou "1.200,50" em centavos; `null` se não for um valor. */
-function cents(value: string) {
-  const normalized = value.trim().replace(/\./g, '').replace(',', '.')
-  if (!/^\d+(\.\d{1,2})?$/.test(normalized)) return null
-  return Math.round(Number(normalized) * 100)
-}
 
 const baseSchema = z.object({
   name: z.string().trim().min(1, 'animalNameRequired').max(60, 'tooLong'),
@@ -74,7 +66,7 @@ const animalSchema = baseSchema.superRefine(
       context.addIssue({ code: 'custom', message: 'coverSensitive', path: ['photos'] })
     }
     if (animal.feeMode === 'fee') {
-      const value = cents(animal.feeValue ?? '')
+      const value = parseCurrencyToCents(animal.feeValue ?? '')
       if (!value) context.addIssue({ code: 'custom', message: 'feeInvalid', path: ['feeValue'] })
       else if (value > DEMO_FEE_CAP_CENTS) {
         context.addIssue({ code: 'custom', message: 'feeAboveCap', path: ['feeValue'] })
@@ -164,7 +156,7 @@ function toValues(animal: ManagedAnimal | undefined, city: string): AnimalFormVa
  * valor neutro até alguém preencher e publicar (BR-060).
  */
 function toInput(values: AnimalFormValues): AnimalInput {
-  const fee = values.feeMode === 'fee' ? cents(values.feeValue) : null
+  const fee = values.feeMode === 'fee' ? parseCurrencyToCents(values.feeValue) : null
   return {
     name: values.name.trim(),
     species: values.species ?? 'dog',
@@ -208,12 +200,7 @@ export function AnimalForm({ animal, city }: { animal?: ManagedAnimal; city: str
   const queryClient = useQueryClient()
   const { data: session } = useQuery({
     queryKey: ['session'],
-    queryFn: async () => {
-      const response = await authClient.getSession()
-      if (response.error) throw response.error
-
-      return response.data
-    },
+    queryFn: () => authServices.session(),
   })
   const by = session?.user.name ?? ''
   const [saved, setSaved] = useState(false)
@@ -281,21 +268,8 @@ export function AnimalForm({ animal, city }: { animal?: ManagedAnimal; city: str
   }
 
   return (
-    <div className={cn(PANEL, 'p-5 sm:p-8')}>
-      <p className="text-sm font-semibold text-muted-foreground" aria-live="polite">
-        {t('progress', { step: stepper.index + 1, total: stepper.count })}
-      </p>
-      <div aria-hidden className="mt-2 flex gap-1.5">
-        {stepper.steps.map((item, index) => (
-          <span
-            key={item.id}
-            className={cn(
-              'h-1.5 flex-1 rounded-full transition-colors duration-300',
-              index <= stepper.index ? 'bg-foreground' : 'bg-muted',
-            )}
-          />
-        ))}
-      </div>
+    <div className={cn(PANEL_SURFACE, 'p-5 sm:p-8')}>
+      <AnimalFormProgress />
       <h2
         key={stepper.id}
         data-step={stepper.id}

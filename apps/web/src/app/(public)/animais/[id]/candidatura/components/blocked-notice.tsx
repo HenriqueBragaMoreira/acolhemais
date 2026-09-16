@@ -4,8 +4,9 @@ import { Alert, AlertDescription, AlertTitle } from '@acolhemais/ui/components/a
 import { CircleAlertIcon } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
-import { type ApplicationBlock, MAX_ACTIVE_APPLICATIONS } from '@/services/applications'
-import { useApplicationTarget } from './application-stepper'
+import { MAX_ACTIVE_APPLICATIONS } from '@/constants/application'
+import type { ApplicationBlock } from '@/services/applications/types'
+import { useApplicationTarget } from './use-application-target'
 
 /** Por que a candidatura não segue: já existe uma para este animal (BR-075) ou o limite (BR-074). */
 export function BlockedNotice({ reason }: { reason: ApplicationBlock }) {

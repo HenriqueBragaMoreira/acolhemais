@@ -5,7 +5,7 @@ import { cn } from '@acolhemais/ui/lib/utils'
 import { EyeOffIcon } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
-import type { AnimalPhoto } from '@/services/animals'
+import type { AnimalPhoto } from '@/services/animals/types'
 
 /** A foto num quadro que ela preenche, com o véu da foto sensível por cima enquanto escondida. */
 export function PhotoStage({

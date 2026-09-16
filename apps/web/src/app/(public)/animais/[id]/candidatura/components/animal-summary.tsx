@@ -2,7 +2,7 @@
 
 import { useFormatter, useTranslations } from 'next-intl'
 import Image from 'next/image'
-import { useApplicationTarget } from './application-stepper'
+import { useApplicationTarget } from './use-application-target'
 
 /** O animal da candidatura: foto, quem é, a organização e a taxa. */
 export function AnimalSummary() {

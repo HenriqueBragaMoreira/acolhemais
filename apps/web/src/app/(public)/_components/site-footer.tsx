@@ -1,7 +1,7 @@
 import { getTranslations } from 'next-intl/server'
 import Link from 'next/link'
 import { Wordmark } from '@/components/wordmark'
-import { REPOSITORY_URL } from '@/lib/project'
+import { REPOSITORY_URL } from '@/constants/project'
 
 const LINK =
   'rounded-sm font-medium text-ring underline decoration-1 underline-offset-4 hover:decoration-2'

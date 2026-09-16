@@ -1,7 +1,7 @@
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import Link from 'next/link'
-import type { Animal } from '@/services/animals'
+import type { Animal } from '@/services/animals/types'
 
 /**
  * Cartão da vitrine no formato dos posts de resgate: a foto ocupa o quadro vertical e o nome

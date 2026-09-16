@@ -2,7 +2,7 @@ import { buttonVariants } from '@acolhemais/ui/components/button'
 import { cn } from '@acolhemais/ui/lib/utils'
 import { MailIcon, MessageCircleIcon } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
-import { CONTACT_EMAIL, CONTACT_WHATSAPP } from '@/lib/project'
+import { CONTACT_EMAIL, CONTACT_WHATSAPP } from '@/constants/project'
 import { SectionHeading } from './section-heading'
 
 export const HELP_SECTION_ID = 'como-ajudar'

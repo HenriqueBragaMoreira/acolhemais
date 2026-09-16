@@ -3,7 +3,7 @@
 import { isActiveStage } from '@acolhemais/domain'
 import { HeartHandshakeIcon } from 'lucide-react'
 import { useFormatter, useTranslations } from 'next-intl'
-import { type ApplicationWithAnimal } from '@/services/panel'
+import type { ApplicationWithAnimal } from '@/services/panel/types'
 
 /** Como terminou, quando já terminou. */
 export function ApplicationOutcome({ application }: { application: ApplicationWithAnimal }) {

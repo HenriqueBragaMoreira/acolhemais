@@ -5,11 +5,8 @@ import { useTranslations } from 'next-intl'
 import { type ComponentType, useCallback, useRef, useState } from 'react'
 import { ApplicationReview, type SentApplication } from './application-review'
 import { ApplicationSent } from './application-sent'
-import {
-  type ApplicationStep,
-  applicationStepper,
-  useApplicationTarget,
-} from './application-stepper'
+import { type ApplicationStep, applicationStepper } from './application-stepper'
+import { useApplicationTarget } from './use-application-target'
 import { AccountForm } from './forms/account-form'
 import { ApplicantForm } from './forms/applicant-form'
 import { HomeForm } from './forms/home-form'
@@ -31,7 +28,7 @@ const STEP_FORMS: Record<Exclude<ApplicationStep, 'review'>, ComponentType> & {
   organization: OrganizationQuestionsForm,
 }
 
-export function ApplicationFlow() {
+export function CurrentStepForm() {
   const t = useTranslations('Application')
   const stepper = applicationStepper.useStepperContext()
   const { organization } = useApplicationTarget()

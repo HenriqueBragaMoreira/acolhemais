@@ -4,11 +4,13 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useTranslations } from 'next-intl'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import type { Reasons } from '@/services/applications'
+import type { Reasons } from '@/services/applications/types'
 import { TextField } from '@/components/text-field'
 import { StepActions } from '../step-actions'
-import { useApplicationTarget, useStepData, useAdvance } from '../application-stepper'
-import { text } from '@/lib/form-answers'
+import { useApplicationTarget } from '../use-application-target'
+import { useStepData } from '../use-step-data'
+import { useAdvance } from '../use-advance'
+import { text } from '@/utils/form-schema-fields'
 
 const reasonsSchema = z.object({
   why: text,

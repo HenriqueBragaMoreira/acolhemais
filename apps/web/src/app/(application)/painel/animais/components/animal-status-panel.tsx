@@ -13,9 +13,10 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { ArchiveIcon, CirclePauseIcon, CirclePlayIcon } from 'lucide-react'
 import { useFormatter, useTranslations } from 'next-intl'
 import { useState } from 'react'
-import { authClient } from '@/lib/auth-client'
-import { type ManagedAnimal, panelServices } from '@/services/panel'
-import { PANEL } from '../../../_components/panel-surface'
+import { authServices } from '@/services/auth'
+import { panelServices } from '@/services/panel'
+import type { ManagedAnimal } from '@/services/panel/types'
+import { PANEL_SURFACE } from '@/app/(application)/_components/panel-surface'
 import { ArchiveForm } from './forms/archive-form'
 
 const ICONS: Partial<Record<AnimalStatus, typeof ArchiveIcon>> = {
@@ -30,12 +31,7 @@ export function AnimalStatusPanel({ animal }: { animal: ManagedAnimal }) {
   const format = useFormatter()
   const { data: session } = useQuery({
     queryKey: ['session'],
-    queryFn: async () => {
-      const response = await authClient.getSession()
-      if (response.error) throw response.error
-
-      return response.data
-    },
+    queryFn: () => authServices.session(),
   })
   const by = session?.user.name ?? ''
   const queryClient = useQueryClient()
@@ -52,7 +48,10 @@ export function AnimalStatusPanel({ animal }: { animal: ManagedAnimal }) {
   )
 
   return (
-    <aside aria-labelledby="situacao-titulo" className={cn(PANEL, 'p-5 sm:p-6 lg:sticky lg:top-6')}>
+    <aside
+      aria-labelledby="situacao-titulo"
+      className={cn(PANEL_SURFACE, 'p-5 sm:p-6 lg:sticky lg:top-6')}
+    >
       <h2 id="situacao-titulo" className="text-lg font-bold tracking-tight">
         {t('title')}
       </h2>

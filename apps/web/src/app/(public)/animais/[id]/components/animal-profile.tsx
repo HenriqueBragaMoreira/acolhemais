@@ -4,13 +4,14 @@ import { ArrowLeftIcon, HeartHandshakeIcon, HourglassIcon } from 'lucide-react'
 import { getFormatter, getTranslations } from 'next-intl/server'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { type Animal, animalsServices } from '@/services/animals'
+import { PAGE_CONTAINER } from '@/app/(public)/_components/page-container'
+import { animalsServices } from '@/services/animals'
+import type { Animal } from '@/services/animals/types'
 import { AnimalFacts } from './animal-facts'
 import { AnimalPhotos } from './animal-photos'
 import { RelatedAnimals } from './related-animals'
 import { ShareAnimal } from './share-animal'
 
-const CONTAINER = 'mx-auto max-w-[90rem] px-4 sm:px-6 lg:px-10'
 const LINK =
   'rounded-sm font-medium text-ring underline decoration-1 underline-offset-4 hover:decoration-2'
 
@@ -38,7 +39,7 @@ export async function AnimalProfile({ id }: { id: Promise<string> }) {
 
   return (
     <div>
-      <div className={`${CONTAINER} pt-6 pb-16 sm:pt-8`}>
+      <div className={`${PAGE_CONTAINER} pt-6 pb-16 sm:pt-8`}>
         <Link href="/" className={cn(LINK, 'inline-flex items-center gap-1.5 text-sm')}>
           <ArrowLeftIcon aria-hidden className="size-4" />
           {t('back')}
@@ -133,7 +134,7 @@ export async function AnimalProfile({ id }: { id: Promise<string> }) {
 
       {(fromOrganization.length > 0 || similar.length > 0) && (
         <div className="bg-secondary">
-          <div className={`${CONTAINER} flex flex-col gap-14 py-14`}>
+          <div className={`${PAGE_CONTAINER} flex flex-col gap-14 py-14`}>
             <RelatedAnimals
               id="mais-da-organizacao"
               title={t('fromOrganization', { organization: animal.organization.name })}

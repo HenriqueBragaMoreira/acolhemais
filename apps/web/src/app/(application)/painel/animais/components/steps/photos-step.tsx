@@ -9,7 +9,7 @@ import { useRef } from 'react'
 import { type Control, useController } from 'react-hook-form'
 import { FieldMessage } from '@/components/field-message'
 import { TextField } from '@/components/text-field'
-import { AnimalThumb } from '../../../../_components/animal-thumb'
+import { AnimalThumb } from '@/app/(application)/_components/animal-thumb'
 import type { AnimalFormValues } from '../forms/animal-form'
 
 export const MAX_PHOTOS = 10

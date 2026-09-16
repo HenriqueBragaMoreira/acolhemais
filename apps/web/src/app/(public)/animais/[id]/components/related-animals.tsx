@@ -1,5 +1,5 @@
-import type { Animal } from '@/services/animals'
-import { AnimalCard } from '../../../_components/animal-card'
+import type { Animal } from '@/services/animals/types'
+import { AnimalCard } from '@/app/(public)/_components/animal-card'
 
 /**
  * Uma fileira de cartões da vitrine com título, no fim da página do animal. Recebe até 5 e

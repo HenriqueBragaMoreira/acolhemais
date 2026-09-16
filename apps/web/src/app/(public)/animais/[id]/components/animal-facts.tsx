@@ -1,6 +1,7 @@
 import { CheckIcon, CircleHelpIcon, XIcon } from 'lucide-react'
 import { getFormatter, getTranslations } from 'next-intl/server'
-import { type Animal, COMPANIONS } from '@/services/animals'
+import { COMPANIONS } from '@/constants/animal-options'
+import type { Animal } from '@/services/animals/types'
 
 const ANSWER_ICON = { yes: CheckIcon, no: XIcon, untested: CircleHelpIcon }
 

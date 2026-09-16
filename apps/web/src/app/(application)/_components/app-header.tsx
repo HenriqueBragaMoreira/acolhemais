@@ -1,18 +1,14 @@
 'use client'
 
-import { Button } from '@acolhemais/ui/components/button'
-import { Spinner } from '@acolhemais/ui/components/spinner'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { LogOutIcon } from 'lucide-react'
+import { useQuery } from '@tanstack/react-query'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { Suspense } from 'react'
 import { Wordmark } from '@/components/wordmark'
-import { authClient } from '@/lib/auth-client'
 import { panelServices } from '@/services/panel'
-import { CurrentSections } from './current-sections'
-import { Sections } from './sections'
+import { CurrentPanelNavLinks } from './current-panel-nav-links'
+import { PanelNavLinks } from './panel-nav-links'
+import { SignOutButton } from './sign-out-button'
 
 /**
  * Faixa do topo da área logada, no marrom da moldura de acesso: a marca, a organização, a saída
@@ -20,24 +16,9 @@ import { Sections } from './sections'
  */
 export function AppHeader() {
   const t = useTranslations('AppHeader')
-  const router = useRouter()
-  const queryClient = useQueryClient()
   const { data: organization } = useQuery({
     queryKey: ['panel', 'organization'],
     queryFn: () => panelServices.organization(),
-  })
-
-  const { mutate, isPending } = useMutation({
-    mutationKey: ['sign-out'],
-    mutationFn: async () => {
-      const response = await authClient.signOut()
-      if (response.error) throw response.error
-    },
-    onSuccess: () => {
-      // Nada do que estava em cache sobre a conta pode sobrar para a próxima pessoa.
-      queryClient.clear()
-      router.replace('/entrar')
-    },
   })
 
   return (
@@ -65,16 +46,7 @@ export function AppHeader() {
             </>
           )}
         </div>
-        <Button
-          variant="secondary"
-          disabled={isPending}
-          aria-busy={isPending}
-          className="focus-visible:outline-white lg:order-3"
-          onClick={() => mutate()}
-        >
-          {isPending ? <Spinner /> : <LogOutIcon aria-hidden />}
-          {isPending ? t('signingOut') : t('signOut')}
-        </Button>
+        <SignOutButton />
         <nav
           aria-label={t('nav')}
           className="order-3 -mx-4 w-[calc(100%+2rem)] border-t border-white/10 sm:-mx-6 sm:w-[calc(100%+3rem)] lg:order-2 lg:mx-0 lg:w-auto lg:flex-1 lg:border-0"
@@ -82,8 +54,8 @@ export function AppHeader() {
           {/* No computador, as abas ficam à direita, junto do "Sair" (decisão de 2026-11-12). */}
           <ul className="flex gap-1 overflow-x-auto px-2 sm:px-4 lg:justify-end lg:border-r lg:border-white/15 lg:px-0 lg:pr-3">
             {/* A aba atual depende da URL, que só existe na hora do pedido: sem ela, nenhuma marcada. */}
-            <Suspense fallback={<Sections pathname={null} />}>
-              <CurrentSections />
+            <Suspense fallback={<PanelNavLinks pathname={null} />}>
+              <CurrentPanelNavLinks />
             </Suspense>
           </ul>
         </nav>

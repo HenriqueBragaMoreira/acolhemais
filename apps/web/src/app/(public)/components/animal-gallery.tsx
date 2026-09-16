@@ -6,7 +6,10 @@ import { Spinner } from '@acolhemais/ui/components/spinner'
 import { cn } from '@acolhemais/ui/lib/utils'
 import { keepPreviousData, useInfiniteQuery } from '@tanstack/react-query'
 import { useTranslations } from 'next-intl'
-import { type AnimalFilters, animalsServices, type Sort, SORTS } from '@/services/animals'
+import { QueryError } from '@/components/query-error'
+import { SORTS } from '@/constants/animal-options'
+import { animalsServices } from '@/services/animals'
+import type { AnimalFilters, Sort } from '@/services/animals/types'
 import { AnimalCard } from '../_components/animal-card'
 import { AnimalGridSkeleton } from './animal-grid-skeleton'
 
@@ -88,12 +91,12 @@ export function AnimalGallery({
       {isPending && <AnimalGridSkeleton />}
 
       {isError && (
-        <div role="alert" className="rounded-2xl bg-background px-6 py-12 text-center">
-          <p className="font-semibold">{t('error')}</p>
-          <Button variant="outline" className="mt-4" onClick={() => void refetch()}>
-            {t('retry')}
-          </Button>
-        </div>
+        <QueryError
+          message={t('error')}
+          retryLabel={t('retry')}
+          onRetry={() => void refetch()}
+          className="rounded-2xl bg-background px-6 py-12 text-center"
+        />
       )}
 
       {total === 0 && (

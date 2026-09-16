@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { PLATFORM_COLORS } from '@/lib/brand-theme'
+import { PLATFORM_COLORS } from '@/utils/brand-theme'
 import { ThemeShowcase } from './components/theme-showcase'
 
 export const metadata: Metadata = { title: 'Vitrine do design system', robots: { index: false } }

@@ -2,7 +2,7 @@ import { buttonVariants } from '@acolhemais/ui/components/button'
 import { cn } from '@acolhemais/ui/lib/utils'
 import { AtSignIcon, MailIcon, MessageCircleIcon } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
-import { type OrganizationProfile as Organization } from '@/services/organizations'
+import type { OrganizationProfile as Organization } from '@/services/organizations/types'
 
 /** Palavras que não entram nas iniciais: "Lar da Cida" vira "LC". */
 const CONNECTORS = new Set(['de', 'da', 'do', 'das', 'dos', 'e'])

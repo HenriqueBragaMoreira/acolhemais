@@ -1,193 +1,27 @@
 import {
   ANIMAL_STATUSES,
-  type AdopterBadge,
   type AnimalStatus,
-  type ApplicationStage,
   byPriority,
   isActiveStage,
   type PipelineStage,
   PIPELINE_STAGES,
 } from '@acolhemais/domain'
-import type { Animal, AnimalPhoto } from '../animals'
-import type { AdopterProfile } from '../applications'
-import { demoAnimals, demoApplications, PANEL_ORGANIZATION } from './demo-data'
-
-/** Um animal como a organização o gerencia (FR-030, FR-032): qualquer situação, com histórico. */
-export type ManagedAnimal = Omit<Animal, 'status' | 'photos' | 'publishedAt'> & {
-  status: AnimalStatus
-  /** O rascunho pode ficar sem foto; publicar exige de 1 a 10, a primeira é a capa (BR-061). */
-  photos: AnimalPhoto[]
-  publishedAt: string | null
-  updatedAt: string
-  history: AnimalHistoryEntry[]
-}
-
-/** Toda mudança de situação: quem, quando, de/para e o motivo (FR-032). */
-export type AnimalHistoryEntry = {
-  at: string
-  from: AnimalStatus | null
-  to: AnimalStatus
-  by: string
-  reason?: string
-}
-
-/** O que o formulário de cadastro edita. */
-export type AnimalInput = Pick<
-  ManagedAnimal,
-  | 'name'
-  | 'species'
-  | 'sex'
-  | 'ageGroup'
-  | 'bornAround'
-  | 'size'
-  | 'coat'
-  | 'city'
-  | 'goodWith'
-  | 'health'
-  | 'photos'
-  | 'story'
-  | 'fee'
-> & { videoUrl: string }
-
-/** O histórico de uma candidatura (BR-076): etapas, pedidos de informação, recusa, conclusão. */
-export type ApplicationEvent =
-  | { kind: 'sent'; at: string }
-  | { kind: 'moved'; at: string; to: ApplicationStage; by: string }
-  | { kind: 'info-requested'; at: string; by: string; message: string }
-  | { kind: 'info-answered'; at: string; message: string }
-  | { kind: 'refused'; at: string; by: string; reason: string; message: string }
-  | { kind: 'completed'; at: string; by: string; date: string }
-  | { kind: 'cancelled'; at: string }
-  | { kind: 'withdrawn'; at: string }
-  | { kind: 'cpf-revealed'; at: string; by: string }
-
-export type ManagedApplication = {
-  id: string
-  animalId: string
-  email: string
-  profile: AdopterProfile
-  answers: Record<string, string>
-  stage: ApplicationStage
-  /** Pedido de informação sem resposta: a marcação "aguardando o adotante" (BR-076). */
-  awaitingAdopter: boolean
-  badges: AdopterBadge[]
-  verifiedAccount: boolean
-  /** Outras candidaturas ativas do adotante, sem dizer onde (BR-084). */
-  otherActive: number
-  sentAt: string
-  /** Quando foi movida nesta visita, para a marca "Movida agora". */
-  movedAt: string | null
-  history: ApplicationEvent[]
-  /**
-   * Ocorrências procedentes que sustentam o selo `Atenção` ou `Inelegível`, só no resumo
-   * estruturado de BR-100: categoria, mês e até quando vale. Sem texto livre e sem a autora.
-   */
-  incidents: AdopterIncident[]
-}
-
-export const INCIDENT_CATEGORIES = ['return-without-notice', 'neglect', 'abandonment'] as const
-
-export type AdopterIncident = {
-  category: (typeof INCIDENT_CATEGORIES)[number]
-  outcome: 'minor' | 'severe'
-  /** Mês da decisão, `AAAA-MM`. */
-  decidedIn: string
-  /** Até quando o selo vale, `AAAA-MM`; `null` para o grave, que só sai na revisão. */
-  validUntil: string | null
-}
-
-/** O animal resumido que acompanha cada candidatura. */
-export type ApplicationAnimal = Pick<
-  ManagedAnimal,
-  'id' | 'name' | 'status' | 'species' | 'sex'
-> & {
-  cover: AnimalPhoto | null
-}
-
-export type ApplicationWithAnimal = ManagedApplication & { animal: ApplicationAnimal }
-
-/**
- * Teto da taxa de adoção (`adoptionFeeCapCents`, BR-063) nesta demonstração; na plataforma, a
- * equipe define e ele vai no máximo a R$ 500.
- */
-export const DEMO_FEE_CAP_CENTS = 15000
-
-/** Cartões por coluna antes do "Ver mais". */
-export const APPLICATIONS_PAGE_SIZE = 10
-/** Animais por página na lista do painel. */
-export const ANIMALS_PAGE_SIZE = 20
-
-/** Sem acento e sem caixa: "algodao" acha "Algodão". */
-function searchable(text: string) {
-  return text
-    .normalize('NFD')
-    .replace(/\p{Diacritic}/gu, '')
-    .toLowerCase()
-    .trim()
-}
-
-// shortcut: o painel guarda tudo na memória do navegador até existir a API; recarregar a página
-// volta aos dados de exemplo. Com a API, estas funções chamam `api.organizations.{slug}`.
-let store: { animals: ManagedAnimal[]; applications: ManagedApplication[] } | null = null
-
-function db() {
-  store ??= { animals: demoAnimals(), applications: demoApplications() }
-  return store
-}
-
-function wait(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms))
-}
-
-/** Cópia, para o cache das telas nunca ver a mudança antes de pedir de novo. */
-const copy = <T>(value: T): T => structuredClone(value)
-
-const now = () => new Date().toISOString()
-
-function findApplication(id: string) {
-  const found = db().applications.find((application) => application.id === id)
-  if (!found) throw new Error(`Candidatura ${id} não existe.`)
-  return found
-}
-
-function findAnimal(id: string) {
-  const found = db().animals.find((animal) => animal.id === id)
-  if (!found) throw new Error(`Animal ${id} não existe.`)
-  return found
-}
-
-function setStatus(animal: ManagedAnimal, to: AnimalStatus, by: string, reason?: string) {
-  if (animal.status === to) return
-  animal.history.push({ at: now(), from: animal.status, to, by, ...(reason && { reason }) })
-  animal.status = to
-  animal.updatedAt = now()
-}
-
-/** Em processo enquanto houver candidatura aprovada; volta a disponível sem ela (BR-064). */
-function syncAnimal(animalId: string, by: string) {
-  const animal = findAnimal(animalId)
-  if (animal.status !== 'available' && animal.status !== 'in-process') return
-  const approved = db().applications.some(
-    (application) => application.animalId === animalId && application.stage === 'approved',
-  )
-  setStatus(animal, approved ? 'in-process' : 'available', by)
-}
-
-/** As candidaturas ativas do animal viram `Cancelada`, com mensagem automática (BR-078). */
-function cancelActive(animalId: string, except?: string) {
-  for (const application of db().applications) {
-    if (application.animalId !== animalId || application.id === except) continue
-    if (!isActiveStage(application.stage)) continue
-    application.stage = 'cancelled'
-    application.awaitingAdopter = false
-    application.history.push({ kind: 'cancelled', at: now() })
-  }
-}
-
-function withAnimal(application: ManagedApplication): ApplicationWithAnimal {
-  const { id, name, status, species, sex, photos } = findAnimal(application.animalId)
-  return { ...application, animal: { id, name, status, species, sex, cover: photos[0] ?? null } }
-}
+import { ANIMALS_PAGE_SIZE, APPLICATIONS_PAGE_SIZE } from '@/constants/panel'
+import { normalizeSearch } from '@/utils/normalize-search'
+import { wait } from '@/utils/wait'
+import { PANEL_ORGANIZATION } from './demo-data'
+import {
+  cancelActive,
+  copy,
+  db,
+  findAnimal,
+  findApplication,
+  now,
+  setStatus,
+  syncAnimal,
+  withAnimal,
+} from './demo-store'
+import type { AnimalInput, ManagedAnimal } from './types'
 
 export const panelServices = {
   /** A organização de quem entrou. */
@@ -234,7 +68,9 @@ export const panelServices = {
   }: { status?: AnimalStatus | null; search?: string; page?: number } = {}) {
     await wait(300)
     const { animals, applications } = db()
-    const named = animals.filter((animal) => searchable(animal.name).includes(searchable(search)))
+    const named = animals.filter((animal) =>
+      normalizeSearch(animal.name).includes(normalizeSearch(search)),
+    )
     const found = named
       .filter((animal) => !status || animal.status === status)
       .toSorted((a, b) => b.updatedAt.localeCompare(a.updatedAt))

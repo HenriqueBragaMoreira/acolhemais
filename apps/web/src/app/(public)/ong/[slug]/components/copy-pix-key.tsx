@@ -3,7 +3,7 @@
 import { Button } from '@acolhemais/ui/components/button'
 import { CheckIcon, CopyIcon } from 'lucide-react'
 import { useTranslations } from 'next-intl'
-import { useClipboard } from '@/lib/use-clipboard'
+import { useClipboard } from '@/hooks/use-clipboard'
 
 /** "Copiar chave": no celular é o caminho da doação, já que o QR não se lê na própria tela. */
 export function CopyPixKey({ pixKey }: { pixKey: string }) {

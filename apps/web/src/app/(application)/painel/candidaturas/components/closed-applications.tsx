@@ -8,7 +8,7 @@ import { useInfiniteQuery } from '@tanstack/react-query'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { panelServices } from '@/services/panel'
-import { PANEL } from '../../../_components/panel-surface'
+import { PANEL_SURFACE } from '@/app/(application)/_components/panel-surface'
 
 /** As encerradas (concluídas, recusadas, desistências…), fechadas por padrão. */
 export function ClosedApplications({ animalId }: { animalId: string | null }) {
@@ -34,7 +34,7 @@ export function ClosedApplications({ animalId }: { animalId: string | null }) {
         />
         {t('closed', { count: total })}
       </summary>
-      <ul className={cn(PANEL, 'mt-4 divide-y divide-border')}>
+      <ul className={cn(PANEL_SURFACE, 'mt-4 divide-y divide-border')}>
         {applications.map((application) => (
           <li key={application.id}>
             <Link

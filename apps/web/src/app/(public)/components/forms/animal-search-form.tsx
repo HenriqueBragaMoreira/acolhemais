@@ -12,15 +12,9 @@ import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
-import {
-  AGE_GROUPS,
-  type AnimalFilters,
-  animalsServices,
-  COMPANIONS,
-  SEXES,
-  SIZES,
-  SPECIES,
-} from '@/services/animals'
+import { AGE_GROUPS, COMPANIONS, SEXES, SIZES, SPECIES } from '@/constants/animal-options'
+import { animalsServices } from '@/services/animals'
+import type { AnimalFilters } from '@/services/animals/types'
 import { moreFiltersCount } from '../animal-filters'
 import { GALLERY_HEADING_ID } from '../animal-gallery'
 import { FilterCheckboxGroup } from '../filter-checkbox-group'

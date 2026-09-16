@@ -7,7 +7,7 @@ import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import { useRef, useState } from 'react'
 import { flushSync } from 'react-dom'
-import type { AnimalPhoto } from '@/services/animals'
+import type { AnimalPhoto } from '@/services/animals/types'
 import { PhotoStage } from './photo-stage'
 import { PhotoArrows } from './photo-arrows'
 

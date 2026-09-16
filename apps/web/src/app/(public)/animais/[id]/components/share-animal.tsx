@@ -3,7 +3,7 @@
 import { Button } from '@acolhemais/ui/components/button'
 import { CheckIcon, LinkIcon, MessageCircleIcon } from 'lucide-react'
 import { useTranslations } from 'next-intl'
-import { useClipboard } from '@/lib/use-clipboard'
+import { useClipboard } from '@/hooks/use-clipboard'
 
 const COPY_ICON = { idle: LinkIcon, copied: CheckIcon, failed: LinkIcon }
 

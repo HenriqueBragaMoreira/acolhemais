@@ -7,15 +7,14 @@ import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { formatCpf, formatPhone } from '@/lib/masks'
-import {
-  type Applicant,
-  type ApplicationBlock,
-  applicationsServices,
-} from '@/services/applications'
+import { formatCpf, formatPhone } from '@/utils/masks'
+import { applicationsServices } from '@/services/applications'
+import type { Applicant, ApplicationBlock } from '@/services/applications/types'
 import { TextField } from '@/components/text-field'
 import { StepActions } from '../step-actions'
-import { useApplicationTarget, useStepData, useAdvance } from '../application-stepper'
+import { useApplicationTarget } from '../use-application-target'
+import { useStepData } from '../use-step-data'
+import { useAdvance } from '../use-advance'
 import { BlockedNotice } from '../blocked-notice'
 
 const applicantSchema = z.object({
