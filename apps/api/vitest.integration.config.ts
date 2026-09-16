@@ -13,5 +13,8 @@ export default defineConfig({
   test: {
     include: ['src/**/*.integration.test.ts'],
     globalSetup: ['src/test/global-setup.ts'],
+    // Cada conta de teste se cadastra, confirma o e-mail e às vezes ativa o 2FA de verdade
+    // (scrypt e Mailpit): os testes com várias contas passam dos 5 s padrão.
+    testTimeout: 20_000,
   },
 })

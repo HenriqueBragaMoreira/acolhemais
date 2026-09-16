@@ -5,11 +5,16 @@ import { eq } from 'drizzle-orm'
 import { cookiesFrom, signUp } from './auth'
 import { enableTwoFactor } from './two-factor'
 
-/** Conta comum recém-cadastrada, já em sessão. */
-export async function regularUser() {
+/** Conta comum recém-cadastrada, já em sessão; com `twoFactor`, já com o 2FA ativo. */
+export async function regularUser({ twoFactor = false } = {}) {
   const { email, res } = await signUp()
   const { user } = await res.json<{ user: { id: string } }>()
-  return { id: user.id, email, cookie: cookiesFrom(res) }
+  const cookie = cookiesFrom(res)
+  return {
+    id: user.id,
+    email,
+    cookie: twoFactor ? (await enableTwoFactor(cookie)).cookie : cookie,
+  }
 }
 
 /**

@@ -32,7 +32,8 @@ function entriesAbout(targetId: string) {
 }
 
 async function organizationWithOwner() {
-  const owner = await regularUser()
+  // O Responsável precisa de 2FA para agir na organização (BR-057).
+  const owner = await regularUser({ twoFactor: true })
   const organization = await auth.api.createOrganization({
     body: {
       name: 'ONG de Teste',

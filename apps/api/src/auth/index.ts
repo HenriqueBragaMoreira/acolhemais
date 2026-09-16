@@ -16,6 +16,7 @@ import { authMessages } from './messages'
 import { organizationAc, organizationRoles } from './access/organization'
 import { platformAc, platformRoles } from './access/platform'
 import { firstAccess } from './plugins/first-access'
+import { organizationGuards } from './plugins/organization-guards'
 import { platformGuards } from './plugins/platform-guards'
 import { platformTwoFactor } from './plugins/platform-two-factor'
 import { socialTwoFactor } from './plugins/social-two-factor'
@@ -143,7 +144,7 @@ export function createAuth({ config, db, waitUntil }: AuthDeps) {
           auth.api.requestPasswordReset({ body: { email } }),
       }),
       // ONGs e protetores, com equipe, convites e papéis. As regras próprias da plataforma
-      // (aprovação, concessões individuais, travas contra escalada, slugs) chegam na Fase 1.
+      // (aprovação, concessões individuais, slugs) chegam na Fase 1.
       organization({
         ac: organizationAc,
         roles: organizationRoles,
@@ -159,6 +160,8 @@ export function createAuth({ config, db, waitUntil }: AuthDeps) {
         cancelPendingInvitationsOnReInvite: true,
         sendInvitationEmail: emails.invitation,
       }),
+      // 2FA de quem tem permissão sensível e travas contra escalada (BR-054, BR-057).
+      organizationGuards({ db }),
       // Auditoria das ações sobre permissões e a segurança das contas.
       auditTrail({ db }),
       i18n({ translations: { pt: authMessages }, defaultLocale: 'pt' }),
