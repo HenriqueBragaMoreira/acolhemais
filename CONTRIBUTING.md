@@ -105,9 +105,21 @@ pnpm test:e2e           # precisa do banco migrado e do build da web (ver abaixo
   - `page.tsx` contém só a página (`LoginPage`, `PanelPage`…); os demais componentes ficam em
     `components/` dentro da rota, e os formulários em `components/forms/`, com o schema zod no
     topo do próprio arquivo (react-hook-form + zod).
+  - Um componente React por arquivo, com o nome do arquivo igual ao do componente em kebab-case
+    e nomes que digam o que ele é (`EditAnimal`, não `AnimalPage`). Hooks ficam em arquivo
+    próprio (`use-x.ts`), e contexts em `x-context.ts`.
+  - Imports de outra pasta usam o alias `@/` (`@/app/(application)/_components/...`); `./` e um
+    único `../` só para vizinhos.
   - Toda requisição usa React Query, com `useQuery`/`useMutation` escritos no componente que os
     usa (sem hooks próprios para isso). Chamadas às rotas da nossa API ficam em
-    `src/services/<assunto>/index.ts`; o Better Auth é chamado pelo `authClient`.
+    `src/services/<assunto>/index.ts`, e os tipos delas em `src/services/<assunto>/types.ts`. O
+    Better Auth é chamado pelo `authClient`; a sessão vem de `authServices.session()` com
+    `queryKey: ['session']`.
+  - `src/lib/` guarda só os clientes (API, Better Auth, React Query). Funções puras ficam em
+    `src/utils/`, constantes compartilhadas em `src/constants/` e hooks compartilhados em
+    `src/hooks/`.
+  - Estado na URL (filtros, página, busca) sempre pelo nuqs, com os parsers em
+    `search-params.ts` da rota.
   - `app/providers.tsx` (ao lado do layout raiz) reúne tudo o que envolve a aplicação
     (next-intl, React Query); o `QueryClient` fica em `src/lib/tanstack-query.tsx`.
   - CSS global em `src/styles/`.
