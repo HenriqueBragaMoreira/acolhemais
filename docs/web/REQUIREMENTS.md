@@ -54,7 +54,8 @@ escopo definido para a web; ao refinar, adicione-o aqui.
 
 - **Status**: `implemented`
 - **Escopo (web)**: `/painel` (nome, e-mail, 2FA, Sair) e `src/proxy.ts` mandando quem não tem
-  sessão para `/entrar`.
+  sessão para `/entrar`. O Início do painel da organização (FR-045) mantém esses dados em "Sua
+  conta".
 
 #### FR-010: Gerenciar usuários (equipe da plataforma)
 
@@ -126,8 +127,61 @@ escopo definido para a web; ao refinar, adicione-o aqui.
 - **Status**: `in-progress`
 - **Escopo (web)**: na página do animal, a capa e as demais fotos com miniaturas e setas,
   "Ampliar a foto" na tela inteira (setas do teclado, Esc fecha), a sensível desfocada até o
-  clique (BR-061) e o link do vídeo quando houver. Falta o envio e a
-  ordenação das fotos no cadastro (painel da organização).
+  clique (BR-061) e o link do vídeo quando houver. No cadastro do painel (FR-030): escolher de 1
+  a 10 fotos, tornar uma a capa, marcar como sensível (a capa nunca é) e remover; na
+  demonstração as fotos ficam só no navegador. Falta o envio de verdade (NFR-007).
+
+#### FR-030: Cadastrar e editar animais
+
+- **Status**: `in-progress`
+- **Escopo (web)**: `/painel/animais` com os animais da organização em qualquer situação
+  (filtro por situação, busca pelo nome e 20 por página, tudo no endereço com nuqs; candidaturas
+  ativas de cada um) e o cadastro em etapas
+  (`/painel/animais/novo` e `/painel/animais/{id}`, Stepperize, react-hook-form e zod): quem é,
+  saúde e convivência, fotos e vídeo, história e taxa (BR-063, até o teto), revisão. "Salvar
+  rascunho" só pede o nome; publicar confere tudo (BR-060) e abre a etapa com erro. Arquivar
+  pede o motivo. Pronto com dados fictícios em `services/panel` (memória do navegador; recarregar
+  volta ao exemplo); falta a API. E2E com axe.
+
+#### FR-032: Status e histórico do animal
+
+- **Status**: `in-progress`
+- **Escopo (web)**: na página do animal no painel, a situação com o que ela significa, as
+  mudanças à mão de BR-064 (voltar para a galeria, pausar, arquivar) e o histórico (quem, quando,
+  de/para, motivo). `Em processo` e `Adotado` vêm das candidaturas.
+
+#### FR-045: Acompanhar candidaturas (visão da organização)
+
+- **Status**: `in-progress`
+- **Escopo (web)**: Início do painel com o trilho das etapas (contagem por etapa, cada uma leva à
+  sua coluna), os animais por situação e "Chegaram agora". `/painel/candidaturas`: colunas por
+  etapa no computador e lista por etapa no celular, na ordem de BR-082, com selos (BR-090),
+  outras candidaturas ativas (BR-084), "Aguardando o adotante", "Movida agora" e as encerradas no
+  fim; 10 por coluna com "Ver mais"; filtro por animal com busca digitada (no endereço, nuqs).
+  Ficha (`/painel/candidaturas/{id}`): respostas por parte, o caminho com
+  a etapa atual, histórico, próxima etapa em destaque e as outras no menu "Mover para outra
+  etapa", pedir informação e recusar (BR-077). Sem arrastar (decisão do mantenedor, 2026-11-12).
+  Dados fictícios em `services/panel`; falta a API e as permissões por papel. E2E com axe.
+
+#### FR-046: Concluir a adoção
+
+- **Status**: `in-progress`
+- **Escopo (web)**: na aprovada, "Concluir adoção" pede a data (não futura) e a confirmação
+  "Conferi um documento com foto" (BR-079); o animal vira `Adotado` e as outras candidaturas para
+  ele são canceladas (BR-078). Os efeitos de BR-080 (Q-036) ficam para a API.
+
+#### FR-048: Revelar o CPF do adotante
+
+- **Status**: `in-progress`
+- **Escopo (web)**: na ficha, o CPF aparece mascarado ("•••.444.777-••", `maskCpf` do domínio) e
+  "Revelar" mostra inteiro e registra no histórico. Falta a permissão
+  `application.view_sensitive` e a auditoria de verdade (API).
+
+#### FR-049: Contato por WhatsApp
+
+- **Status**: `in-progress`
+- **Escopo (web)**: na ficha, "Conversar com {nome} no WhatsApp" (`wa.me` com a mensagem
+  pronta); na candidatura enviada, o WhatsApp da organização.
 
 #### FR-053: Página "Sobre"
 

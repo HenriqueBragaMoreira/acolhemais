@@ -210,7 +210,7 @@ têm o status só aqui. **Fase** é a do roadmap ([PLANO](PLANO.md) §6).
 
 #### FR-030: Cadastrar e editar animais
 
-- **Status**: `refined`
+- **Status**: `in-progress`
 - **Fase**: 1
 - **Descrição**: Cadastro com os campos de BR-060, rascunho antes de publicar, edição e
   arquivamento com motivo.
@@ -227,7 +227,7 @@ têm o status só aqui. **Fase** é a do roadmap ([PLANO](PLANO.md) §6).
 
 #### FR-032: Status e histórico do animal
 
-- **Status**: `refined`
+- **Status**: `in-progress`
 - **Fase**: 1
 - **Descrição**: Mudança de status com histórico (quem, quando, de/para, motivo), seguindo a
   máquina de BR-064. Lar temporário não é status (FR-071).
@@ -280,7 +280,7 @@ têm o status só aqui. **Fase** é a do roadmap ([PLANO](PLANO.md) §6).
 
 #### FR-045: Acompanhar candidaturas (visão da organização)
 
-- **Status**: `refined`
+- **Status**: `in-progress`
 - **Fase**: 2
 - **Descrição**: Lista por animal e por etapa (colunas no computador, lista no celular), na
   ordem de BR-082, com os selos e quantas outras candidaturas ativas o adotante tem. Mover de
@@ -289,7 +289,7 @@ têm o status só aqui. **Fase** é a do roadmap ([PLANO](PLANO.md) §6).
 
 #### FR-046: Concluir a adoção
 
-- **Status**: `draft`
+- **Status**: `in-progress`
 - **Fase**: 2
 - **Descrição**: Registrar a adoção com data e confirmação de documento com foto conferido.
 - **Regras**: BR-079, BR-080
@@ -305,14 +305,14 @@ têm o status só aqui. **Fase** é a do roadmap ([PLANO](PLANO.md) §6).
 
 #### FR-048: Revelar o CPF do adotante
 
-- **Status**: `draft`
+- **Status**: `in-progress`
 - **Fase**: 2
 - **Descrição**: CPF mascarado por padrão; "revelar" para quem tem permissão, com auditoria.
 - **Regras**: BR-085
 
 #### FR-049: Contato por WhatsApp
 
-- **Status**: `refined`
+- **Status**: `in-progress`
 - **Fase**: 2
 - **Descrição**: Botões `wa.me` com mensagem pré-preenchida entre organização e adotante, sem
   API paga.
@@ -391,7 +391,7 @@ têm o status só aqui. **Fase** é a do roadmap ([PLANO](PLANO.md) §6).
 
 #### FR-064: Reputação vista por outras organizações
 
-- **Status**: `draft`
+- **Status**: `in-progress`
 - **Fase**: 4
 - **Descrição**: Selo e resumo estruturado das ocorrências procedentes, sem a organização
   autora.

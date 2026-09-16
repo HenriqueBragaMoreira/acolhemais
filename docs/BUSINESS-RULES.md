@@ -524,7 +524,7 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 
 ### BR-060: Dados do animal
 
-- **Status**: `refined`
+- **Status**: `in-progress`
 - **Quando**: um animal é cadastrado ou publicado
 - **Então**: nome, espécie (cão/gato/outro), sexo, faixa etária + nascimento aproximado, porte,
   pelagem, temperamento (convive com crianças/cães/gatos), **saúde obrigatória** (castrado,
@@ -563,7 +563,7 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 
 ### BR-064: Status do animal
 
-- **Status**: `refined`
+- **Status**: `in-progress`
 - **Quando**: a situação do animal muda
 - **Então**: `Rascunho → Disponível ⇄ Em processo → Adotado`, além de `Indisponível`
   (tratamento) e `Arquivado` (óbito, transferência). Toda mudança vai para o histórico.
@@ -642,7 +642,7 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 
 ### BR-076: Etapas da candidatura
 
-- **Status**: `refined`
+- **Status**: `in-progress`
 - **Quando**: a organização ou o sistema move uma candidatura
 - **Então**: `Recebida → Em análise → Entrevista/Visita → Aprovada → Concluída`, além de
   `Aguardando confirmação` (BR-080). Terminais: `Recusada`, `Desistência`, `Expirada`,
@@ -655,21 +655,21 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 
 ### BR-077: Recusa
 
-- **Status**: `refined`
+- **Status**: `in-progress`
 - **Quando**: a organização recusa
 - **Então**: motivo interno (só a organização vê) + mensagem ao adotante. Recusa é neutra para a
   reputação.
 
 ### BR-078: Cancelamento automático
 
-- **Status**: `refined`
+- **Status**: `in-progress`
 - **Quando**: o animal é adotado por outra pessoa ou arquivado
 - **Então**: as candidaturas ativas para ele viram `Cancelada`, com mensagem gentil automática.
   Neutro para a reputação. `Indisponível` não cancela (BR-064).
 
 ### BR-079: Concluir a adoção
 
-- **Status**: `draft`
+- **Status**: `in-progress`
 - **Quando**: a organização conclui uma candidatura aprovada
 - **Então**: exige data, `adoption.complete` e a confirmação "documento com foto conferido".
   Cria a adoção, leva o animal a `Adotado` e dispara BR-078 e BR-080.
@@ -694,7 +694,7 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 
 ### BR-082: Ordem na visão da organização
 
-- **Status**: `refined`
+- **Status**: `in-progress`
 - **Quando**: a organização lista as candidaturas
 - **Então**: por nível e, dentro dele, por data de envio: 1) histórico positivo; 2) conta
   verificada (e-mail verificado e CPF cadastrado); 3) sem conta; 4) selo `Atenção`, que manda
@@ -708,14 +708,14 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 
 ### BR-084: Outras candidaturas do adotante
 
-- **Status**: `refined`
+- **Status**: `in-progress`
 - **Quando**: a organização vê uma candidatura
 - **Então**: vê quantas outras candidaturas ativas o adotante tem, sem saber em quais
   organizações.
 
 ### BR-085: Dados sensíveis do adotante
 
-- **Status**: `refined`
+- **Status**: `in-progress`
 - **Quando**: alguém da organização vê os dados do adotante
 - **Então**: CPF sempre mascarado; "revelar" exige `application.view_sensitive` e vai para a
   auditoria. Sem `application.view`, não vê candidaturas.
@@ -726,7 +726,7 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 
 ### BR-090: Selos
 
-- **Status**: `refined`
+- **Status**: `in-progress`
 - **Quando**: a organização vê o adotante
 - **Então**: selos transparentes, nunca nota numérica: `Novo`, `Verificado` (documento com foto
   conferido numa adoção concluída, BR-079), `Adotante aprovado` (≥1 adoção avaliada como
@@ -802,7 +802,7 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 
 ### BR-100: O que as outras organizações veem
 
-- **Status**: `draft`
+- **Status**: `in-progress`
 - **Quando**: uma organização vê a reputação de um adotante
 - **Então**: selo + resumo estruturado (categoria, mês/ano, resultado) **só das ocorrências
   procedentes**, sem texto livre e sem identificar a organização autora. Comentários livres

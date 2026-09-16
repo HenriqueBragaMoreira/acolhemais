@@ -103,8 +103,8 @@ aplicada na API; aqui ela só é explicada e antecipada ao usuário.
 
 - **Status**: `in-progress`
 - **Escopo (web)**: a foto sensível aparece desfocada, na grande e na miniatura, com o aviso
-  "Foto sensível" e o botão "Ver a foto"; o botão com o olho riscado a esconde de novo. Falta o
-  cadastro (marcar como sensível ao enviar).
+  "Foto sensível" e o botão "Ver a foto"; o botão com o olho riscado a esconde de novo. No
+  cadastro do painel, cada foto (menos a capa) tem a caixa "Sensível"; capa sensível é recusada.
 
 ### BR-062: Só a cidade é pública
 
@@ -115,5 +115,79 @@ aplicada na API; aqui ela só é explicada e antecipada ao usuário.
 ### BR-063: Taxa de adoção não é preço
 
 - **Status**: `in-progress`
-- **Escopo (web)**: a página do animal mostra a taxa com o que ela cobre, ou "Sem taxa". Falta o
-  cadastro com o teto do parâmetro.
+- **Escopo (web)**: a página do animal mostra a taxa com o que ela cobre, ou "Sem taxa". No
+  cadastro, "Sem taxa" ou "Com taxa" (valor até o teto e o que ela cobre, obrigatório); na
+  demonstração o teto é fixo (R$ 150), até ler o parâmetro da API.
+
+### BR-060: Dados do animal
+
+- **Status**: `in-progress`
+- **Escopo (web)**: o cadastro em etapas pede os campos e valores da regra; o rascunho salva só
+  com o nome, e publicar confere todos (FIV/FeLV só para gatos) e abre a etapa com erro.
+
+### BR-064: Status do animal
+
+- **Status**: `in-progress`
+- **Escopo (web)**: a página do animal no painel oferece só as mudanças à mão permitidas
+  (`manualStatusChanges` do domínio): rascunho publica pela revisão; disponível e indisponível se
+  alternam; arquivar pede motivo. Aprovar uma candidatura põe o animal `Em processo`, e ele
+  volta a `Disponível` quando não há mais aprovada; concluir põe em `Adotado`.
+
+### BR-076: Etapas da candidatura
+
+- **Status**: `in-progress`
+- **Escopo (web)**: na ficha, o caminho mostra a etapa atual; o botão principal avança uma etapa
+  e o menu "Mover para outra etapa" leva a qualquer outra ativa (`stageMoves` do domínio).
+  Encerrada não mostra ações. Pedir informação marca "Aguardando o adotante" sem mudar a etapa.
+  Toda mudança entra no histórico. Falta checar as permissões por papel.
+
+### BR-077: Recusa
+
+- **Status**: `in-progress`
+- **Escopo (web)**: o diálogo pede o motivo interno (só a organização vê) e a mensagem ao
+  adotante, que já vem escrita com o nome dele, o animal e a organização, e diz que a recusa não
+  pesa na reputação.
+
+### BR-078: Cancelamento automático
+
+- **Status**: `in-progress`
+- **Escopo (web)**: ao concluir uma adoção ou arquivar o animal, as candidaturas ativas para ele
+  aparecem como `Cancelada`, com a explicação no histórico; o diálogo avisa antes.
+
+### BR-079: Concluir a adoção
+
+- **Status**: `in-progress`
+- **Escopo (web)**: só na aprovada; exige a data (não futura) e a caixa "Conferi um documento com
+  foto de {nome}", com a explicação do documento aceito.
+
+### BR-082: Ordem na visão da organização
+
+- **Status**: `in-progress`
+- **Escopo (web)**: cada coluna segue `byPriority` do domínio, e a ordem é explicada no topo da
+  página das candidaturas.
+
+### BR-084: Outras candidaturas do adotante
+
+- **Status**: `in-progress`
+- **Escopo (web)**: cartão e ficha dizem quantas outras candidaturas ativas o adotante tem no
+  Acolhe+, sem dizer onde.
+
+### BR-085: Dados sensíveis do adotante
+
+- **Status**: `in-progress`
+- **Escopo (web)**: CPF mascarado na ficha e nas respostas; "Revelar" mostra inteiro e registra no
+  histórico. Falta a permissão `application.view_sensitive` (API).
+
+### BR-090: Selos
+
+- **Status**: `in-progress`
+- **Escopo (web)**: os selos aparecem em palavras no cartão e na ficha (Novo, Verificado, Adotante
+  aprovado, Atenção, Inelegível), nunca como nota; `Atenção` em vermelho telha. Clicar ou tocar
+  num selo abre o que ele significa.
+
+### BR-100: O que as outras organizações veem
+
+- **Status**: `in-progress`
+- **Escopo (web)**: no selo `Atenção` (ou `Inelegível`), o resumo de cada ocorrência procedente:
+  categoria, mês da decisão e até quando vale, com a nota de que a organização autora e os
+  detalhes não aparecem. Na demonstração as categorias são de exemplo (Q-053 segue em aberto).
