@@ -85,11 +85,11 @@ Item ausente = ainda sem escopo definido para a API; ao refinar, adicione-o aqui
 
 #### FR-023: Gerenciar a equipe da organização
 
-- **Status**: `in-progress`
+- **Status**: `implemented`
 - **Escopo (api)**: plugin `organization` configurado (papéis do catálogo, papéis próprios,
-  convite de 7 dias e enviado por e-mail, sem criação por usuário nem exclusão) e auditado.
-  Faltam: trava contra escalada (BR-054), 2FA de membros sensíveis (BR-057), traduzir os erros do
-  plugin.
+  convite de 7 dias e enviado por e-mail, sem criação por usuário nem exclusão), auditado, com
+  erros em português e o plugin `organizationGuards` (trava contra escalada, BR-054, e 2FA de
+  membros sensíveis, BR-057).
 
 #### FR-080: E-mails transacionais
 

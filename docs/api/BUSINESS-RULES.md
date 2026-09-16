@@ -196,8 +196,10 @@ banco, com teste unitário); a API valida a entrada, checa escopo e permissão e
 ### BR-054: Ninguém concede o que não tem
 
 - **Status**: `in-progress`
-- **Escopo (api)**: `assertCanAssign` no domínio (falta separar convite, troca de papel e
-  remoção, cada um com sua permissão); falta hook nas rotas do plugin.
+- **Escopo (api)**: `assertCanAssign(ator, ação, permissões)` no domínio, com a permissão de
+  cada ação (convite, troca de papel, remoção, concessão); plugin `organizationGuards` aplica a
+  regra antes de `invite-member`, `update-member-role` e `remove-member`, lendo os papéis
+  padrão e os próprios da organização (pronto). Falta a concessão individual (FR-024).
 
 ### BR-055: Sempre um Responsável
 
@@ -212,6 +214,15 @@ banco, com teste unitário); a API valida a entrada, checa escopo e permissão e
 - **Escopo (api)**: `invitationExpiresIn` de 7 dias, `requireEmailVerificationOnInvitation`,
   `cancelPendingInvitationsOnReInvite`; `sendInvitationEmail` com o link `/convites/{id}` da web
   (a tela entra com FR-023).
+
+### BR-057: 2FA para dados sensíveis
+
+- **Status**: `implemented`
+- **Escopo (api)**: plugin `organizationGuards` responde `TWO_FACTOR_REQUIRED` em toda rota
+  `/organization/*` que age sobre uma organização (id, slug, convite ou a ativa) em que o membro
+  tem permissão sensível (`requiresTwoFactor` do domínio) e não tem 2FA. Ficam de fora as rotas
+  de quem recebe convite e a lista das próprias organizações. As rotas próprias da organização,
+  quando existirem, aplicam a mesma checagem.
 
 ### BR-058: Equipe auditada
 

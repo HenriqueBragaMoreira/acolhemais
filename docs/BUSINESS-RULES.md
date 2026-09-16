@@ -469,8 +469,8 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
   - **conceder** uma permissão exige gerenciar a equipe e ter a permissão concedida.
 
   Só o Responsável promove a Responsável (pronto no plugin). A regra fica no domínio e é
-  aplicada por hook nas rotas do plugin; falta ajustar `assertCanAssign` (hoje exige
-  `member.update` até para convites) e ligar o hook.
+  aplicada por hook nas rotas do plugin (convite, troca de papel e remoção prontos); a
+  concessão entra com FR-024.
 
 - **Por quê**: escalada de privilégio por convite ou troca de papel.
 
@@ -492,11 +492,11 @@ Nomes de permissão são os do código (`recurso.ação`, em inglês). Prazos e 
 
 ### BR-057: 2FA para dados sensíveis
 
-- **Status**: `refined`
+- **Status**: `implemented`
 - **Quando**: um membro tem permissão sensível: `application.view_sensitive`,
   `organization.update` ou qualquer permissão de gestão da equipe (`member.*`, `invitation.*`,
   `ac.*`)
-- **Então**: precisa de 2FA ativo (regra pura pronta; ainda não aplicada). Sem ele, todas as
+- **Então**: precisa de 2FA ativo. Sem ele, todas as
   rotas da organização respondem `TWO_FACTOR_REQUIRED`, exceto as de ativar o 2FA, como na
   equipe da plataforma (BR-011). Convidar ou promover alguém para um papel sensível continua
   permitido; a exigência vale quando a pessoa age. O Responsável e o Coordenador sempre caem
