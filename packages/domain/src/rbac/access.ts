@@ -20,20 +20,31 @@ export function requiresTwoFactor(permissions: ReadonlySet<Permission>): boolean
   return SENSITIVE_PERMISSIONS.some((p) => permissions.has(p))
 }
 
+/** Ações sobre a equipe que mexem com as permissões de alguém (BR-054). */
+export type TeamAction = 'invite' | 'change_role' | 'remove' | 'grant'
+
+/** Permissão que cada ação exige de quem age, além de ter as permissões envolvidas. */
+const TEAM_ACTION_PERMISSION: Readonly<Record<TeamAction, Permission>> = {
+  invite: 'invitation.create',
+  change_role: 'member.update',
+  remove: 'member.delete',
+  grant: 'member.update',
+}
+
 /**
- * Valida se `actor` pode atribuir `permissions` a alguém — seja como concessão
- * individual, ao montar um papel customizado ou ao atribuir um papel existente.
- * Só quem gerencia a equipe (`member.update`) concede, e ninguém concede o que não
- * possui (impede escalonamento de privilégio).
+ * Valida se `actor` pode fazer `action` envolvendo `permissions` (BR-054): as do papel do
+ * convite, as do papel antigo e do novo, as do membro removido ou a concedida. Além da
+ * permissão da ação, ninguém mexe com o que não possui (impede escalada de privilégio).
  */
 export function assertCanAssign(
   actor: ReadonlySet<Permission>,
-  permissions: readonly Permission[],
+  action: TeamAction,
+  permissions: Iterable<Permission>,
 ): void {
-  if (!actor.has('member.update')) {
+  if (!actor.has(TEAM_ACTION_PERMISSION[action])) {
     throw new DomainError('TEAM_MANAGE_REQUIRED', 'Actor cannot manage the team')
   }
-  const missing = permissions.filter((p) => !actor.has(p))
+  const missing = [...permissions].filter((p) => !actor.has(p))
   if (missing.length > 0) {
     throw new DomainError(
       'CANNOT_ASSIGN_UNOWNED_PERMISSION',

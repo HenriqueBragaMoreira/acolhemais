@@ -72,3 +72,16 @@ export function toStatements(permissions: readonly Permission[]): PermissionStat
   }
   return statements as PermissionStatements
 }
+
+/**
+ * Lê permissões no formato do Better Auth (recurso → ações), como o plugin guarda os papéis
+ * próprios da organização. O que não está no catálogo é ignorado.
+ */
+export function fromStatements(statements: unknown): Permission[] {
+  if (!statements || typeof statements !== 'object') return []
+  return Object.entries(statements).flatMap(([resource, actions]) =>
+    Array.isArray(actions)
+      ? actions.map((action) => `${resource}.${String(action)}`).filter(isPermission)
+      : [],
+  )
+}
