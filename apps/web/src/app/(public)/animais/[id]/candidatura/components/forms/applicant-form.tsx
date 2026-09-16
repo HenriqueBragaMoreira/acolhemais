@@ -13,7 +13,8 @@ import {
   type ApplicationBlock,
   applicationsServices,
 } from '@/services/applications'
-import { StepActions, TextField } from '../application-fields'
+import { TextField } from '@/components/text-field'
+import { StepActions } from '../step-actions'
 import { useApplicationTarget, useStepData, useAdvance } from '../application-stepper'
 import { BlockedNotice } from '../blocked-notice'
 

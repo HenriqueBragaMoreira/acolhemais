@@ -4,7 +4,8 @@ import { getTranslations } from 'next-intl/server'
 import Link from 'next/link'
 import { Suspense } from 'react'
 import { Wordmark } from '@/components/wordmark'
-import { AboutNavLink, StaticAboutNavLink } from './about-nav-link'
+import { AboutNavLink } from './about-nav-link'
+import { StaticAboutNavLink } from './static-about-nav-link'
 
 /** Cabeçalho branco das páginas públicas: a marca e, à direita, "Sobre" e "Entrar". */
 export async function SiteHeader() {

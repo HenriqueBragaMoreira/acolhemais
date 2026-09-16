@@ -1,8 +1,10 @@
 import { useTranslations } from 'next-intl'
 import { Suspense } from 'react'
 import { CaramelIllustration } from '@/components/caramel-illustration'
-import { AnimalResults, AnimalSearch } from './components/animal-showcase'
-import { AnimalResultsSkeleton, AnimalSearchSkeleton } from './components/animal-showcase-skeleton'
+import { AnimalResults } from './components/animal-results'
+import { AnimalSearch } from './components/animal-search'
+import { AnimalResultsSkeleton } from './components/animal-results-skeleton'
+import { AnimalSearchSkeleton } from './components/animal-search-skeleton'
 
 const CONTAINER = 'mx-auto max-w-[90rem] px-4 sm:px-6 lg:px-10'
 

@@ -310,19 +310,6 @@
       "error": "Não deu para enviar. Tente de novo.",
       "submit": "Enviar candidatura"
     },
-    "errors": {
-      "required": "Responda esta pergunta.",
-      "tooLong": "Use até 1000 caracteres.",
-      "emailRequired": "Informe o e-mail.",
-      "emailInvalid": "Confira o e-mail: falta algo, como o @.",
-      "codeRequired": "Digite os 6 dígitos do código.",
-      "codeWrong": "Código errado. Confira o e-mail e tente de novo.",
-      "nameRequired": "Informe o nome completo.",
-      "cpfInvalid": "Confira o CPF: os números não batem.",
-      "phoneInvalid": "Confira o telefone, com o DDD.",
-      "adultsInvalid": "Informe um número de 1 a 20.",
-      "cpfRequired": "Informe o CPF."
-    },
     "blocked": {
       "gallery": "Ver outros animais",
       "duplicate": {
@@ -382,6 +369,19 @@
     },
     "backToReview": "Voltar à revisão",
     "saveAndReview": "Salvar e voltar à revisão"
+  },
+  "FormErrors": {
+    "required": "Responda esta pergunta.",
+    "tooLong": "Use até 1000 caracteres.",
+    "emailRequired": "Informe o e-mail.",
+    "emailInvalid": "Confira o e-mail: falta algo, como o @.",
+    "codeRequired": "Digite os 6 dígitos do código.",
+    "codeWrong": "Código errado. Confira o e-mail e tente de novo.",
+    "nameRequired": "Informe o nome completo.",
+    "cpfInvalid": "Confira o CPF: os números não batem.",
+    "phoneInvalid": "Confira o telefone, com o DDD.",
+    "adultsInvalid": "Informe um número de 1 a 20.",
+    "cpfRequired": "Informe o CPF."
   },
   "About": {
     "metaTitle": "Sobre",

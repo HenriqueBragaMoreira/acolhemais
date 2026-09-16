@@ -5,9 +5,10 @@ import { useTranslations } from 'next-intl'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import type { Reasons } from '@/services/applications'
-import { StepActions, TextField } from '../application-fields'
+import { TextField } from '@/components/text-field'
+import { StepActions } from '../step-actions'
 import { useApplicationTarget, useStepData, useAdvance } from '../application-stepper'
-import { text } from './answers'
+import { text } from '@/lib/form-answers'
 
 const reasonsSchema = z.object({
   why: text,

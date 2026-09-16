@@ -5,9 +5,12 @@ import { useTranslations } from 'next-intl'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { HOURS_ALONE, type Routine } from '@/services/applications'
-import { ChoiceField, StepActions, TextField, useYesNo } from '../application-fields'
+import { ChoiceField } from '@/components/choice-field'
+import { TextField } from '@/components/text-field'
+import { StepActions } from '../step-actions'
+import { useYesNo } from '../use-yes-no'
 import { useStepData, useAdvance } from '../application-stepper'
-import { choice, text, yesNo } from './answers'
+import { choice, text, yesNo } from '@/lib/form-answers'
 
 const routineSchema = z.object({
   hoursAlone: choice(HOURS_ALONE),

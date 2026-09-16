@@ -2,12 +2,14 @@
 
 import { Button } from '@acolhemais/ui/components/button'
 import { cn } from '@acolhemais/ui/lib/utils'
-import { ChevronLeftIcon, ChevronRightIcon, EyeOffIcon, Maximize2Icon, XIcon } from 'lucide-react'
+import { EyeOffIcon, Maximize2Icon, XIcon } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import { useRef, useState } from 'react'
 import { flushSync } from 'react-dom'
 import type { AnimalPhoto } from '@/services/animals'
+import { PhotoStage } from './photo-stage'
+import { PhotoArrows } from './photo-arrows'
 
 /**
  * Fotos do animal (FR-031): a escolhida ocupa o quadro, as miniaturas trocam a foto e "Ampliar"
@@ -52,7 +54,7 @@ export function AnimalPhotos({ name, photos }: { name: string; photos: AnimalPho
     <div className="lg:w-[clamp(32rem,calc((100svh-9rem)*0.8),46rem)]">
       <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-muted">
         {stage('(min-width: 64rem) 46vw, 100vw', 'cover', index === 0)}
-        {photos.length > 1 && <Arrows onStep={step} />}
+        {photos.length > 1 && <PhotoArrows onStep={step} />}
         {!hidden(index) && (
           <Button
             variant="outline"
@@ -139,90 +141,11 @@ export function AnimalPhotos({ name, photos }: { name: string; photos: AnimalPho
             </div>
             <div className="relative min-h-0 flex-1 px-4 pb-4 sm:px-20 sm:pb-6">
               <div className="relative size-full overflow-hidden">{stage('100vw', 'contain')}</div>
-              {photos.length > 1 && <Arrows onStep={step} />}
+              {photos.length > 1 && <PhotoArrows onStep={step} />}
             </div>
           </div>
         )}
       </dialog>
     </div>
-  )
-}
-
-/** A foto num quadro que ela preenche, com o véu da foto sensível por cima enquanto escondida. */
-function PhotoStage({
-  photo,
-  alt,
-  hidden,
-  onReveal,
-  sizes,
-  fit,
-  priority,
-}: {
-  photo: AnimalPhoto
-  alt: string
-  hidden: boolean
-  onReveal: () => void
-  sizes: string
-  fit: 'cover' | 'contain'
-  priority: boolean
-}) {
-  const t = useTranslations('AnimalProfile.photos.sensitive')
-  return (
-    <>
-      <Image
-        key={photo.src}
-        src={photo.src}
-        alt={alt}
-        fill
-        priority={priority}
-        sizes={sizes}
-        className={cn(
-          fit === 'cover' ? 'object-cover' : 'object-contain',
-          hidden && 'scale-110 blur-2xl',
-        )}
-        style={{ objectPosition: photo.focus }}
-      />
-      {hidden && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-veil/75 px-6 text-center text-white">
-          <EyeOffIcon aria-hidden className="size-6" />
-          <p className="font-semibold">{t('title')}</p>
-          <p className="max-w-xs text-sm text-white/90">{t('description')}</p>
-          <Button variant="outline" className="mt-1 focus-visible:outline-white" onClick={onReveal}>
-            {t('show')}
-          </Button>
-        </div>
-      )}
-    </>
-  )
-}
-
-/**
- * Setas de foto anterior e próxima. Centralizadas com `inset-y-0 my-auto`, não com translate: o
- * botão desce 1px ao ser pressionado (translate), o que anularia o centramento e o tiraria de
- * baixo do ponteiro no meio do clique.
- */
-function Arrows({ onStep }: { onStep: (delta: number) => void }) {
-  const t = useTranslations('AnimalProfile.photos')
-  return (
-    <>
-      <Button
-        variant="outline"
-        size="icon"
-        aria-label={t('previous')}
-        className="absolute inset-y-0 left-3 my-auto rounded-full"
-        onClick={() => onStep(-1)}
-      >
-        <ChevronLeftIcon aria-hidden />
-      </Button>
-      <Button
-        variant="outline"
-        size="icon"
-        aria-label={t('next')}
-        className="absolute inset-y-0 right-3 my-auto rounded-full"
-        onClick={() => onStep(1)}
-      >
-        <ChevronRightIcon aria-hidden />
-      </Button>
-    </>
   )
 }

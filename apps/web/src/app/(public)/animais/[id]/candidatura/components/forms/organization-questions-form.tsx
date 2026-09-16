@@ -6,9 +6,12 @@ import { useTranslations } from 'next-intl'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import type { OrganizationQuestion } from '@/services/organizations'
-import { ChoiceField, StepActions, TextField, useYesNo } from '../application-fields'
+import { ChoiceField } from '@/components/choice-field'
+import { TextField } from '@/components/text-field'
+import { StepActions } from '../step-actions'
+import { useYesNo } from '../use-yes-no'
 import { useApplicationTarget, useStepData, useAdvance } from '../application-stepper'
-import { text } from './answers'
+import { text } from '@/lib/form-answers'
 
 /** Toda pergunta da organização é obrigatória; as de escolha nascem sem resposta (''). */
 function questionsSchema(questions: OrganizationQuestion[]) {

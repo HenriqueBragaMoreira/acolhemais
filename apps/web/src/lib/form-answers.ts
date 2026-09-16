@@ -1,8 +1,8 @@
 import { z } from 'zod'
 
 /*
- * Peças dos schemas das etapas. As mensagens são chaves de `Application.errors` (traduzidas na
- * tela).
+ * Peças dos schemas dos formulários longos (candidatura, cadastro de animal). As mensagens são
+ * chaves de `FormErrors` (traduzidas na tela).
  */
 
 /** Uma escolha obrigatória: nasce `null` (sem resposta) e precisa de uma das opções. */
@@ -12,6 +12,9 @@ export function choice<const T extends readonly [string, ...string[]]>(values: T
     .nullable()
     .refine((value) => value !== null, 'required')
 }
+
+/** E-mail obrigatório e válido. */
+export const emailField = z.string().trim().min(1, 'emailRequired').pipe(z.email('emailInvalid'))
 
 export const yesNo = choice(['yes', 'no'])
 

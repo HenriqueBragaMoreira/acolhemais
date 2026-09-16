@@ -5,9 +5,12 @@ import { useTranslations } from 'next-intl'
 import { useForm, useWatch } from 'react-hook-form'
 import { z } from 'zod'
 import { HOUSING_TYPES, type Home, OWNERSHIPS } from '@/services/applications'
-import { ChoiceField, StepActions, TextField, useYesNo } from '../application-fields'
+import { ChoiceField } from '@/components/choice-field'
+import { TextField } from '@/components/text-field'
+import { StepActions } from '../step-actions'
+import { useYesNo } from '../use-yes-no'
 import { useStepData, useAdvance } from '../application-stepper'
-import { choice, optionalText, requireWhen, yesNo } from './answers'
+import { choice, optionalText, requireWhen, yesNo } from '@/lib/form-answers'
 
 const homeSchema = z
   .object({
