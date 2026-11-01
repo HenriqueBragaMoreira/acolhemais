@@ -14,8 +14,8 @@
     "@acolhemais/domain": "workspace:*",
     "next": "16.4.3",
     "next-intl": "^4.14.9",
-    "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
   },
   "devDependencies": {
     "@acolhemais/config": "workspace:*",
