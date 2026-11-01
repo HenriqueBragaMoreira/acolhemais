@@ -1,0 +1,35 @@
+# Infra local de desenvolvimento — nenhuma credencial real é necessária.
+# Uso: pnpm db:up   |   pnpm db:down
+services:
+  postgres:
+    image: postgis/postgis:18-3.6-alpine
+    environment:
+      POSTGRES_USER: acolhemais
+      POSTGRES_PASSWORD: acolhemais
+      POSTGRES_DB: acolhemais
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres-data:/var/lib/postgresql
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U acolhemais']
+      interval: 5s
+      retries: 10
+
+  # Armazenamento compatível com S3 (substitui o Cloudflare R2 localmente)
+  s3:
+    image: adobe/s3mock:5.2.3
+    environment:
+      COM_ADOBE_TESTING_S3MOCK_STORE_INITIAL_BUCKETS: acolhemais-public,acolhemais-private
+    ports:
+      - '9090:9090'
+
+  # Captura todos os e-mails enviados — interface em http://localhost:8025
+  mailpit:
+    image: axllent/mailpit:v1.33.0
+    ports:
+      - '1025:1025'
+      - '8025:8025'
+
+volumes:
+  postgres-data:
