@@ -1,0 +1,10 @@
+packages:
+  - 'apps/*'
+  - 'packages/*'
+
+# Apenas dependências explicitamente liberadas podem rodar scripts de instalação.
+allowBuilds:
+  sharp: true
+  unrs-resolver: false
+  '@parcel/watcher': false
+  '@swc/core': false

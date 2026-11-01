@@ -1,0 +1,34 @@
+name: Reportar um problema
+description: Algo não está funcionando como deveria
+labels: [bug, triagem]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Falhas de **segurança** não devem ser reportadas aqui — veja SECURITY.md.
+        Não inclua dados pessoais reais (CPF, telefone, endereço) nesta issue.
+  - type: textarea
+    id: what
+    attributes:
+      label: O que aconteceu?
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: O que era esperado?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Passos para reproduzir
+      placeholder: |
+        1. Acesse ...
+        2. Clique em ...
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: Navegador / dispositivo

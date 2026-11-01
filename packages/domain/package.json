@@ -1,0 +1,18 @@
+{
+  "name": "@acolhemais/domain",
+  "version": "0.0.0",
+  "private": true,
+  "license": "AGPL-3.0-only",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@acolhemais/config": "workspace:*",
+    "vitest": "^5.0.5"
+  }
+}

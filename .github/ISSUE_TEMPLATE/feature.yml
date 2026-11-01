@@ -1,0 +1,21 @@
+name: Sugerir uma melhoria
+description: Ideia de funcionalidade ou ajuste
+labels: [melhoria, triagem]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Qual problema isso resolve?
+      description: Conte o contexto — de preferência pela rotina de uma ONG, protetor ou adotante.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposta
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternativas consideradas
